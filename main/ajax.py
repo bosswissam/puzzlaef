@@ -8,6 +8,7 @@ from puzzlaef.main.models import UserProfile
 from puzzlaef.main.utils import ResultUser, ResultPiece
 from puzzlaef.main.pictureGrid import PictureGrid
 from puzzlaef.main.pictureThumb import PictureThumb
+from puzzlaef.views import PAGES_FULL, PAGES_LOCATIONS
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
 from puzzlaef.dajax.core import Dajax
 from puzzlaef.dajaxice.decorators import dajaxice_register
@@ -43,12 +44,7 @@ def fetch_user_puzzles(request):
 						result[x].player2.username,
 						UserProfile.objects.get(user=result[x].player1).location,
 						UserProfile.objects.get(user=result[x].player2).location) for x in range(len(puzzle_pieces))]
-	if len(final)==0:
-		final = [ResultPiece(None, None,
-							result[x].player1.username,
-							result[x].player2.username,
-							UserProfile.objects.get(user=result[x].player1).location,
-							UserProfile.objects.get(user=result[x].player2).location) for x in range(len(result))]
+
 	return final
 
 @dajaxice_register
@@ -81,8 +77,8 @@ def changePage(request, newPage):
 	dajax = Dajax()
 	if (newPage == PAGES_FULL[0]):
 		template = PAGES_LOCATIONS[0]
-		#print fetch_user_puzzles(request)
-		render = render_to_string(template, {'puzzles': [1, 2], 'empty': []})
+		print fetch_user_puzzles(request)
+		render = render_to_string(template, {'puzzles': [1,2], 'empty': []})
 		
 	elif (newPage == PAGES_FULL[1]):
 		template = PAGES_LOCATIONS[1]

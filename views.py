@@ -6,21 +6,34 @@ from puzzlaef.forms import UserProfileForm
 from django.core.files.images import ImageFile
 from django.views.decorators.csrf import csrf_protect
 from puzzlaef.forms import UserProfileForm
-from puzzlaef.main.ajax import fetch_user_puzzles
 from puzzlaef.main.models import UserProfile
-from puzzlaef.puzzle.models import Photo
 from django.contrib.auth.models import User
+from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
 
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
 PAGES_FULL = PAGES + ['Settings', 'Logout']
 PAGES_LOCATIONS = ['pageTemplates/play.html', 'pageTemplates/discover.html', 'pageTemplates/helpPuzzlaef.html', 'pageTemplates/profile.html', 'registration/logout.html']
 
+def fetch_user_puzzles(request):
+	list1 = set(Puzzle.objects.filter(player1=request.user))
+	list2 = set(Puzzle.objects.filter(player2=request.user))
+	result = list(list1.union(list2))
+	puzzle_pieces1 = [PuzzlePiece.objects.filter(puzzle=x) for x in result]
+	puzzle_pieces = [x for x in puzzle_pieces1 if not len(x)==0]
+	final = [ResultPiece(list(set(puzzle_pieces[x])).photo1, 
+						list(set(puzzle_pieces[x])).photo2,
+						result[x].player1.username,
+						result[x].player2.username,
+						UserProfile.objects.get(user=result[x].player1).location,
+						UserProfile.objects.get(user=result[x].player2).location) for x in range(len(puzzle_pieces))]
+	return final
+	
 def start(request):
 	if request.user.is_authenticated():
 	    # TODO: show profile
 		form = UserProfileForm(data=request.POST)
-		return render_to_response('pageTemplates/page_layout.html', RequestContext(request, {'pages': PAGES, 'current_page': PAGES_FULL[0], 'current_page_template': PAGES_LOCATIONS[0], 'puzzles': fetch_user_puzzles(request) }))
+		return render_to_response('pageTemplates/page_layout.html', {'pages': PAGES, 'current_page': PAGES_FULL[0], 'current_page_template': PAGES_LOCATIONS[0], 'puzzles': fetch_user_puzzles(request) },  context_instance=RequestContext(request))
 	else:
 	    return HttpResponseRedirect('/accounts/login/')
 
