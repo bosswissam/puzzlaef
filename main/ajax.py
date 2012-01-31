@@ -9,8 +9,8 @@ from puzzlaef.main.utils import ResultUser
 from puzzlaef.main.pictureGrid import PictureGrid
 from puzzlaef.main.pictureThumb import PictureThumb
 from puzzlaef.views import PAGES_FULL, PAGES_LOCATIONS, get_profile_form
-from dajax.core import Dajax
-from dajaxice.decorators import dajaxice_register
+from puzzlaef.dajax.core import Dajax
+from puzzlaef.dajaxice.decorators import dajaxice_register
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import logout
