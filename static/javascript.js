@@ -27,7 +27,11 @@ var start_puzzle = function(_with){
 };
 
 var initialize = function(id) {
-        var mapOptions = {
+	var avatar = document.getElementById('id_avatar');
+	avatar.setAttribute("hidden", "true");
+	$(avatar).prevAll().remove();
+	
+    var mapOptions = {
 		  center: new google.maps.LatLng(-33.8688, 151.2195),
 		  zoom: 13,
 		  mapTypeId: google.maps.MapTypeId.ROADMAP
