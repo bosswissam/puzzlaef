@@ -35,6 +35,7 @@ def make_new_puzzle():
 def getThemes():
 	#TODO: Wissam
 	return []
+	
 
 
 @dajaxice_register
