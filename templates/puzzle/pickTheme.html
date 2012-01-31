@@ -5,6 +5,18 @@
 	Don't worry, you can change the theme later in the Puzzlaef too.
 </div>
 
+<form  action="upload/theme" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+	<input type="file" name="new_theme" style="display:inline-block" class="fileUpload"><br /> 
+ 
+	<button class="" id="px-submit" type="submit">Upload a new theme photo!</button>
+	<button class="" id="px-clear" type="reset">Cancel</button>
+</form>
+</div>
+<script>
+$('.fileUpload').fileUploader();
+</script>
+
 {{ pictureGrid }}
 
 <div class="button blue" id="begin_button" style="float: none; width: 130px; margin-left: auto; margin-right: auto">Begin the Puzzlaef!</div>

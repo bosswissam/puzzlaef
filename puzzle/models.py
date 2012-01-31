@@ -1,5 +1,35 @@
+from django.conf import settings
+from django.core.files import File
+from django.core.files.base import ContentFile
+from django.db import models
+from django.shortcuts import get_object_or_404
+from django.template.defaultfilters import slugify
+from os.path import join
+from tempfile import *
 from django.contrib.auth.models import User
 from django.db import models
+from django.template.loader import render_to_string
+
+import datetime
+import django.core.files.uploadhandler
+import os
+import time
+import zipfile
+
+try:
+    import Image
+    import ImageFile
+    import ImageFilter
+    import ImageEnhance
+except ImportError:
+    try:
+        from PIL import Image
+        from PIL import ImageFile
+        from PIL import ImageFilter
+        from PIL import ImageEnhance
+    except ImportError:
+        raise ImportError('Photologue was unable to import the Python Imaging Library. Please confirm it`s installed and available on your current Python path.')
+
 try:
     import Image
     import ImageFile
@@ -33,8 +63,7 @@ class Photo(models.Model):
 
     def save(self, *args, **kwargs):
         super(Photo, self).save(*args, **kwargs)
-        if(self.resize=='resize'):
-            self.im_resize()
+        self.im_resize()
         
         im = Image.open(self.image.path)
         im.thumbnail((250,250), Image.ANTIALIAS)
@@ -45,6 +74,8 @@ class Photo(models.Model):
         if not os.path.exists(thumb_path):
             os.makedirs(thumb_path)
         im.save(thumb_path + fn + '-thumb' + ext, 'JPEG')
+        self.thumbLoc = self.get_thumb_url()
+        self.pictureLoc = self.get_url()
 
     def im_resize(self):
         new_image = Image.open(self.image.path)
@@ -75,10 +106,13 @@ class Photo(models.Model):
     def __unicode__(self):
         return self.title
     
+    def getAsString(self):
+        return render_to_string("puzzle/pictureThumb.html", {'picture':self})
 class Puzzle(models.Model):
     title = models.CharField(max_length=200)
     player1 = models.ForeignKey(User, related_name = "palyer 1")
     player2 = models.ForeignKey(User, related_name = "player 2")
+    turn = models.ForeignKey(User, related_name = "player turn")
     theme_picture = Photo()
 
 class PuzzlePiece(models.Model):
@@ -86,3 +120,4 @@ class PuzzlePiece(models.Model):
     puzzle = models.ForeignKey(Puzzle)
     photo1 = Photo()
     photo2 = Photo()
+    needs_help = models.BooleanField()
