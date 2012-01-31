@@ -14,7 +14,7 @@
 			limit: false,
 			buttonUpload: '#px-submit',
 			buttonClear: '#px-clear',
-			selectFileLabel: 'Select your Profile Picture',
+			selectFileLabel: 'Select Picture',
 			allowedExtension: 'jpg|jpeg|gif|png',
 			timeInterval: [1, 2, 4, 2, 1, 5], //Mock percentage for iframe upload
 			percentageInterval: [10, 20, 30, 40, 60, 80],

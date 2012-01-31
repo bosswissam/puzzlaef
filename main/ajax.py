@@ -8,7 +8,6 @@ from puzzlaef.main.models import UserProfile
 from puzzlaef.main.utils import ResultUser, ResultPiece
 from puzzlaef.main.pictureGrid import PictureGrid
 from puzzlaef.main.pictureThumb import PictureThumb
-from puzzlaef.views import PAGES_FULL, PAGES_LOCATIONS,get_profile_form
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
 from puzzlaef.dajax.core import Dajax
 from puzzlaef.dajaxice.decorators import dajaxice_register
@@ -20,8 +19,7 @@ from django.template.loader import render_to_string
 from django.utils import simplejson
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
-from django.template.loader import render_to_string
-
+from puzzlaef.views import *
 
 import string
 
@@ -32,7 +30,11 @@ def assert_access(user):
 		dajax = Dajax()
 	 	dajax.redirect("/accounts/login",delay=0) 
 		return dajax.json()
-		
+
+def get_pieces(request, puzzle):
+	list = Puzzle.objects.filter(id=puzzle)
+	result = [PuzzlePiece.objects.filter(puzzle=x.id) for x in list]
+	return result
 
 def fetch_user_puzzles(request):
 	list1 = set(Puzzle.objects.filter(player1=request.user))
@@ -40,13 +42,19 @@ def fetch_user_puzzles(request):
 	result = list(list1.union(list2))
 	puzzle_pieces1 = [PuzzlePiece.objects.filter(puzzle=x) for x in result]
 	puzzle_pieces = [x for x in puzzle_pieces1 if not len(x)==0]
-	final = [ResultPiece(puzzle_pieces[x].photo1, 
+	final = [ResultPiece(result[x].id,
+						puzzle_pieces[x].photo1, 
 						puzzle_pieces[x].photo2,
 						result[x].player1.username,
 						result[x].player2.username,
 						UserProfile.objects.get(user=result[x].player1).location,
 						UserProfile.objects.get(user=result[x].player2).location) for x in range(len(puzzle_pieces))]
-
+	if len(final)==0:
+		final = [ResultPiece(result[x].id, None, None,
+							result[x].player1.username,
+							result[x].player2.username,
+							UserProfile.objects.get(user=result[x].player1).location,
+							UserProfile.objects.get(user=result[x].player2).location) for x in range(len(result))]
 	return final
 
 @dajaxice_register
@@ -69,6 +77,13 @@ def send_form(request, form):
 			dajax.add_css_class('#id_%s' % error, 'error')
     return dajax.json()
 
+@dajaxice_register
+def open_puzzle(request, puzzle):
+	render = render_to_string("puzzle/puzzle.html", { 'pieces': get_pieces(request, puzzle), 'newTurn':True, 'userTurn':True, 'user': 'sinchan' }, context_instance=RequestContext(request))
+	dajax = Dajax()
+	dajax.assign('#page-container', 'innerHTML', render)
+	dajax.script("$('.fileUpload').fileUploader();")
+	return dajax.json()
 
 @dajaxice_register
 def changePage(request, newPage):
@@ -79,8 +94,8 @@ def changePage(request, newPage):
 	dajax = Dajax()
 	if (newPage == PAGES_FULL[0]):
 		template = PAGES_LOCATIONS[0]
-		print fetch_user_puzzles(request)
-		render = render_to_string(template, {'puzzles': [1,2], 'empty': []})
+		#print fetch_user_puzzles(request)
+		render = render_to_string(template, {'puzzles': fetch_user_puzzles(request), 'empty': []})
 		
 	elif (newPage == PAGES_FULL[1]):
 		template = PAGES_LOCATIONS[1]
