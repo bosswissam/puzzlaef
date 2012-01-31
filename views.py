@@ -7,6 +7,7 @@ from django.core.files.images import ImageFile
 from django.views.decorators.csrf import csrf_protect
 from puzzlaef.forms import UserProfileForm
 from puzzlaef.main.models import UserProfile
+from puzzlaef.puzzle.models import Photo
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
 PAGES_FULL = PAGES + ['Settings', 'Logout']
@@ -55,7 +56,7 @@ def make_move(request):
 
 @csrf_protect
 @login_required
-def upload(request):
+def upload_profile(request):
 	if request.method == 'POST':
 		form = UserProfileForm(request.POST, request.FILES)
 		if form.is_valid():
@@ -64,3 +65,15 @@ def upload(request):
 		user_profile.save()
 	else:
 		form = UserProfileForm()
+	pass
+
+@csrf_protect
+@login_required
+def upload_theme(request):
+	if request.method == 'POST':
+		theme = ImageFile(request.FILES['avatar'])
+		photo = Photo(image = theme)
+		photo.save()
+	else:
+		form = UserProfileForm()
+	pass

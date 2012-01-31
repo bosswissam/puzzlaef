@@ -36,13 +36,20 @@ def fetch_user_puzzles(request):
 	list1 = set(Puzzle.objects.filter(player1=request.user))
 	list2 = set(Puzzle.objects.filter(player2=request.user))
 	result = list(list1.union(list2))
-	puzzle_pieces = [PuzzlePiece.objects.filter(puzzle=x) for x in result]
+	puzzle_pieces1 = [PuzzlePiece.objects.filter(puzzle=x) for x in result]
+	puzzle_pieces = [x for x in puzzle_pieces1 if not len(x)==0]
 	final = [ResultPiece(puzzle_pieces[x].photo1, 
 						puzzle_pieces[x].photo2,
 						result[x].player1.username,
 						result[x].player2.username,
 						UserProfile.objects.get(user=result[x].player1).location,
-						UserProfile.objects.get(user=result[x].player2).location) for x in range(len(result))]
+						UserProfile.objects.get(user=result[x].player2).location) for x in range(len(puzzle_pieces))]
+	if len(final)==0:
+		final = [ResultPiece(None, None,
+							result[x].player1.username,
+							result[x].player2.username,
+							UserProfile.objects.get(user=result[x].player1).location,
+							UserProfile.objects.get(user=result[x].player2).location) for x in range(len(result))]
 	return final
 
 @dajaxice_register
