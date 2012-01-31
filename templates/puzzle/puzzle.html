@@ -11,8 +11,14 @@ the more honor and glory you will get in addition to the awesomeness that cultur
 		
 		{% if newTurn and userTurn %}
 			<div class="piece-part left new">
-				<div id="plus-button">+</div>
-				Its your turn! Add your Laef Response!
+				<form  action="upload/profile" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+					<input type="file" name="photo1" style="display:inline-block" class="fileUpload"><br /> 
+
+					<button class="" id="px-submit" type="submit">Upload Response!</button>
+					<button class="" id="px-clear" type="reset">Cancel</button>
+				</form>
+				Its your turn! Add your Picture Response!
 			</div>
 			<div class="piece-part middle">æ</div>
 			<div class="piece-part right new">

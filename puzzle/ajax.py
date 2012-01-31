@@ -80,14 +80,9 @@ def theme_picked(request, puzzle, theme):
     render = render_to_string("puzzle/puzzle.html", { 'pieces': pieces, 'newTurn':True, 'userTurn':True, 'user': 'sinchan' }, context_instance=RequestContext(request))
     dajax = Dajax()
     dajax.assign('#page-container', 'innerHTML', render)
-    #dajax.script("initialize_pick_theme('"+ puzzle_id +"')")
+    dajax.script('$(".fileUpload").fileUploader();')
     return dajax.json()
 
-@dajaxice_register
-def fetch_discover(request):
-    list = Puzzle.objects.all()
-    results = [x.__dict__ for x in list]
-    return simplejson.dumps(result)
 
 @dajaxice_register
 def needs_help(request, puzzle_piece):

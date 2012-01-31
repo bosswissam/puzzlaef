@@ -9,6 +9,7 @@ from puzzlaef.forms import UserProfileForm
 from puzzlaef.main.models import UserProfile
 from django.contrib.auth.models import User
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
+from puzzlaef.main.utils import ResultUser, ResultPiece
 
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
@@ -21,12 +22,19 @@ def fetch_user_puzzles(request):
 	result = list(list1.union(list2))
 	puzzle_pieces1 = [PuzzlePiece.objects.filter(puzzle=x) for x in result]
 	puzzle_pieces = [x for x in puzzle_pieces1 if not len(x)==0]
-	final = [ResultPiece(list(set(puzzle_pieces[x])).photo1, 
-						list(set(puzzle_pieces[x])).photo2,
+	final = [ResultPiece(result[x].id,
+						puzzle_pieces[x].photo1, 
+						puzzle_pieces[x].photo2,
 						result[x].player1.username,
 						result[x].player2.username,
 						UserProfile.objects.get(user=result[x].player1).location,
 						UserProfile.objects.get(user=result[x].player2).location) for x in range(len(puzzle_pieces))]
+	if len(final)==0:
+		final = [ResultPiece(result[x].id, None, None,
+							result[x].player1.username,
+							result[x].player2.username,
+							UserProfile.objects.get(user=result[x].player1).location,
+							UserProfile.objects.get(user=result[x].player2).location) for x in range(len(result))]
 	return final
 	
 def start(request):
