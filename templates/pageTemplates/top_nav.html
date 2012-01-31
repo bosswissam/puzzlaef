@@ -1,0 +1,24 @@
+<div id="top-nav">
+
+	<div class="nav-element" id="logo"><span class="red-text">Puzzl<span class="blue-text">æ</span>f</span></div>
+	
+	{% for page in pages %}
+		{% ifequal current_page page  %}
+			<div class="nav-element nav-page-element button gray selected">{{ page }}</div>
+		{% else %}
+			<div class="nav-element nav-page-element button gray">{{ page }}</div>
+		{% endifequal %}
+	{% endfor %}
+	
+	{% ifequal current_page "Settings"  %}
+		<div class="nav-account nav-element nav-page-element button blend-in-gray selected">Settings</div>
+	{% else %}
+		<div class="nav-account nav-element nav-page-element button blend-in-gray">Settings</div>
+	{% endifequal %}
+	
+	{% ifequal current_page "Logout"  %}
+		<div class="nav-account nav-element nav-page-element button blend-in-gray selected">Logout</div>
+	{% else %}
+		<div class="nav-account nav-element nav-page-element button blend-in-gray">Logout</div>
+	{% endifequal %}
+</div>
