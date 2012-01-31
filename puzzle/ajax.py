@@ -8,10 +8,15 @@ from puzzlaef.main.models import UserProfile
 from puzzlaef.puzzle.models import Puzzle
 from puzzlaef.views import PAGES, PAGES_LOCATIONS
 from puzzlaef.dajax.core import Dajax
+from puzzlaef.puzzle.utils import PictureGrid, PictureThumb
 from puzzlaef.dajaxice.decorators import dajaxice_register
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.template.loader import render_to_string
+
+fakePictureURL = "http://www.blogcdn.com/www.engadget.com/media/2012/01/2012-01-29-sony200_216x150.jpg"
+fakePictureTitle = "Great Sunset"
+fakePictureSet = [PictureThumb(fakePictureURL,fakePictureURL,fakePictureTitle) for i in range(15)]
 
 @dajaxice_register
 def fetch_user_puzzles(request):
@@ -55,4 +60,25 @@ def theme_picked(request, puzzle, theme):
     dajax = Dajax()
     #dajax.assign('#page-container', 'innerHTML', render)
     #dajax.script("initialize_pick_theme('"+ puzzle_id +"')")
+    return dajax.json()
+
+@dajaxice_register
+def fetch_discover(request):
+    list = Puzzle.objects.all()
+    results = [x.__dict__ for x in list]
+    return simplejson.dumps(result)
+
+@dajaxice_register
+def get_photos(request):
+    assertAccess = assert_access(request.user)
+    if(assertAccess):
+        return assertAccess
+    
+    list = Photos.objects.get(user=request.user)
+    
+    pictureGrid = PictureGrid(fakePictureSet).getGridAsString();
+    
+    render = render_to_string("puzzle/profile.html", {'pictureGrid': pictureGrid})
+    dajax = Dajax()
+    dajax.assign('#page-container', 'innerHTML', render)
     return dajax.json()
