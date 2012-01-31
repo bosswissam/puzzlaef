@@ -3,6 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from puzzlaef.forms import UserProfileForm
+from django.core.files.images import ImageFile
+from django.views.decorators.csrf import csrf_protect
+from puzzlaef.forms import UserProfileForm
+from puzzlaef.main.models import UserProfile
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
 PAGES_FULL = PAGES + ['Settings', 'Logout']
@@ -28,4 +32,37 @@ def show_profile(request):
 def get_profile_form(request):
 	form = UserProfileForm(data=request.POST)
 	return form
+
+@login_required
+def make_move(request):
+	if request.method == 'POST':
+		form = PuzzlePieceForm(request.POST, request.FILES)
+		if form.is_valid():
+			puzzle_piece = puzzle_piece.objects.get(user=request.user.id)
+			if(puzzle_piece == None):
+				puzzle_piece = PuzzlePiece()
+			if(puzzle_piece.puzzle.player1==request.user.id):
+				x = request.user
+				puzzle_piece.photo1 = request.FILES['photo1']
+			else:
+				x = puzzle_piece.puzzle.player2
+				puzzle_piece.photo2 = request.FILES['photo2']
+		puzzle_piece.save()
+		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, x.email, fail_silently=False)
+	else:
+		form = PuzzlePieceForm()
+		
+
+@csrf_protect
+@login_required
+def upload(request):
+	if request.method == 'POST':
+		form = UserProfileForm(request.POST, request.FILES)
+		if form.is_valid():
+			user_profile = UserProfile.objects.get(user=request.user.id)
+		user_profile.avatar = ImageFile(request.FILES['avatar'])
+		user_profile.save()
+	else:
+		form = UserProfileForm()
+	documents = UserProfile.objects.all()
 

@@ -1,4 +1,87 @@
-
-{% for piece in puzzle.pieces %}
-	{{ piece }}
+<div class="title blue">Puzzlaef: {{pieces.0.user1}} vs {{pieces.1.user2}} </div>
+<div class="helper-text">
+Welcome to this epic Puzzleaf! You must match your opponents picture by pressing on the plus sign 
+and adding a picture that you or someone else in your country has taken. The rounds you play,
+the more honor and glory you will get in addition to the awesomeness that cultural understanding is.
+</div>
+<div id="puzzle-view">
+{% for piece in pieces %}
+	<div class="piece">
+	{% if forloop.first %}
+		
+		{% if newTurn and userTurn %}
+			<div class="piece-part left new">
+				<div id="plus-button">+</div>
+				Its your turn! Add your Laef Response!
+			</div>
+			<div class="piece-part middle">æ</div>
+			<div class="piece-part right new">
+			</div>
+		{% endif %}
+		
+		{% if newTurn and not userTurn %}
+			<div class="piece-part left new">
+				Its their turn to start the round!
+			</div>
+			<div class="piece-part middle">æ</div>
+			<div class="piece-part right new">
+				<div id="question-mark">?</div>
+			</div>
+		{% endif %}
+		
+		{% if not newTurn and not userTurn %}
+			<div class="piece-part left new">
+				<img class="thumb" src=
+				{% ifequal piece.user1 user%}
+					{{ piece.photo1 }}
+				{% else %}
+					{{ piece.photo2 }}
+				{% endifequal %}
+				alt={{ picture.title }} height="250" width="250" />
+			</div>
+			<div class="piece-part middle">æ</div>
+			<div class="piece-part right new">
+				<div id="question-mark">?</div>
+			</div>
+		{% endif %}
+		
+		{% if not newTurn and userTurn %}
+			<div class="piece-part left new">
+				<div id="plus-button">+</div>
+				Its your turn! Add your Laef Response!
+			</div>
+			<div class="piece-part middle">æ</div>
+			<div class="piece-part right new">
+				<img class="thumb" src=
+				{% ifequal piece.user2 user%}
+					{{ piece.photo1 }}
+				{% else %}
+					{{ piece.photo2 }}
+				{% endifequal %}
+				alt={{ picture.title }} height="250" width="250" />
+			</div>
+		{% endif %}
+	{% else %}
+		<div class="piece-part left">
+			<img class="thumb" src=
+			{% ifequal piece.user1 user %}
+				{{ piece.photo1 }}
+			{% else %}
+				{{ piece.photo2 }}
+			{% endifequal %}
+			alt={{ picture.title }} height="250" width="250" />
+		</div>
+		<div class="piece-part middle">æ</div>
+		<div class="piece-part right">
+			<img class="thumb" src=
+			{% ifequal piece.user2 user %}
+				{{ piece.photo1 }}
+			{% else %}
+				{{ piece.photo2 }}
+			{% endifequal %}
+			alt={{ picture.title }} height="250" width="250" />
+		</div>
+	{% endif %}
+	</div>
 {% endfor %}
+</div>
