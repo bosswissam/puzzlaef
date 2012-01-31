@@ -64,4 +64,3 @@ def upload(request):
 		user_profile.save()
 	else:
 		form = UserProfileForm()
-	documents = UserProfile.objects.all()

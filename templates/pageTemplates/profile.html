@@ -4,10 +4,10 @@
 <div id="profilePictureUploadWrapper">
 <form  action="upload/" method="post" enctype="multipart/form-data">
 {% csrf_token %}
-	<input type="file" name="avatar" style="float:left" class="fileUpload button red"><br /> 
+	<input type="file" name="avatar" style="display:inline-block" class="fileUpload"><br /> 
  
-	<button class="button red" id="px-submit" type="submit">Upload Profile Picture</button>
-	<button class="button red" id="px-clear" type="reset">Cancel</button>
+	<button class="" id="px-submit" type="submit">Upload Profile Picture</button>
+	<button class="" id="px-clear" type="reset">Cancel</button>
 </form>
 </div>
 

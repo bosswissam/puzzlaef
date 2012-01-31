@@ -20,6 +20,27 @@
 			Continue playing your Puzzlaefs! <br />
 			The more pieces you complete the more points you get!
 		</div>
+		{% for puzzle in puzzles %}
+			<div class="puzzle">
+				<div class="left-user-info">
+					Sinchan Banerjee<br />
+					Egypt
+				</div>
+				<div class="left-photo">
+					<img class="thumb" src="" alt={{ picture.title }} height="250" width="250" />
+				</div>
+				<div class="vs-symbol">
+				vs.
+				</div>
+				<div class="right-photo">
+					<img class="thumb" src="" alt={{ picture.title }} height="250" width="250" />
+				</div>
+				<div class="right-user-info">
+				Wissam Jarjoui<br />
+				Egypt
+				</div>
+			</div>
+		{% endfor %}
 	{% endifequal %}
 </div>
 

@@ -27,6 +27,8 @@ var start_puzzle = function(_with){
 };
 
 var initialize = function(id) {
+	$('.fileUpload').fileUploader();
+	
 	var avatar = document.getElementById('id_avatar');
 	avatar.setAttribute("hidden", "true");
 	$(avatar).prevAll().remove();
@@ -196,6 +198,7 @@ var change_page = function(event){
 	}
 };
 
+
 $(document).ready(function() {
 	if($(".nav-page-element")){
 		$(".nav-page-element").click(change_page);
@@ -221,6 +224,4 @@ $(document).ready(function() {
 	if (document.getElementById('search-input')){
 		 initiate_play_search();
 	}
-	
-	$('.fileUpload').fileUploader();
 });
