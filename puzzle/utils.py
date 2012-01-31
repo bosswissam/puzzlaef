@@ -34,6 +34,7 @@ def make_new_puzzle(player1, player2):
 	puzzle = Puzzle()
 	puzzle.player1 = player1
 	puzzle.player2 = User.objects.get(username=player2)
+	puzzle.turn = puzzle.player2
 	puzzle.save()
 	return puzzle.id
     

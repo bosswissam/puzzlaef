@@ -8,7 +8,7 @@ from puzzlaef.main.models import UserProfile
 from puzzlaef.main.utils import ResultUser, ResultPiece
 from puzzlaef.main.pictureGrid import PictureGrid
 from puzzlaef.main.pictureThumb import PictureThumb
-from puzzlaef.puzzle.models import Puzzle, Photo
+from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
 from puzzlaef.views import PAGES_FULL, PAGES_LOCATIONS, get_profile_form
 from puzzlaef.dajax.core import Dajax
 from puzzlaef.dajaxice.decorators import dajaxice_register
@@ -36,8 +36,8 @@ def fetch_user_puzzles(request):
 	list1 = set(Puzzle.objects.filter(player1=request.user))
 	list2 = set(Puzzle.objects.filter(player2=request.user))
 	result = list(list1.union(list2))
-	final = [ResultPiece(PuzzlePiece.objects.get(puzzle=x)[0], 
-						PuzzlePiece.objects.get(puzzle=x)[1],
+	final = [ResultPiece(PuzzlePiece.objects.filter(puzzle=x.id)[0], 
+						PuzzlePiece.objects.filter(puzzle=x.id)[1],
 						x.player1.username,
 						x.player2.username,
 						UserProfile.objects.get(user=x.player1).location,
