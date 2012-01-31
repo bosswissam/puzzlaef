@@ -5,7 +5,7 @@ Created on Jan 29, 2012
 '''
 from puzzlaef.forms import UserProfileForm
 from puzzlaef.main.models import UserProfile
-from puzzlaef.main.utils import ResultUser
+from puzzlaef.main.utils import ResultUser, ResultPiece
 from puzzlaef.main.pictureGrid import PictureGrid
 from puzzlaef.main.pictureThumb import PictureThumb
 from puzzlaef.puzzle.models import Puzzle, Photo
@@ -35,7 +35,14 @@ def assert_access(user):
 def fetch_user_puzzles(request):
 	list1 = set(Puzzle.objects.filter(player1=request.user))
 	list2 = set(Puzzle.objects.filter(player2=request.user))
-	return list(list1.union(list2))
+	result = list(list1.union(list2))
+	final = [ResultPiece(PuzzlePiece.objects.get(puzzle=x)[0], 
+						PuzzlePiece.objects.get(puzzle=x)[1],
+						x.player1.username,
+						x.player2.username,
+						UserProfile.objects.get(user=x.player1).location,
+						UserProfile.objects.get(user=x.player2).location) for x in result]
+	return final
 
 @dajaxice_register
 def send_form(request, form):
