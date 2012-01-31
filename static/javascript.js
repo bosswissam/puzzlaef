@@ -1,4 +1,31 @@
-function initialize(id) {
+var initialize_pick_theme = function( puzzle_id ){
+	
+	$(".thumbWrapper").first().addClass("selected");
+	$(".thumbWrapper").first().children().addClass("selected");
+	
+	var onClickFunction = function (e){
+		$("div.thumbWrapper.selected").removeClass("selected");
+		$("img.thumb.selected").removeClass("selected");
+		$(e.delegateTarget).addClass("selected");
+		$(e.delegateTarget).children().addClass("selected");
+	};
+	$(".thumbWrapper").on("click", "img", onClickFunction);
+	$(".thumbWrapper").on("click", "div", onClickFunction);
+	
+	$('#begin_button').click( function(e){
+		var theme = $("div.thumbWrapper.selected > div").html();
+		Dajaxice.puzzlaef.main.theme_picked(Dajax.process, {'theme':theme});
+	});
+};
+
+
+var start_puzzle = function(_with){
+	Dajaxice.puzzlaef.main.start_puzzle( function(data){
+		Dajax.process(data);
+	}, {'startWith': _with});
+};
+
+var initialize = function(id) {
         var mapOptions = {
 		  center: new google.maps.LatLng(-33.8688, 151.2195),
 		  zoom: 13,
@@ -65,7 +92,7 @@ $.fn.serializeObject = function()
     return o;
 };
 
-function send_form(){
+var send_form = function(){
 	data = $('#my_form').serializeObject();
 	Dajaxice.puzzlaef.main.send_form(Dajax.process,{'form':data});
 }
@@ -113,7 +140,7 @@ var initiate_play_search = function(){
 		});
 		
 	    for (i = 0; i < locations.length; i++) {  
-			var infoWindowContent = '<div style="text-align:center"><strong>' + locations[i].username + '</strong><br>' + locations[i].location + '<div class="button blue" style="float:none">Start Puzzlaef</div></div>';
+			var infoWindowContent = '<div style="text-align:center"><strong>' + locations[i].username + '</strong><br>' + locations[i].location + '<div class="button blue" onclick="start_puzzle(\''+ locations[i].username +'\')" style="float:none">Start Puzzlaef</div></div>';
 			
 			var process_geocode = function(infoWindowContent) {
 				return function(results, status){
@@ -145,9 +172,9 @@ var initiate_play_search = function(){
 };
 	google.maps.event.addListener(autocomplete, 'place_changed', new_location_set);
 	$("#search-button").click(new_location_set);
-}
+};
 
-function change_page(event){
+var change_page = function(event){
 	var pageClickedTarget = $(event.target);
 	var pageClicked = pageClickedTarget.html();
 	var currentPage = $('.selected').html();
@@ -163,7 +190,7 @@ function change_page(event){
 			}
 		},{'newPage':pageClicked});
 	}
-}
+};
 
 $(document).ready(function() {
 	if($(".nav-page-element")){

@@ -1,7 +1,4 @@
 # Django settings for puzzlaef project.
-from django.conf import settings
-import logging
-import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -37,12 +34,12 @@ RECAPTCHA_PUBKEY = '6Ldl5cwSAAAAAAmF2y17z0ZdL-ZVg_D7q5koym-l'
 RECAPTCHA_PRIVKEY = '6Ldl5cwSAAAAAJ5jx8-pLq3LLiqWkpVIU7VSYBsX'
 
 LOGIN_USER_NOT_ACTIVE_URL = '/accounts/activate/'
-LOGIN_REDIRECT_HOME = '/puzzlaef/'
+LOGIN_REDIRECT_HOME = '/'
 AUTH_PROFILE_MODULE = 'main.UserProfile'
 
-LOGIN_REDIRECT_URL = '/puzzlaef/accounts/profile/'
+#LOGIN_REDIRECT_URL = '/accounts/profile/'
 
-DAJAXICE_MEDIA_PREFIX="puzzlaef/dajaxice"
+DAJAXICE_MEDIA_PREFIX="dajaxice"
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -69,13 +66,14 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/puzzlaef/media/'
+MEDIA_ROOT = '/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = 'http://wjarjoui.scripts.mit.edu/media/'
+MEDIA_URL = ''
 
+import os
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 # Absolute path to the directory static files should be collected to.
@@ -86,12 +84,12 @@ STATIC_ROOT = os.path.join(SITE_ROOT, 'staticfiles/')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/puzzlaef/static/'
+STATIC_URL = '/static/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/__scripts/django/media/'#'/static/admin/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -169,6 +167,7 @@ INSTALLED_APPS = (
 # the site admins on every HTTP 500 error.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
+import logging
 logging.basicConfig(level=logging.DEBUG)
 LOGGING = {
     'version': 1,
