@@ -1,6 +1,6 @@
 from puzzlaef.views import start, show_profile, upload_profile, upload_theme
-from puzzlaef.dajaxice.core import dajaxice_autodiscover
 from django.conf import settings
+from puzzlaef.dajaxice.core import dajaxice_autodiscover
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns

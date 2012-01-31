@@ -7,12 +7,15 @@
 
 <form  action="upload/theme" method="post" enctype="multipart/form-data">
 {% csrf_token %}
-	<input type="file" name="avatar" style="display:inline-block" class="fileUpload"><br /> 
+	<input type="file" name="new_theme" style="display:inline-block" class="fileUpload"><br /> 
  
 	<button class="" id="px-submit" type="submit">Upload a new theme photo!</button>
 	<button class="" id="px-clear" type="reset">Cancel</button>
 </form>
 </div>
+<script>
+$('.fileUpload').fileUploader();
+</script>
 
 {{ pictureGrid }}
 

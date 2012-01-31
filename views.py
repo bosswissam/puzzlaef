@@ -9,6 +9,7 @@ from puzzlaef.forms import UserProfileForm
 from puzzlaef.main.ajax import fetch_user_puzzles
 from puzzlaef.main.models import UserProfile
 from puzzlaef.puzzle.models import Photo
+from django.contrib.auth.models import User
 
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
@@ -51,6 +52,10 @@ def make_move(request):
 				x = puzzle_piece.puzzle.player2
 				puzzle_piece.photo2 = request.FILES['photo2']
 		puzzle_piece.save()
+		if(puzzle_piece.puzzle.turn == request.user.id):
+			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
+		else:
+			puzzle_piece.puzzle.turn = request.user.id
 		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, x.email, fail_silently=False)
 	else:
 		form = PuzzlePieceForm()
@@ -73,8 +78,12 @@ def upload_profile(request):
 @login_required
 def upload_theme(request):
 	if request.method == 'POST':
-		theme = ImageFile(request.FILES['avatar'])
-		photo = Photo(image = theme)
+		theme = ImageFile(request.FILES['new_theme'])
+		photo = Photo()
+		photo.image = theme
+		photo.user = User.objects.get(id=request.user.id)
+		photo.isTheme = True
+		print photo
 		photo.save()
 	else:
 		form = UserProfileForm()

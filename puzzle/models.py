@@ -1,5 +1,33 @@
+from django.conf import settings
+from django.core.files import File
+from django.core.files.base import ContentFile
+from django.db import models
+from django.shortcuts import get_object_or_404
+from django.template.defaultfilters import slugify
+from os.path import join
+from tempfile import *
 from django.contrib.auth.models import User
 from django.db import models
+import datetime
+import django.core.files.uploadhandler
+import os
+import time
+import zipfile
+
+try:
+    import Image
+    import ImageFile
+    import ImageFilter
+    import ImageEnhance
+except ImportError:
+    try:
+        from PIL import Image
+        from PIL import ImageFile
+        from PIL import ImageFilter
+        from PIL import ImageEnhance
+    except ImportError:
+        raise ImportError('Photologue was unable to import the Python Imaging Library. Please confirm it`s installed and available on your current Python path.')
+
 try:
     import Image
     import ImageFile
@@ -33,8 +61,7 @@ class Photo(models.Model):
 
     def save(self, *args, **kwargs):
         super(Photo, self).save(*args, **kwargs)
-        if(self.resize=='resize'):
-            self.im_resize()
+        self.im_resize()
         
         im = Image.open(self.image.path)
         im.thumbnail((250,250), Image.ANTIALIAS)
