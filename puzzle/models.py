@@ -8,6 +8,8 @@ from os.path import join
 from tempfile import *
 from django.contrib.auth.models import User
 from django.db import models
+from django.template.loader import render_to_string
+
 import datetime
 import django.core.files.uploadhandler
 import os
@@ -72,6 +74,8 @@ class Photo(models.Model):
         if not os.path.exists(thumb_path):
             os.makedirs(thumb_path)
         im.save(thumb_path + fn + '-thumb' + ext, 'JPEG')
+        self.thumbLoc = self.get_thumb_url()
+        self.pictureLoc = self.get_url()
 
     def im_resize(self):
         new_image = Image.open(self.image.path)
@@ -102,6 +106,8 @@ class Photo(models.Model):
     def __unicode__(self):
         return self.title
     
+    def getAsString(self):
+        return render_to_string("puzzle/pictureThumb.html", {'picture':self})
 class Puzzle(models.Model):
     title = models.CharField(max_length=200)
     player1 = models.ForeignKey(User, related_name = "palyer 1")

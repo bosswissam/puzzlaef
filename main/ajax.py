@@ -8,7 +8,7 @@ from puzzlaef.main.models import UserProfile
 from puzzlaef.main.utils import ResultUser, ResultPiece
 from puzzlaef.main.pictureGrid import PictureGrid
 from puzzlaef.main.pictureThumb import PictureThumb
-from puzzlaef.views import PAGES_FULL, PAGES_LOCATIONS
+from puzzlaef.views import PAGES_FULL, PAGES_LOCATIONS,get_profile_form
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
 from puzzlaef.dajax.core import Dajax
 from puzzlaef.dajaxice.decorators import dajaxice_register
@@ -20,6 +20,8 @@ from django.template.loader import render_to_string
 from django.utils import simplejson
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
+from django.template.loader import render_to_string
+
 
 import string
 
