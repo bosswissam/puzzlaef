@@ -35,8 +35,15 @@ def make_new_puzzle():
 def getThemes():
 	#TODO: Wissam
 	return []
-	
 
+
+def set_puzzle_theme(puzzle, theme):
+	#TODO: Wissam
+	return 
+	
+def get_puzzle(puzzle_id):
+	#TODO: Wissam 
+	return []
 
 @dajaxice_register
 def send_form(request, form):
@@ -107,12 +114,13 @@ def start_puzzle(request, startWith):
 
 
 @dajaxice_register
-def theme_picked(request, theme):
+def theme_picked(request, puzzle, theme):
 	assertAccess = assert_access(request.user)
 	if(assertAccess):
 		return assertAccess
-
-	#render = render_to_string("puzzle/pickTheme.html", {"startWith":startWith, 'themes': getThemes(), 'pictureGrid': pictureGrid})
+		
+	set_puzzle_theme(puzzle, theme)
+	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle) })
 	dajax = Dajax()
 	#dajax.assign('#page-container', 'innerHTML', render)
 	#dajax.script("initialize_pick_theme('"+ puzzle_id +"')")

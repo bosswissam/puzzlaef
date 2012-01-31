@@ -6,6 +6,7 @@ var initialize_pick_theme = function( puzzle_id ){
 	var onClickFunction = function (e){
 		$("div.thumbWrapper.selected").removeClass("selected");
 		$("img.thumb.selected").removeClass("selected");
+		$("div.thumbLabel.selected").removeClass("selected");
 		$(e.delegateTarget).addClass("selected");
 		$(e.delegateTarget).children().addClass("selected");
 	};
@@ -14,7 +15,7 @@ var initialize_pick_theme = function( puzzle_id ){
 	
 	$('#begin_button').click( function(e){
 		var theme = $("div.thumbWrapper.selected > div").html();
-		Dajaxice.puzzlaef.main.theme_picked(Dajax.process, {'theme':theme});
+		Dajaxice.puzzlaef.main.theme_picked(Dajax.process, {'puzzle': puzzle_id, 'theme':theme});
 	});
 };
 
