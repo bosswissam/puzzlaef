@@ -6,8 +6,10 @@ from puzzlaef.forms import UserProfileForm
 from django.core.files.images import ImageFile
 from django.views.decorators.csrf import csrf_protect
 from puzzlaef.forms import UserProfileForm
+from puzzlaef.main.ajax import fetch_user_puzzles
 from puzzlaef.main.models import UserProfile
 from puzzlaef.puzzle.models import Photo
+
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
 PAGES_FULL = PAGES + ['Settings', 'Logout']
@@ -17,7 +19,7 @@ def start(request):
 	if request.user.is_authenticated():
 	    # TODO: show profile
 		form = UserProfileForm(data=request.POST)
-		return render_to_response('pageTemplates/page_layout.html', RequestContext(request, {'pages': PAGES, 'current_page': PAGES_FULL[0], 'current_page_template': PAGES_LOCATIONS[0] }))
+		return render_to_response('pageTemplates/page_layout.html', RequestContext(request, {'pages': PAGES, 'current_page': PAGES_FULL[0], 'current_page_template': PAGES_LOCATIONS[0], 'puzzles': fetch_user_puzzles(request) }))
 	else:
 	    return HttpResponseRedirect('/accounts/login/')
 

@@ -9,7 +9,6 @@ from puzzlaef.main.utils import ResultUser, ResultPiece
 from puzzlaef.main.pictureGrid import PictureGrid
 from puzzlaef.main.pictureThumb import PictureThumb
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
-from puzzlaef.views import PAGES_FULL, PAGES_LOCATIONS, get_profile_form
 from puzzlaef.dajax.core import Dajax
 from puzzlaef.dajaxice.decorators import dajaxice_register
 from django.contrib.auth.models import User
@@ -82,8 +81,8 @@ def changePage(request, newPage):
 	dajax = Dajax()
 	if (newPage == PAGES_FULL[0]):
 		template = PAGES_LOCATIONS[0]
-		print fetch_user_puzzles(request)
-		render = render_to_string(template, {'puzzles': fetch_user_puzzles(request), 'empty': []})
+		#print fetch_user_puzzles(request)
+		render = render_to_string(template, {'puzzles': [1, 2], 'empty': []})
 		
 	elif (newPage == PAGES_FULL[1]):
 		template = PAGES_LOCATIONS[1]

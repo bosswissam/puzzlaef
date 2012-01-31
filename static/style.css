@@ -182,10 +182,22 @@ div.button.blend-in-gray.selected {
     width: 900px;
 }
 
-div.puzzle {
-	width: 700px;
+div.puzzles {
 	margin: 20px auto;
+	width: 820px;
+	padding-bottom: 20px;
+	text-align: center;
+}
+
+div.puzzle {
+	width: 820px;
+	margin: 20px 0px;
 	background-color: #EEE;
+	display: inline-block;
+}
+
+div.puzzle > *{
+	padding: 10px;
 }
 
 div.left-user-info {
@@ -205,6 +217,7 @@ div.vs-symbol {
 	display: block;
 	float:left;
 	font-family: "Snippet", Verdana, Arial, Helvetica, sans-serif;
+	margin-top: 70px;
 }
 
 div.right-user-info {
