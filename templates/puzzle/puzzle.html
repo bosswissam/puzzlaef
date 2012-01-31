@@ -1,4 +1,78 @@
 
 {% for piece in puzzle.pieces %}
-	{{ piece }}
+	{% if forloop.first %}
+		
+		{% if newTurn and userTurn %}
+			<div class="piece-part left">
+				<div id="plus-button">+</div>
+				Its your turn! Add your Laef Response!
+			</div>
+			<div class="piece-part middle">æ</div>
+			<div class="piece-part right">
+			</div>
+		{% endif %}
+		
+		{% if newTurn and not userTurn %}
+			<div class="piece-part left">
+				Its their turn to start the round!
+			</div>
+			<div class="piece-part middle">æ</div>
+			<div class="piece-part right">
+				<div id="question-mark">?</div>
+			</div>
+		{% endif %}
+		
+		{% if incompleteTurn and not userTurn %}
+			<div class="piece-part left">
+				<img class="thumb" src=
+				{% ifequal puzzle.user1 user%}
+					{{ piece.photo1.url }}
+				{% else %}
+					{{ piece.photo2.url }}
+				{% endifequal %}
+				alt={{ picture.title }} height="130" width="130" />
+			</div>
+			<div class="piece-part middle">æ</div>
+			<div class="piece-part right">
+				<div id="question-mark">?</div>
+			</div>
+		{% endif %}
+		
+		{% if incompleteTurn and userTurn %}
+			<div class="piece-part left">
+				<div id="plus-button">+</div>
+				Its your turn! Add your Laef Response!
+			</div>
+			<div class="piece-part middle">æ</div>
+			<div class="piece-part right">
+				<img class="thumb" src=
+				{% ifequal puzzle.user2 user%}
+					{{ piece.photo1.url }}
+				{% else %}
+					{{ piece.photo2.url }}
+				{% endifequal %}
+				alt={{ picture.title }} height="130" width="130" />
+			</div>
+		{% endif %}
+	{% else %}
+		<div class="piece-part left">
+			<<img class="thumb" src=
+			{% ifequal puzzle.user2 user%}
+				{{ piece.photo1.url }}
+			{% else %}
+				{{ piece.photo2.url }}
+			{% endifequal %}
+			alt={{ picture.title }} height="130" width="130" />
+		</div>
+		<div class="piece-part middle">æ</div>
+		<div class="piece-part right">
+			<img class="thumb" src=
+			{% ifequal puzzle.user2 user%}
+				{{ piece.photo1.url }}
+			{% else %}
+				{{ piece.photo2.url }}
+			{% endifequal %}
+			alt={{ picture.title }} height="130" width="130" />
+		</div>
+	{% endif %}
 {% endfor %}

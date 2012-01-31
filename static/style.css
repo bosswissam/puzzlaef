@@ -221,6 +221,36 @@ div.thumbLabel.selected {
 	background-color: rgba(60,161,255, 0.75);
 }
 
+/********* Puzzle - Puzzle Page ********/
+
+div.piece-part {
+	float: left;
+}
+
+div.piece-part.left {
+	width: 200px;
+	height:200px;
+	background-color: #ddd;
+}
+
+div.piece-part.right {
+	width: 200px;
+	height:200px;
+	background-color: #ddd;
+}
+
+div.piece-part.middle {
+	
+}
+
+#plus-button {
+	
+}
+
+#question-mark {
+	
+}
+
 /******** Login/Registration *******/
 
 #login-content {
