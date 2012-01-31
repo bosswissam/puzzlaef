@@ -30,7 +30,6 @@ var initialize = function(id) {
 	var avatar = document.getElementById('id_avatar');
 	avatar.setAttribute("hidden", "true");
 	$(avatar).prevAll().remove();
-	
     var mapOptions = {
 		  center: new google.maps.LatLng(-33.8688, 151.2195),
 		  zoom: 13,
@@ -76,7 +75,7 @@ var initialize = function(id) {
 
 	  infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
 	  infowindow.open(map, marker);
-	
+	  Dajaxice.puzzlaef.puzzlaef.get_photos(Dajax.process);
 	});
 }
 

@@ -79,6 +79,7 @@ class Puzzle(models.Model):
     title = models.CharField(max_length=200)
     player1 = models.ForeignKey(User, related_name = "palyer 1")
     player2 = models.ForeignKey(User, related_name = "player 2")
+    turn = models.ForeignKey(User, related_name = "player turn")
     theme_picture = Photo()
 
 class PuzzlePiece(models.Model):
@@ -86,3 +87,4 @@ class PuzzlePiece(models.Model):
     puzzle = models.ForeignKey(Puzzle)
     photo1 = Photo()
     photo2 = Photo()
+    needs_help = models.BooleanField()

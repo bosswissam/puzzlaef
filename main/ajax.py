@@ -8,7 +8,7 @@ from puzzlaef.main.models import UserProfile
 from puzzlaef.main.utils import ResultUser
 from puzzlaef.main.pictureGrid import PictureGrid
 from puzzlaef.main.pictureThumb import PictureThumb
-from puzzlaef.puzzle.models import Puzzle
+from puzzlaef.puzzle.models import Puzzle, Photo
 from puzzlaef.views import PAGES_FULL, PAGES_LOCATIONS, get_profile_form
 from puzzlaef.dajax.core import Dajax
 from puzzlaef.dajaxice.decorators import dajaxice_register
@@ -72,15 +72,22 @@ def changePage(request, newPage):
 		
 	elif (newPage == PAGES_FULL[1]):
 		template = PAGES_LOCATIONS[1]
-		render = render_to_string(template, {})
+		list = Puzzle.objects.all()
+		render = render_to_string(template, {'list':list}, context_instance=RequestContext(request))
 		
 	elif (newPage == PAGES_FULL[2]):
 		template = PAGES_LOCATIONS[2]
-		render = render_to_string(template, {})
+		list = PuzzlePiece.objects.filter(needs_help=True)
+		result = [x.puzzle for x in list]
+		render = render_to_string(template, {'list':result}, context_instance=RequestContext(request))
 		
 	elif (newPage == PAGES_FULL[3]):
 		template = PAGES_LOCATIONS[3]
-		render = render_to_string(template, {'form': get_profile_form(request)}, context_instance=RequestContext(request))
+		template = PAGES_LOCATIONS[3]
+		dajax = Dajax()
+		list = Photo.objects.filter(user=request.user)
+		pictureGrid = PictureGrid(list).getGridAsString();
+		render = render_to_string(template, {'form': get_profile_form(request), 'pictureGrid': pictureGrid}, context_instance=RequestContext(request))
 		
 	elif (newPage == PAGES_FULL[4]):
 		logout(request)

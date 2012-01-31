@@ -89,16 +89,8 @@ def fetch_discover(request):
     return simplejson.dumps(result)
 
 @dajaxice_register
-def get_photos(request):
-    assertAccess = assert_access(request.user)
-    if(assertAccess):
-        return assertAccess
-    
-    list = Photos.objects.get(user=request.user)
-    
-    pictureGrid = PictureGrid(fakePictureSet).getGridAsString();
-    
-    render = render_to_string("puzzle/profile.html", {'pictureGrid': pictureGrid})
-    dajax = Dajax()
-    dajax.assign('#page-container', 'innerHTML', render)
-    return dajax.json()
+def needs_help(request, puzzle_piece):
+    puz = PuzzlePiece(id=puzzle_piece)
+    puz.needs_help = True
+    puz.save()
+    pass

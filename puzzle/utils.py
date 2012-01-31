@@ -45,7 +45,7 @@ def getThemes():
 
 def set_puzzle_theme(puzzle, theme):
     puz = Puzzle.objects.get(id = puzzle)
-    puz.theme = theme
+    puz.title = theme
     puz.save()
     pass
     
