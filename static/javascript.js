@@ -15,15 +15,15 @@ var initialize_pick_theme = function( puzzle_id ){
 	
 	$('#begin_button').click( function(e){
 		var theme = $("div.thumbWrapper.selected > div").html();
-		Dajaxice.puzzlaef.main.theme_picked(Dajax.process, {'puzzle': puzzle_id, 'theme':theme});
+		Dajaxice.puzzlaef.puzzle.theme_picked(Dajax.process, {'puzzle': puzzle_id, 'theme':theme});
 	});
 };
 
 
 var start_puzzle = function(_with){
-	Dajaxice.puzzlaef.main.start_puzzle( function(data){
+	Dajaxice.puzzlaef.puzzle.start_puzzle( function(data){
 		Dajax.process(data);
-	}, {'startWith': _with});
+	}, {'username': _with});
 };
 
 var initialize = function(id) {
@@ -218,4 +218,6 @@ $(document).ready(function() {
 	if (document.getElementById('search-input')){
 		 initiate_play_search();
 	}
+	
+	$('.fileUpload').fileUploader();
 });

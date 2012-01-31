@@ -5,7 +5,7 @@ Created on Jan 30, 2012
 '''
 from django.db import models
 from django.contrib.auth.models import User
- 
+
 class ResultUser(object):
     username = models.CharField()
     first_name = models.CharField()

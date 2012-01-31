@@ -8,6 +8,7 @@ from puzzlaef.main.models import UserProfile
 from puzzlaef.main.utils import ResultUser
 from puzzlaef.main.pictureGrid import PictureGrid
 from puzzlaef.main.pictureThumb import PictureThumb
+from puzzlaef.puzzle.models import Puzzle
 from puzzlaef.views import PAGES_FULL, PAGES_LOCATIONS, get_profile_form
 from puzzlaef.dajax.core import Dajax
 from puzzlaef.dajaxice.decorators import dajaxice_register
@@ -17,6 +18,9 @@ from django.contrib.auth import logout
 from django.core import serializers
 from django.template.loader import render_to_string
 from django.utils import simplejson
+from django.template import RequestContext
+from django.views.decorators.csrf import csrf_protect
+
 import string
 
 def assert_access(user):
@@ -26,6 +30,12 @@ def assert_access(user):
 		dajax = Dajax()
 	 	dajax.redirect("/accounts/login",delay=0) 
 		return dajax.json()
+		
+
+def fetch_user_puzzles(request):
+	list1 = set(Puzzle.objects.filter(player1=request.user))
+	list2 = set(Puzzle.objects.filter(player2=request.user))
+	return list(list1.union(list2))
 
 @dajaxice_register
 def send_form(request, form):
@@ -47,6 +57,7 @@ def send_form(request, form):
 			dajax.add_css_class('#id_%s' % error, 'error')
     return dajax.json()
 
+
 @dajaxice_register
 def changePage(request, newPage):
 	assertAccess = assert_access(request.user)
@@ -56,27 +67,28 @@ def changePage(request, newPage):
 	dajax = Dajax()
 	if (newPage == PAGES_FULL[0]):
 		template = PAGES_LOCATIONS[0]
+		print fetch_user_puzzles(request)
+		render = render_to_string(template, {'puzzles': fetch_user_puzzles(request), 'empty': []})
+		
 	elif (newPage == PAGES_FULL[1]):
 		template = PAGES_LOCATIONS[1]
+		render = render_to_string(template, {})
+		
 	elif (newPage == PAGES_FULL[2]):
 		template = PAGES_LOCATIONS[2]
+		render = render_to_string(template, {})
+		
 	elif (newPage == PAGES_FULL[3]):
 		template = PAGES_LOCATIONS[3]
-		render = render_to_string(template, {'form': get_profile_form(request)})
-		dajax = Dajax()
-		dajax.assign('#page-container', 'innerHTML', render)
-		return dajax.json()
+		render = render_to_string(template, {'form': get_profile_form(request)}, context_instance=RequestContext(request))
+		
 	elif (newPage == PAGES_FULL[4]):
 		logout(request)
 		dajax.redirect("/accounts/login",delay=0) 
 		return dajax.json()
-	render = render_to_string(template, {})
+	
 	dajax.assign('#page-container', 'innerHTML', render)
 	return dajax.json()
-
-fakePictureURL = "http://www.blogcdn.com/www.engadget.com/media/2012/01/2012-01-29-sony200_216x150.jpg"
-fakePictureTitle = "Great Sunset"
-fakePictureSet = [PictureThumb(fakePictureURL,fakePictureURL,fakePictureTitle) for i in range(15)]
 
 @dajaxice_register
 def find_locations(request, location):

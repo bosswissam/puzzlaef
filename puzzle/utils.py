@@ -5,7 +5,8 @@ Created on Jan 30, 2012
 '''
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.template.loader import render_to_string
+from puzzlaef.puzzle.models import Puzzle
 
 class PictureThumb:
     
@@ -28,11 +29,13 @@ class PictureGrid():
             pictureStrings.append(picture.getAsString())
         return render_to_string("puzzle/pictureGrid.html", {'pictureSet':pictureStrings})
     
-def make_new_puzzle(username):
-    #TODO: Wissam
-    puzzle = Puzzle()
-    puzzle.user = username
-    return puzzle.id
+def make_new_puzzle(player1, player2):
+	#TODO: Wissam
+	puzzle = Puzzle()
+	puzzle.player1 = player1
+	puzzle.player2 = User.objects.get(username=player2)
+	puzzle.save()
+	return puzzle.id
     
 def getThemes():
     list = Photo.objects.filter(isTheme=True)

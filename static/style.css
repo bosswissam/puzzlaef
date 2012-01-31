@@ -152,10 +152,13 @@ div.button.blend-in-gray.selected {
 }
 
 .helper-text {
-	width:100%;
-	text-align: center;
+	width:700px;
+	text-align: left;
 	padding: 30px;
 	color: #333;
+	margin: 0px auto;
+	background-color: rgba(60, 161, 255, 0.15);
+	border-radius: 0 0 15px 15px;
 }
 
 #map_canvas {
@@ -198,6 +201,8 @@ div.thumbWrapper {
 	box-shadow: 0px 0px 5px #333;
 	-moz-box-shadow: 0px 0px 5px #333;
 	-webkit-box-shadow: 0px 0px 5px #333;
+	width: 200px;
+	height: 200px;
 }
 
 img.thumb.selected {
@@ -223,28 +228,57 @@ div.thumbLabel.selected {
 
 /********* Puzzle - Puzzle Page ********/
 
+#puzzle-view {
+	margin: 20px auto;
+	width: 700px;
+	background-color: #EEE;
+	box-shadow: inset 1px 1px 6px #666;
+	-moz-box-shadow: inset 1px 1px 6px #666;
+	-webkit-box-shadow: inset 1px 1px 6px #666;
+	padding-bottom: 20px;
+	text-align: center;
+}
+
+div.piece {
+	width: 620px;
+	display: inline-block;
+}
+
 div.piece-part {
-	float: left;
+	float:left;
+	text-align: center;
+	margin: 30px;
 }
 
-div.piece-part.left {
+
+div.piece-part.left.new {
 	width: 200px;
 	height:200px;
-	background-color: #ddd;
+	background-color: #fff;
+	box-shadow: 0px 0px 5px #777;
+	-moz-box-shadow: 0px 0px 5px #777;
+	-webkit-box-shadow: 0px 0px 5px #777;
 }
 
-div.piece-part.right {
+div.piece-part.right.new {
 	width: 200px;
 	height:200px;
-	background-color: #ddd;
+	background-color: #fff;
+	box-shadow: 0px 0px 5px #777;
+	-moz-box-shadow: 0px 0px 5px #777;
+	-webkit-box-shadow: 0px 0px 5px #777;
 }
 
 div.piece-part.middle {
-	
+	font-family: "snippet", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 100px;
+	color: #3ca1ff;
+	margin: 60px 0 0;
 }
 
 #plus-button {
-	
+	margin: 30px;
+	font-size: 70px;
 }
 
 #question-mark {

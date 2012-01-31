@@ -3,6 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from puzzlaef.forms import UserProfileForm
+from django.core.files.images import ImageFile
+from django.views.decorators.csrf import csrf_protect
+from puzzlaef.forms import UserProfileForm
+from puzzlaef.main.models import UserProfile
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
 PAGES_FULL = PAGES + ['Settings', 'Logout']
@@ -29,3 +33,21 @@ def get_profile_form(request):
 	form = UserProfileForm(data=request.POST)
 	return form
 
+@csrf_protect
+@login_required
+def upload(request):
+       print 'here'
+       if request.method == 'POST':
+               print 'here2'
+               form = UserProfileForm(request.POST, request.FILES)
+               if form.is_valid():
+                       print 'here3'
+                       user_profile = UserProfile.objects.get(user=request.user.id)
+               user_profile.avatar = ImageFile(request.FILES['avatar'])
+               user_profile.save()
+       else:
+               form = UserProfileForm()
+       documents = UserProfile.objects.all()
+       return render_to_response(
+       'pageTemplates/fileupload.html',
+       {}, context_instance=RequestContext(request))
