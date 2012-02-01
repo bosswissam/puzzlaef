@@ -26,14 +26,7 @@ fakePictureSet = [PictureThumb(fakePictureURL,fakePictureURL,fakePictureTitle) f
 def fetch_discover(request):
    list = Puzzle.objects.all()
    results = [x._dict_ for x in list]
-   return simplejson.dumps(result)
-
-@dajaxice_register
-def fetch_themes(request):
-    list = Puzzle.objects.all()
-    dajax = Dajax()
-    dajax.assign('#all-puzzle-themes', 'innerHTML', {})
-    return dajax.json()
+   return simplejson.dumps(result)	
 
 
 fakePictureURL = "http://www.blogcdn.com/www.engadget.com/media/2012/01/2012-01-29-sony200_216x150.jpg"
@@ -72,16 +65,16 @@ pieces = [Piece(photo1,photo2, user1, user2) for i in range(10)]
 
 @dajaxice_register
 def theme_picked(request, puzzle, theme):
-    assertAccess = assert_access(request.user)
-    if(assertAccess):
-        return assertAccess
-        
-    set_puzzle_theme(puzzle, theme)
-    render = render_to_string("puzzle/puzzle.html", { 'pieces': pieces, 'newTurn':True, 'userTurn':True, 'user': 'sinchan' }, context_instance=RequestContext(request))
-    dajax = Dajax()
-    dajax.assign('#page-container', 'innerHTML', render)
-    dajax.script('$(".fileUpload").fileUploader();')
-    return dajax.json()
+	assertAccess = assert_access(request.user)
+	if(assertAccess):
+		return assertAccess
+		
+	set_puzzle_theme(puzzle, theme)
+	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 'pieces': get_puzzle_pieces( puzzle), 'newTurn':True, 'userTurn':True, 'user': 'sinchan' }, context_instance=RequestContext(request))
+	dajax = Dajax()
+	dajax.assign('#page-container', 'innerHTML', render)
+	dajax.script('$(".fileUpload").fileUploader();')
+	return dajax.json()
 
 
 @dajaxice_register
