@@ -58,7 +58,7 @@ def open_puzzle(request, puzzle):
 	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 'pieces': get_puzzle_pieces(puzzle), 'newTurn':True, 'userTurn':True, 'user': 'sinchan' }, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)
-	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; font-size:50px", "id":"plus-button", "label":"+"}));
+	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; font-size:50px", "id":"plus-button", "label":"+", "action":"upload/makeMove"}));
 	return dajax.json()
 
 @dajaxice_register
