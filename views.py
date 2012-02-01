@@ -50,10 +50,12 @@ def make_move(request):
 		puzzle_piece = list[0]
 		if(puzzle_piece == None):
 			print '>>>>>>>>>>>>>>>> empty piece'
+		photo = Photo(image = ImageFile(request.FILES['puzzlaefFile']))
+		photo.save()
 		if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
-			puzzle_piece.photo1 = Photo(ImageFile(request.FILES['puzzlaefFile']))
+			puzzle_piece.photo1 = photo
 		else:
-			puzzle_piece.photo2 = Photo(ImageFile(request.FILES['puzzlaefFile']))
+			puzzle_piece.photo2 = photo
 		
 		puzzle_piece.save()
 		if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
