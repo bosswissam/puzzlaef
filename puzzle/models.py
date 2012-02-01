@@ -67,6 +67,7 @@ class Photo(models.Model):
         self.im_resize()
         
         im = Image.open(self.image.path)
+        self.image.name = slugify(self.image.name)
         im.thumbnail((250,250), Image.ANTIALIAS)
 
         path, fnext = os.path.split(self.image.name)
