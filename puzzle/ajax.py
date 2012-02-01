@@ -69,7 +69,7 @@ def theme_picked(request, puzzle, theme):
 	if(assertAccess):
 		return assertAccess
 		
-	set_puzzle_theme(puzzle, theme)
+	set_puzzle_theme(request, puzzle, theme)
 	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 'pieces': get_puzzle_pieces( puzzle), 'newTurn':True, 'userTurn':True, 'user': 'sinchan' }, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)
