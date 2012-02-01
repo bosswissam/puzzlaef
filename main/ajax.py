@@ -34,30 +34,31 @@ def assert_access(user):
 
 @dajaxice_register
 def send_form(request, form):
-    dajax = Dajax()
-    form = UserProfileForm(form)
-    if form.is_valid():
-        user_profile = UserProfile.objects.get(user=request.user.id)
-        user = User.objects.get(id = request.user.id)
-        user.first_name = form.cleaned_data['first_name']
-        user.last_name = form.cleaned_data['last_name']
-        user_profile.avatar = form.cleaned_data['avatar']
-        user_profile.location = form.cleaned_data['location']
-        user.save()
-        user_profile.save()
-        dajax.remove_css_class('#my_form input', 'error')
-    else:
+	dajax = Dajax()
+	form = UserProfileForm(form)
+	if form.is_valid():
+		user_profile = UserProfile.objects.get(user=request.user.id)
+		user = User.objects.get(id = request.user.id)
+		user.first_name = form.cleaned_data['first_name']
+		user.last_name = form.cleaned_data['last_name']
+		user_profile.avatar = form.cleaned_data['avatar']
+		user_profile.location = form.cleaned_data['location']
+		user.save()
+		user_profile.save()
+		dajax.remove_css_class('#my_form input', 'error')
+	else:
 		dajax.remove_css_class('#my_form input', 'error')
 		for error in form.errors:
 			dajax.add_css_class('#id_%s' % error, 'error')
-    return dajax.json()
+	return dajax.json()
+
 
 @dajaxice_register
 def open_puzzle(request, puzzle):
 	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 'pieces': get_puzzle_pieces(puzzle), 'newTurn':True, 'userTurn':True, 'user': 'sinchan' }, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)
-	dajax.script(render_to_string("puzzle/plusButton.html", {}));
+	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; font-size:50px", "id":"plus-button", "label":"+"}));
 	return dajax.json()
 
 @dajaxice_register

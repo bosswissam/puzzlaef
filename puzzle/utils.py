@@ -6,7 +6,7 @@ Created on Jan 30, 2012
 from django.contrib.auth.models import User
 from django.db import models
 from django.template.loader import render_to_string
-from puzzlaef.puzzle.models import Puzzle, PuzzlePiece
+from puzzlaef.puzzle.models import Puzzle, PuzzlePiece, Photo
 from puzzlaef.main.utils import ResultUser, ResultPiece
 from puzzlaef.main.models import UserProfile
 
@@ -33,35 +33,36 @@ class PictureGrid():
     
 def make_new_puzzle(player1, player2):
 	#TODO: Wissam
-	puzzle = Puzzle()
-	puzzle.player1 = player1
-	puzzle.player2 = User.objects.get(username=player2)
-	puzzle.turn = puzzle.player2
-	puzzle.save()
+    puzzle = Puzzle()
+    puzzle.player1 = player1
+    puzzle.player2 = User.objects.get(username=player2)
+    puzzle.turn = puzzle.player2
+    puzzle.save()
 	
-	piece = PuzzlePiece()
-	piece.puzzle = puzzle
-	piece.save()
+    piece = PuzzlePiece()
+    piece.puzzle = puzzle
+    piece.save()
 
-	return puzzle.id
+    return puzzle.id
 	
 def fetch_user_puzzles(user):
-	list1 = set(Puzzle.objects.filter(player1=user))
-	list2 = set(Puzzle.objects.filter(player2=user))
-	result = list(list1.union(list2))
-	pieceSetsOfPuzzles = {}
-	for x in result:
-		pieceSetsOfPuzzles[x.id] = list(PuzzlePiece.objects.filter(puzzle=x)) 
-	final = []
-	for x in result:
-		if (len(pieceSetsOfPuzzles[x.id]) and pieceSetsOfPuzzles[x.id][0] and pieceSetsOfPuzzles[x.id][0].photo1 and pieceSetsOfPuzzles[x.id][0].photo2):
+    list1 = set(Puzzle.objects.filter(player1=user))
+    list2 = set(Puzzle.objects.filter(player2=user))
+    result = list(list1.union(list2))
+    pieceSetsOfPuzzles = {}
+    for x in result:
+	   pieceSetsOfPuzzles[x.id] = list(PuzzlePiece.objects.filter(puzzle=x)) 
+    final = []
+    for x in result:
+        print pieceSetsOfPuzzles
+        if (len(pieceSetsOfPuzzles[x.id]) and pieceSetsOfPuzzles[x.id][0] and pieceSetsOfPuzzles[x.id][0].photo1 and pieceSetsOfPuzzles[x.id][0].photo2):
 			photo1 = pieceSetsOfPuzzles[x.id][0].photo1
 			photo2 = pieceSetsOfPuzzles[x.id][0].photo2
-		else:
+        else:
 			photo1 = None
 			photo2 = None
 
-		final.append(ResultPiece(x.id,
+        final.append(ResultPiece(x.id,
 								photo1, 
 								photo2,
 								x.player1.username,
@@ -76,7 +77,7 @@ def getThemes():
     return result
 
 
-def set_puzzle_theme(puzzle, theme):
+def set_puzzle_theme(reuest, puzzle, theme):
     puz = Puzzle.objects.get(id = puzzle)
     puz.title = theme
     puz.save()

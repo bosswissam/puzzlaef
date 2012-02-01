@@ -56,10 +56,10 @@ class Photo(models.Model):
     title = models.CharField(max_length=200)
     width = models.IntegerField()
     height = models.IntegerField()
-    isTheme = models.BooleanField();
+    isTheme = models.BooleanField(default = False);
     title_slug = models.SlugField(help_text=('A "slug" is a unique URL-friendly title for an object.'))
     image = models.ImageField(upload_to=get_image_path, height_field='height', width_field='width')
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name = "user")
 
     def save(self, *args, **kwargs):
         super(Photo, self).save(*args, **kwargs)
@@ -113,11 +113,11 @@ class Puzzle(models.Model):
     player1 = models.ForeignKey(User, related_name = "palyer 1")
     player2 = models.ForeignKey(User, related_name = "player 2")
     turn = models.ForeignKey(User, related_name = "player turn")
-    theme_picture = models.ForeignKey(Photo, related_name = "theme photo")
+    theme_picture = models.ForeignKey(Photo, related_name = "theme photo", null = True)
 
 class PuzzlePiece(models.Model):
     helper = models.ForeignKey(User, null=True)
-    puzzle = models.ForeignKey(Puzzle)
-    photo1 = models.ForeignKey(Photo, related_name ="photo 1")
-    photo2 = models.ForeignKey(Photo, related_name ="photo 2")
+    puzzle = models.ForeignKey(Puzzle, related_name="puzzle")
+    photo1 = models.ForeignKey(Photo, related_name ="photo 1", null = True)
+    photo2 = models.ForeignKey(Photo, related_name ="photo 2", null = True)
     needs_help = models.BooleanField()
