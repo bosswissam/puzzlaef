@@ -43,7 +43,7 @@ def start_puzzle(request, username):
 	render = render_to_string("puzzle/pickTheme.html", {"startWith":username, 'pictureGrid': pictureGrid}, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)
-	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; width: 200px; margin-left: auto; margin-right: auto; padding: 20px 0 0; font-size:15px", "id":"file-uploader", "label":"Upload your Own Theme", "action":"upload/theme"}));
+	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; width: 200px; margin-left: auto; margin-right: auto; padding: 20px; font-size:15px", "id":"file-uploader", "label":"Upload your Own Theme", "action":"upload/theme"}));
 	dajax.script("initialize_pick_theme('"+ str(puzzle_id) +"')")
 	return dajax.json()
 
