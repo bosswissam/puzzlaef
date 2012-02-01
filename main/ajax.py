@@ -55,9 +55,7 @@ def send_form(request, form):
 
 @dajaxice_register
 def open_puzzle(request, puzzle):
-	print puzzle
-	print get_puzzle_pieces(puzzle)
-	print 'OOOOSOSOSOSOSOSO', len(get_puzzle_pieces(puzzle))
+	request.session["puzzle_id"] = puzzle
 	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 'pieces': get_puzzle_pieces(puzzle), 'newTurn':True, 'userTurn':True, 'user': User.objects.get(id=request.user.id).username }, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)

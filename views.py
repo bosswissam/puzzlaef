@@ -44,20 +44,20 @@ def get_profile_form(request):
 @login_required
 def make_move(request):
 	if request.method == 'POST':
-		puzzle_piece = PuzzlePiece.objects.get(user=request.user.id)
+		puzzle_id = request.session["puzzle_id"]
+		puzzle_piece = PuzzlePiece.objects.filter(puzzle=puzzle_id)[-1]
 		if(puzzle_piece == None):
-			puzzle_piece = PuzzlePiece()
-		if(puzzle_piece.puzzle.player1==request.user.id):
-			x = request.user
-			puzzle_piece.photo1 = request.FILES['puzzlaefFile']
+			print '>>>>>>>>>>>>>>>> empty piece'
+		if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
+			puzzle_piece.photo1 = Photo(ImageFile(request.FILES['puzzlaefFile']))
 		else:
-			x = puzzle_piece.puzzle.player2
-			puzzle_piece.photo2 = request.FILES['puzzlaefFile']
+			puzzle_piece.photo2 = Photo(ImageFile(request.FILES['puzzlaefFile']))
+		
 		puzzle_piece.save()
-		if(puzzle_piece.puzzle.turn == request.user.id):
+		if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
 			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
 		else:
-			puzzle_piece.puzzle.turn = request.user.id
+			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player1
 		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, x.email, fail_silently=False)
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
