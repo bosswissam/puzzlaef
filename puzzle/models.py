@@ -113,11 +113,11 @@ class Puzzle(models.Model):
     player1 = models.ForeignKey(User, related_name = "palyer 1")
     player2 = models.ForeignKey(User, related_name = "player 2")
     turn = models.ForeignKey(User, related_name = "player turn")
-    theme_picture = Photo()
+    theme_picture = models.ForeignKey(Photo, related_name = "theme photo")
 
 class PuzzlePiece(models.Model):
     helper = models.ForeignKey(User, null=True)
     puzzle = models.ForeignKey(Puzzle)
-    photo1 = Photo()
-    photo2 = Photo()
+    photo1 = models.ForeignKey(Photo, related_name ="photo 1")
+    photo2 = models.ForeignKey(Photo, related_name ="photo 2")
     needs_help = models.BooleanField()
