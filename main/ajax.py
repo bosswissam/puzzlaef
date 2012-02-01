@@ -75,7 +75,7 @@ def changePage(request, newPage):
 		
 	elif (newPage == PAGES_FULL[1]):
 		template = PAGES_LOCATIONS[1]
-		list = Puzzle.objects.all()
+		list = Puzzle.objects.filter(title__isnull=True)
 		render = render_to_string(template, {'list':list}, context_instance=RequestContext(request))
 		
 	elif (newPage == PAGES_FULL[2]):
