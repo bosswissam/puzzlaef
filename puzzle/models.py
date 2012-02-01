@@ -51,7 +51,7 @@ except ImportError:
 #    admin = models.ForeignKey(Member, help_text = 'Administrator of this event')
 
 def get_image_path(instance, filename):
-    return os.path.join('photos', str(instance.user.username), '' + time.strftime("%Y-%m-%d-") + filename)
+    return os.path.join('photos', str(instance.user.username), '' + time.strftime("%Y-%m-%d-") + slugify(filename))
 
 class Photo(models.Model):
     title = models.CharField(max_length=200)
