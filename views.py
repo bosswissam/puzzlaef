@@ -88,6 +88,7 @@ def upload_theme(request):
 		photo = Photo()
 		photo.image = theme
 		photo.user = User.objects.get(id=request.user.id)
+		photo.title = theme.name
 		photo.isTheme = True
 		print photo
 		photo.save()
