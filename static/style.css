@@ -271,9 +271,10 @@ div.thumbLabel {
 	text-align: center;
 	background-color: rgba(255,109,109, 0.75);
 	padding: 5px;
-	margin: -35px -10px;
+	margin: -24px -10px;
 	border-radius: 4px;
 	position: relative;
+	font-weight: bold;
 }
 
 div.thumbLabel.selected {
@@ -330,13 +331,18 @@ div.piece-part.middle {
 	margin: 60px 0 0;
 }
 
+div.puzzleThumb{
+	margin: -4px -10px;
+}
+
 #plus-button {
 	margin: 30px;
 	font-size: 70px;
 }
 
 #question-mark {
-	
+	margin: 30px;
+	font-size: 70px;
 }
 
 /******** Login/Registration *******/
