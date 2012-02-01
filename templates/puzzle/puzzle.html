@@ -11,7 +11,7 @@ the more honor and glory you will get in addition to the awesomeness that cultur
 		
 		{% if newTurn and userTurn %}
 			<div class="piece-part left new">
-				<form  action="upload/profile" method="post" enctype="multipart/form-data">
+				<form  action="/puzzlaef/upload/profile" method="post" enctype="multipart/form-data">
 				{% csrf_token %}
 					<input type="file" name="photo1" style="display:inline-block" class="fileUpload"><br /> 
 

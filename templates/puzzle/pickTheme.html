@@ -5,7 +5,7 @@
 	Don't worry, you can change the theme later in the Puzzlaef too.
 </div>
 
-<form  action="upload/theme" method="post" enctype="multipart/form-data">
+<form  action="/puzzlaef/upload/theme" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 	<input type="file" name="new_theme" style="display:inline-block" class="fileUpload"><br /> 
  
