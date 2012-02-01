@@ -44,17 +44,15 @@ def get_profile_form(request):
 @login_required
 def make_move(request):
 	if request.method == 'POST':
-		form = PuzzlePieceForm(request.POST, request.FILES)
-		if form.is_valid():
-			puzzle_piece = puzzle_piece.objects.get(user=request.user.id)
-			if(puzzle_piece == None):
-				puzzle_piece = PuzzlePiece()
-			if(puzzle_piece.puzzle.player1==request.user.id):
-				x = request.user
-				puzzle_piece.photo1 = request.FILES['puzzlaefFile']
-			else:
-				x = puzzle_piece.puzzle.player2
-				puzzle_piece.photo2 = request.FILES['puzzlaefFile']
+		puzzle_piece = puzzle_piece.objects.get(user=request.user.id)
+		if(puzzle_piece == None):
+			puzzle_piece = PuzzlePiece()
+		if(puzzle_piece.puzzle.player1==request.user.id):
+			x = request.user
+			puzzle_piece.photo1 = request.FILES['puzzlaefFile']
+		else:
+			x = puzzle_piece.puzzle.player2
+			puzzle_piece.photo2 = request.FILES['puzzlaefFile']
 		puzzle_piece.save()
 		if(puzzle_piece.puzzle.turn == request.user.id):
 			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
