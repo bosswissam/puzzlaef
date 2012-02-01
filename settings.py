@@ -172,7 +172,7 @@ INSTALLED_APPS = (
 # more details on how to customize your logging configuration.
 import logging
 #logging.basicConfig(level=logging.DEBUG)
->>>>>>> f51aa1df9be94dbc5c0b54dc0b25bf7aff17fc0d
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
