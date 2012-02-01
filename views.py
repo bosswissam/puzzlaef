@@ -52,6 +52,7 @@ def make_move(request):
 			print '>>>>>>>>>>>>>>>> empty piece'
 		photo = Photo(image = ImageFile(request.FILES['puzzlaefFile']))
 		photo.save()
+		print 'here'
 		if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
 			puzzle_piece.photo1 = photo
 		else:

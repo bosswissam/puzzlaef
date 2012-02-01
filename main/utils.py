@@ -13,7 +13,6 @@ class ResultUser(object):
     location = models.CharField()
     
     def __init__(self, user_profile):
-        print 'biatch', user_profile.user.username
         self.username = user_profile.user.username
         self.first_name = user_profile.user.first_name
         self.last_name = user_profile.user.last_name
