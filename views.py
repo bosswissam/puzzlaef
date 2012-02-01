@@ -1,18 +1,19 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.files.images import ImageFile
+from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from puzzlaef.forms import UserProfileForm
-from django.core.files.images import ImageFile
+from django.utils import simplejson
 from django.views.decorators.csrf import csrf_protect
-from puzzlaef.forms import UserProfileForm
+from puzzlaef import EMAIL_HOST_USER
+from puzzlaef.forms import UserProfileForm, UserProfileForm
 from puzzlaef.main.models import UserProfile
-from django.contrib.auth.models import User
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
 from puzzlaef.puzzle.utils import fetch_user_puzzles
-from django.utils import simplejson
-from string import split
 from puzzlaef.settings import STATIC_URL
+from string import split
 
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
@@ -64,6 +65,7 @@ def make_move(request):
 			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
 		else:
 			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player1
+		x = User.objects.get(id=request.user.id)
 		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, x.email, fail_silently=False)
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
