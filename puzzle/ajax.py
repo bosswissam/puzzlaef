@@ -18,10 +18,6 @@ from django.core import serializers
 from django.template.loader import render_to_string
 from django.template import RequestContext
 
-fakePictureURL = "http://www.blogcdn.com/www.engadget.com/media/2012/01/2012-01-29-sony200_216x150.jpg"
-fakePictureTitle = "Great Sunset"
-fakePictureSet = [PictureThumb(fakePictureURL,fakePictureURL,fakePictureTitle) for i in range(15)]
-
 @dajaxice_register
 def fetch_discover(request):
    list = Puzzle.objects.all()
@@ -42,7 +38,7 @@ def start_puzzle(request, username):
     
 	puzzle_id = make_new_puzzle(request.user, username)
     
-	pictureGrid = PictureGrid(fakePictureSet).getGridAsString();
+	pictureGrid = PictureGrid(getThemes()).getGridAsString();
     
 	render = render_to_string("puzzle/pickTheme.html", {"startWith":username, 'pictureGrid': pictureGrid}, context_instance=RequestContext(request))
 	dajax = Dajax()

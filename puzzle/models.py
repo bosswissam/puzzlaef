@@ -9,6 +9,7 @@ from tempfile import *
 from django.contrib.auth.models import User
 from django.db import models
 from django.template.loader import render_to_string
+from puzzlaef.settings import *
 
 import datetime
 import django.core.files.uploadhandler
