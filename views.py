@@ -45,7 +45,9 @@ def get_profile_form(request):
 def make_move(request):
 	if request.method == 'POST':
 		puzzle_id = request.session["puzzle_id"]
-		puzzle_piece = PuzzlePiece.objects.filter(puzzle=puzzle_id)[-1]
+		list = PuzzlePiece.objects.filter(puzzle=puzzle_id)
+		print '>>>>>>>>>>>>>>>>', list, list[0].id
+		puzzle_piece = list[0]
 		if(puzzle_piece == None):
 			print '>>>>>>>>>>>>>>>> empty piece'
 		if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
