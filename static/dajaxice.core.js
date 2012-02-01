@@ -105,7 +105,7 @@ var Dajaxice = {
         send_data.push('argv='+encodeURIComponent(JSON.stringify(argv)));
         send_data = send_data.join('&');
         var oXMLHttpRequest = new XMLHttpRequest;
-        oXMLHttpRequest.open('POST', '/dajaxice/'+dajaxice_function+'/');
+        oXMLHttpRequest.open('POST', '/puzzlaef/dajaxice/'+dajaxice_function+'/');
         oXMLHttpRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         oXMLHttpRequest.setRequestHeader("X-CSRFToken",Dajaxice.get_cookie('csrftoken'));
         oXMLHttpRequest.onreadystatechange = function() {

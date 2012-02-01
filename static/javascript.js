@@ -1,4 +1,4 @@
-var initialize_pick_theme = function( ){
+var initialize_pick_theme = function( username ){
 	
 	$(".thumbWrapper").first().addClass("selected");
 	$(".thumbWrapper").first().children().addClass("selected");
@@ -15,7 +15,7 @@ var initialize_pick_theme = function( ){
 	
 	$('#begin_button').click( function(e){
 		var theme = $("div.thumbWrapper.selected > div").html();
-		Dajaxice.puzzlaef.puzzle.theme_picked(Dajax.process, {'theme':theme});
+		Dajaxice.puzzlaef.puzzle.theme_picked(Dajax.process, {'opponent':username, 'theme':theme});
 	});
 };
 

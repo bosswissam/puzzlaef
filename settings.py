@@ -170,7 +170,9 @@ INSTALLED_APPS = (
 # the site admins on every HTTP 500 error.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
-logging.basicConfig(level=logging.DEBUG)
+import logging
+#logging.basicConfig(level=logging.DEBUG)
+>>>>>>> f51aa1df9be94dbc5c0b54dc0b25bf7aff17fc0d
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
