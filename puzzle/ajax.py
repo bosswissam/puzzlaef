@@ -37,6 +37,7 @@ def start_puzzle(request, username):
 		return assertAccess
     
 	puzzle_id = make_new_puzzle(request.user, username)
+	print 'WLSKDJFLDKJF:SDLKJFLSDKJF:SLKDJF--->>>>>>>>>>>>', puzzle_id
     
 	pictureGrid = PictureGrid(getThemes()).getGridAsString();
     
@@ -67,7 +68,8 @@ def theme_picked(request, puzzle, theme):
 		return assertAccess
 		
 	set_puzzle_theme(request, puzzle, theme)
-	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 'pieces': get_puzzle_pieces( puzzle), 'newTurn':True, 'userTurn':True, 'user': 'sinchan' }, context_instance=RequestContext(request))
+	print 'WLSKDJFLEEEEEJEEJEJJEJEJEJE->>>>>>>>>>>>>>>>', puzzle
+	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 'pieces': get_puzzle_pieces( puzzle), 'newTurn':True, 'userTurn':True, 'user': User.objects.get(id=request.user.id).username }, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)
 	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; font-size:50px", "id":"plus-button", "label":"+", "action":"upload/makeMove"}));

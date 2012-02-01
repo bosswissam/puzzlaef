@@ -20,8 +20,8 @@ class ResultUser(object):
         self.location = user_profile.location
         
 class ResultPiece():
-    def __init__(self, title, piece1, piece2, username1, username2, location1, location2):
-		self.title = title
+    def __init__(self, id, piece1, piece2, username1, username2, location1, location2):
+		self.id = id
 		self.photo1 = piece1
 		self.photo2 = piece2
 		self.username1 = username1

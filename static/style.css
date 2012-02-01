@@ -1,5 +1,5 @@
 html, body {
-	font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif !important;
+	font-family: "Ruluko", Verdana, Arial, Helvetica, sans-serif !important;
 	background-color: #EEE;
 }
 
@@ -179,6 +179,7 @@ div.button.blend-in-gray.selected {
 #play_map_canvas {
 	height: 500px;
     width: 900px;
+	margin-bottom: -20px;
 }
 
 div.puzzles {

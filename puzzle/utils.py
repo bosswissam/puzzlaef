@@ -39,30 +39,29 @@ def make_new_puzzle(player1, player2):
     puzzle.turn = puzzle.player2
     puzzle.save()
 	
-    piece = PuzzlePiece()
-    piece.puzzle = puzzle
+    piece = PuzzlePiece(puzzle=puzzle)
     piece.save()
 
     return puzzle.id
 	
 def fetch_user_puzzles(user):
-    list1 = set(Puzzle.objects.filter(player1=user))
-    list2 = set(Puzzle.objects.filter(player2=user))
-    result = list(list1.union(list2))
-    pieceSetsOfPuzzles = {}
-    for x in result:
-	   pieceSetsOfPuzzles[x.id] = list(PuzzlePiece.objects.filter(puzzle=x)) 
-    final = []
-    for x in result:
-        print pieceSetsOfPuzzles
-        if (len(pieceSetsOfPuzzles[x.id]) and pieceSetsOfPuzzles[x.id][0] and pieceSetsOfPuzzles[x.id][0].photo1 and pieceSetsOfPuzzles[x.id][0].photo2):
+	list1 = set(Puzzle.objects.filter(player1=user.id))
+	list2 = set(Puzzle.objects.filter(player2=user.id))
+	result = list(list1.union(list2))
+	pieceSetsOfPuzzles = {}
+	for x in result:
+		pieceSetsOfPuzzles[x.id] = list(PuzzlePiece.objects.filter(puzzle=x)) 
+	final = []
+	for x in result:
+		print pieceSetsOfPuzzles
+		if (len(pieceSetsOfPuzzles[x.id]) and pieceSetsOfPuzzles[x.id][0] and pieceSetsOfPuzzles[x.id][0].photo1 and pieceSetsOfPuzzles[x.id][0].photo2):
 			photo1 = pieceSetsOfPuzzles[x.id][0].photo1
 			photo2 = pieceSetsOfPuzzles[x.id][0].photo2
-        else:
+		else:
 			photo1 = None
 			photo2 = None
-
-        final.append(ResultPiece(x.id,
+		print 'WLSKDJFLEEEEEJEEJEJJEJEJEJE->>>>>>>>>>>>>>>>', x.id
+		final.append(ResultPiece(x.id,
 								photo1, 
 								photo2,
 								x.player1.username,

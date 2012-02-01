@@ -1,8 +1,33 @@
 
 <div class="title blue"> Discover </div>
 
-	<ul>
-        {% for puzzle in list %}
-            <li>{{ puzzle.title }}</li>
-        {% endfor %}
-    </ul>
+	<div class="helper-text"> 
+		Here are some of the Puzzlaefs that are happening around the world!
+	</div>
+	<div class="puzzles">
+	{% for puzzle in puzzles %}
+		<div class="puzzle">
+			<div class="left-user-info">
+				Sinchan Banerjee<br />
+				Egypt
+			</div>
+			{% if puzzle.photo1 %}
+			<div class="left-photo">
+				<img class="thumb" src="" alt='' height="250" width="250" />
+			</div>
+			{% endif %}
+			<div class="vs-symbol">
+			vs.
+			</div>
+			{% if puzzle.photo2 %}
+			<div class="right-photo">
+				<img class="thumb" src="" alt='' height="250" width="250" />
+			</div>
+			{% endif %}
+			<div class="right-user-info">
+			Wissam Jarjoui<br />
+			Egypt
+			</div>
+		</div>
+	{% endfor %}
+	</div>
