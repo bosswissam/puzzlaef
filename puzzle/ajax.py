@@ -36,16 +36,13 @@ def start_puzzle(request, username):
 	if(assertAccess):
 		return assertAccess
     
-	puzzle_id = make_new_puzzle(request.user, username)
-	request.session["puzzle_id"] = puzzle
-    
 	pictureGrid = PictureGrid(getThemes()).getGridAsString();
     
 	render = render_to_string("puzzle/pickTheme.html", {"startWith":username, 'pictureGrid': pictureGrid}, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)
 	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; width: 200px; margin-left: auto; margin-right: auto; padding: 20px; font-size:15px", "id":"file-uploader", "label":"Upload your Own Theme", "action":"upload/theme"}));
-	dajax.script("initialize_pick_theme('"+ str(puzzle_id) +"')")
+	dajax.script("initialize_pick_theme()")
 	return dajax.json()
 
 class Piece():
@@ -62,13 +59,17 @@ user2 = "wissam"
 pieces = [Piece(photo1,photo2, user1, user2) for i in range(10)]
 
 @dajaxice_register
-def theme_picked(request, puzzle, theme):
+def theme_picked(request, theme):
 	assertAccess = assert_access(request.user)
 	if(assertAccess):
 		return assertAccess
+	username = User.objects.get(id=request.user.id).username 
+	
+	puzzle_id = make_new_puzzle(request.user, username)
+	request.session["puzzle_id"] = puzzle_id
 		
-	set_puzzle_theme(request, puzzle, theme)
-	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 'pieces': get_puzzle_pieces( puzzle), 'newTurn':True, 'userTurn':True, 'user': User.objects.get(id=request.user.id).username }, context_instance=RequestContext(request))
+	set_puzzle_theme(request, puzzle_id, theme)
+	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle_id), 'pieces': get_puzzle_pieces( puzzle_id), 'newTurn':True, 'userTurn':True, 'user': username}, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)
 	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; font-size:50px", "id":"plus-button", "label":"+", "action":"upload/makeMove"}));
