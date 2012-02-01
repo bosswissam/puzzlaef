@@ -33,17 +33,20 @@ class PictureGrid():
     
 def make_new_puzzle(player1, player2):
 	#TODO: Wissam
-	puzzle = Puzzle()
-	puzzle.player1 = player1
-	puzzle.player2 = User.objects.get(username=player2)
-	puzzle.turn = puzzle.player2
-	puzzle.save()
+    puzzle = Puzzle()
+    puzzle.player1 = player1
+    puzzle.player2 = User.objects.get(username=player2)
+    puzzle.turn = puzzle.player2
+    puzzle.theme = Photo(user=puzzle.player1)
+    puzzle.save()
 	
-	piece = PuzzlePiece()
-	piece.puzzle = puzzle
-	piece.save()
+    piece = PuzzlePiece()
+    piece.puzzle = puzzle
+    piece.photo1 = Photo(user=puzzle.player1)
+    piece.photo2 = Photo(user=puzzle.player1)
+    piece.save()
 
-	return puzzle.id
+    return puzzle.id
 	
 def fetch_user_puzzles(user):
 	list1 = set(Puzzle.objects.filter(player1=user))
@@ -76,9 +79,10 @@ def getThemes():
     return result
 
 
-def set_puzzle_theme(puzzle, theme):
+def set_puzzle_theme(reuest, puzzle, theme):
     puz = Puzzle.objects.get(id = puzzle)
     puz.title = theme
+    puz.theme = Photo(user=request.user.id)
     puz.save()
     pass
     
