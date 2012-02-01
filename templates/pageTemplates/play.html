@@ -9,7 +9,7 @@
 <div id="current-puzzles-wrapper">
 	<div class="title blue"> Your Current Puzzleafs </div>
 
-	{% ifequal puzzles empty %}
+	{% if empty %}
 		<div class="helper-text"> 
 			You don't have any Puzzlaefs at the moment! <br />
 			Type in a location in the box above and play a Puzzlaef someone in a culture that intreagues you!
@@ -44,11 +44,11 @@
 				{{puzzle.username2}}<br />
 				{{puzzle.location2}}
 				</div>
-				<div class="button blue" onclick="Dajaxice.puzzlaef.main.open_puzzle(Dajax.process,{'puzzle':{{ puzzle.title }}})" style="margin-top: 60px; padding: 10px">Play</div>
+				<div class="button blue" onclick="Dajaxice.puzzlaef.main.open_puzzle(Dajax.process,{'puzzle':{{ puzzle.id }}})" style="margin-top: 60px; padding: 10px">Play</div>
 			</div>
 		{% endfor %}
 		</div>
-	{% endifequal %}
+	{% endif %}
 </div>
 
 

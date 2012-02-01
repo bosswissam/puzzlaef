@@ -22,7 +22,8 @@ def start(request):
 	if request.user.is_authenticated():
 	    # TODO: show profile
 		form = UserProfileForm(data=request.POST)
-		return render_to_response('pageTemplates/page_layout.html', {'pages': PAGES, 'current_page': PAGES_FULL[0], 'current_page_template': PAGES_LOCATIONS[0], 'puzzles': fetch_user_puzzles(request.user) },  context_instance=RequestContext(request))
+		puzzles = fetch_user_puzzles(request.user)
+		return render_to_response('pageTemplates/page_layout.html', {'pages': PAGES, 'current_page': PAGES_FULL[0], 'current_page_template': PAGES_LOCATIONS[0], 'puzzles': fetch_user_puzzles(request.user), 'empty': len(puzzles)==0 },  context_instance=RequestContext(request))
 	else:
 	    return HttpResponseRedirect('/accounts/login/')
 
