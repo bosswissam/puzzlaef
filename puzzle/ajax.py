@@ -36,19 +36,20 @@ fakePictureSet = [PictureThumb(fakePictureURL,fakePictureURL,fakePictureTitle) f
 
 @dajaxice_register
 def start_puzzle(request, username):
-    assertAccess = assert_access(request.user)
-    if(assertAccess):
-        return assertAccess
+	assertAccess = assert_access(request.user)
+	if(assertAccess):
+		return assertAccess
     
-    puzzle_id = make_new_puzzle(request.user, username)
+	puzzle_id = make_new_puzzle(request.user, username)
     
-    pictureGrid = PictureGrid(fakePictureSet).getGridAsString();
+	pictureGrid = PictureGrid(fakePictureSet).getGridAsString();
     
-    render = render_to_string("puzzle/pickTheme.html", {"startWith":username, 'pictureGrid': pictureGrid}, context_instance=RequestContext(request))
-    dajax = Dajax()
-    dajax.assign('#page-container', 'innerHTML', render)
-    dajax.script("initialize_pick_theme('"+ str(puzzle_id) +"')")
-    return dajax.json()
+	render = render_to_string("puzzle/pickTheme.html", {"startWith":username, 'pictureGrid': pictureGrid}, context_instance=RequestContext(request))
+	dajax = Dajax()
+	dajax.assign('#page-container', 'innerHTML', render)
+	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; width: 200px; margin: auto; padding: 20px 0 0; font-size:15px", "id":"file-uploader", "label":"Upload your Own Theme"}));
+	dajax.script("initialize_pick_theme('"+ str(puzzle_id) +"')")
+	return dajax.json()
 
 class Piece():
 	def __init__(self, piece1, piece2, user1, user2):
@@ -73,7 +74,7 @@ def theme_picked(request, puzzle, theme):
 	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 'pieces': get_puzzle_pieces( puzzle), 'newTurn':True, 'userTurn':True, 'user': 'sinchan' }, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)
-	dajax.script(render_to_string("puzzle/plusButton.html", {}));
+	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; font-size:50px", "id":"plus-button", "label":"+"}));
 	return dajax.json()
 
 
