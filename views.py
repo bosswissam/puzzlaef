@@ -12,6 +12,7 @@ from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
 from puzzlaef.puzzle.utils import fetch_user_puzzles
 from django.utils import simplejson
 from string import split
+from puzzlaef.settings import STATIC_URL
 
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']

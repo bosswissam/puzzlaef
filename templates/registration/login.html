@@ -6,13 +6,13 @@
 	
 {% block content %}
 
- {% if error_message %}
-     <p class="errornote">{{ error_message }}</p>
- {% endif %}
  <div id="login-content">
 	<div id="logo-big"><span class="red-text">Puzzl<span class="blue-text">æ</span>f</span></div>
 
 	{% block form %}
+	 {% if error_message %}
+     <p class="errornote" align="center">{{ error_message }}</p>
+ 	{% endif %}
 	 <form class="form" action="{{ app_path }}" method="post">{% csrf_token %}
 	     <div class="form-row">
 	         <input type="text" name="username" id="id_username" placeholder="Username..." />
