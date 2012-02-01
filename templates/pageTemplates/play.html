@@ -24,12 +24,12 @@
 		{% for puzzle in puzzles %}
 			<div class="puzzle">
 				<div class="left-user-info">
-					Sinchan Banerjee<br />
-					Egypt
+					{{puzzle.username1}}<br />
+					{{puzzle.location1}}
 				</div>
 				{% if puzzle.photo1 %}
 				<div class="left-photo">
-					<img class="thumb" src="" alt='' height="250" width="250" />
+					<img class="thumb" src="{{ puzzle.photo1 }}" alt='' height="250" width="250" />
 				</div>
 				{% endif %}
 				<div class="vs-symbol">
@@ -37,12 +37,12 @@
 				</div>
 				{% if puzzle.photo2 %}
 				<div class="right-photo">
-					<img class="thumb" src="" alt='' height="250" width="250" />
+					<img class="thumb" src="{{ puzzle.photo2 }}" alt='' height="250" width="250" />
 				</div>
 				{% endif %}
 				<div class="right-user-info">
-				Wissam Jarjoui<br />
-				Egypt
+				{{puzzle.username2}}<br />
+				{{puzzle.location2}}
 				</div>
 				<div class="button blue" onclick="Dajaxice.puzzlaef.main.open_puzzle(Dajax.process,{'puzzle':{{ puzzle.title }}})" style="margin-top: 60px; padding: 10px">Play</div>
 			</div>

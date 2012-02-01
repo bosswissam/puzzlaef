@@ -39,8 +39,7 @@ def make_new_puzzle(player1, player2):
     puzzle.turn = puzzle.player2
     puzzle.save()
 	
-    piece = PuzzlePiece()
-    piece.puzzle = puzzle
+    piece = PuzzlePiece(puzzle=puzzle)
     piece.save()
 
     return puzzle.id

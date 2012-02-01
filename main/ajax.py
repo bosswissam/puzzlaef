@@ -55,7 +55,7 @@ def send_form(request, form):
 
 @dajaxice_register
 def open_puzzle(request, puzzle):
-	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 'pieces': get_puzzle_pieces(puzzle), 'newTurn':True, 'userTurn':True, 'user': 'sinchan' }, context_instance=RequestContext(request))
+	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 'pieces': get_puzzle_pieces(puzzle), 'newTurn':True, 'userTurn':True, 'user': get_puzzle(puzzle).username1 }, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)
 	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; font-size:50px", "id":"plus-button", "label":"+", "action":"upload/makeMove"}));
@@ -75,8 +75,7 @@ def changePage(request, newPage):
 		
 	elif (newPage == PAGES_FULL[1]):
 		template = PAGES_LOCATIONS[1]
-		list = Puzzle.objects.filter(title__isnull=True)
-		render = render_to_string(template, {'list':list}, context_instance=RequestContext(request))
+		render = render_to_string(template, {'puzzles': fetch_user_puzzles(request.user), 'empty': []},  context_instance=RequestContext(request))
 		
 	elif (newPage == PAGES_FULL[2]):
 		template = PAGES_LOCATIONS[2]
