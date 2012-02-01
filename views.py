@@ -44,7 +44,7 @@ def get_profile_form(request):
 @login_required
 def make_move(request):
 	if request.method == 'POST':
-		puzzle_piece = puzzle_piece.objects.get(user=request.user.id)
+		puzzle_piece = PuzzlePiece.objects.get(user=request.user.id)
 		if(puzzle_piece == None):
 			puzzle_piece = PuzzlePiece()
 		if(puzzle_piece.puzzle.player1==request.user.id):
