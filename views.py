@@ -59,8 +59,10 @@ def make_move(request):
 		else:
 			puzzle_piece.puzzle.turn = request.user.id
 		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, x.email, fail_silently=False)
+		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		form = PuzzlePieceForm()
+		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
 		
 
 @csrf_protect
@@ -89,6 +91,8 @@ def upload_theme(request):
 		photo.isTheme = True
 		print photo
 		photo.save()
+		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		form = UserProfileForm()
-	pass
+		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
+	
