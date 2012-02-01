@@ -9,39 +9,19 @@ from puzzlaef.forms import UserProfileForm
 from puzzlaef.main.models import UserProfile
 from django.contrib.auth.models import User
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
-from puzzlaef.main.utils import ResultUser, ResultPiece
+from puzzlaef.puzzle.utils import fetch_user_puzzles
+from django.utils import simplejson
 
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
 PAGES_FULL = PAGES + ['Settings', 'Logout']
 PAGES_LOCATIONS = ['pageTemplates/play.html', 'pageTemplates/discover.html', 'pageTemplates/helpPuzzlaef.html', 'pageTemplates/profile.html', 'registration/logout.html']
-
-def fetch_user_puzzles(request):
-	list1 = set(Puzzle.objects.filter(player1=request.user))
-	list2 = set(Puzzle.objects.filter(player2=request.user))
-	result = list(list1.union(list2))
-	puzzle_pieces1 = [PuzzlePiece.objects.filter(puzzle=x) for x in result]
-	puzzle_pieces = [x for x in puzzle_pieces1 if not len(x)==0]
-	final = [ResultPiece(result[x].id,
-						puzzle_pieces[x].photo1, 
-						puzzle_pieces[x].photo2,
-						result[x].player1.username,
-						result[x].player2.username,
-						UserProfile.objects.get(user=result[x].player1).location,
-						UserProfile.objects.get(user=result[x].player2).location) for x in range(len(puzzle_pieces))]
-	if len(final)==0:
-		final = [ResultPiece(result[x].id, None, None,
-							result[x].player1.username,
-							result[x].player2.username,
-							UserProfile.objects.get(user=result[x].player1).location,
-							UserProfile.objects.get(user=result[x].player2).location) for x in range(len(result))]
-	return final
 	
 def start(request):
 	if request.user.is_authenticated():
 	    # TODO: show profile
 		form = UserProfileForm(data=request.POST)
-		return render_to_response('pageTemplates/page_layout.html', {'pages': PAGES, 'current_page': PAGES_FULL[0], 'current_page_template': PAGES_LOCATIONS[0], 'puzzles': fetch_user_puzzles(request) },  context_instance=RequestContext(request))
+		return render_to_response('pageTemplates/page_layout.html', {'pages': PAGES, 'current_page': PAGES_FULL[0], 'current_page_template': PAGES_LOCATIONS[0], 'puzzles': fetch_user_puzzles(request.user) },  context_instance=RequestContext(request))
 	else:
 	    return HttpResponseRedirect('/accounts/login/')
 
@@ -58,6 +38,7 @@ def get_profile_form(request):
 	form = UserProfileForm(data=request.POST)
 	return form
 
+@csrf_protect
 @login_required
 def make_move(request):
 	if request.method == 'POST':
@@ -68,10 +49,10 @@ def make_move(request):
 				puzzle_piece = PuzzlePiece()
 			if(puzzle_piece.puzzle.player1==request.user.id):
 				x = request.user
-				puzzle_piece.photo1 = request.FILES['photo1']
+				puzzle_piece.photo1 = request.FILES['puzzlaefFile']
 			else:
 				x = puzzle_piece.puzzle.player2
-				puzzle_piece.photo2 = request.FILES['photo2']
+				puzzle_piece.photo2 = request.FILES['puzzlaefFile']
 		puzzle_piece.save()
 		if(puzzle_piece.puzzle.turn == request.user.id):
 			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
@@ -89,17 +70,19 @@ def upload_profile(request):
 		form = UserProfileForm(request.POST, request.FILES)
 		if form.is_valid():
 			user_profile = UserProfile.objects.get(user=request.user.id)
-		user_profile.avatar = ImageFile(request.FILES['avatar'])
+		user_profile.avatar = ImageFile(request.FILES['puzzlaefFile'])
 		user_profile.save()
+		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		form = UserProfileForm()
-	pass
+		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
+	
 
 @csrf_protect
 @login_required
 def upload_theme(request):
 	if request.method == 'POST':
-		theme = ImageFile(request.FILES['new_theme'])
+		theme = ImageFile(request.FILES['puzzlaefFile'])
 		photo = Photo()
 		photo.image = theme
 		photo.user = User.objects.get(id=request.user.id)

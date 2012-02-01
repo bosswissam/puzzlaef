@@ -26,8 +26,18 @@ var start_puzzle = function(_with){
 	}, {'username': _with});
 };
 
-var initialize = function(id) {
-	$('.fileUpload').fileUploader();
+var initialize = function(id) {        
+	var uploader = new qq.FileUploader({
+	    element: document.getElementById('file-uploader'),
+	    action: 'upload/profile',
+		allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+		template: '<div class="qq-uploader">' + 
+                '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+                '<div class="qq-upload-button button red">Upload your Profile Picture</div>' +
+                '<ul class="qq-upload-list"></ul>' + 
+             '</div>',
+	    debug: true
+	});
 	
 	var avatar = document.getElementById('id_avatar');
 	avatar.setAttribute("hidden", "true");
@@ -182,6 +192,7 @@ var initiate_play_search = function(){
 };
 
 var change_page = function(event){
+	console.log("clicked!");
 	var pageClickedTarget = $(event.target);
 	var pageClicked = pageClickedTarget.html();
 	var currentPage = $('.selected').html();
@@ -202,7 +213,7 @@ var change_page = function(event){
 
 $(document).ready(function() {
 	if($(".nav-page-element")){
-		$(".nav-page-element").click(change_page);
+		$(".nav-page-element").mousedown(change_page);
 	}
 	
 	if ($(".registrationForm #my_form")) {
