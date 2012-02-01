@@ -1,4 +1,4 @@
-from puzzlaef.views import start, show_profile, upload_profile, upload_theme
+from puzzlaef.views import *
 from django.conf import settings
 from puzzlaef.dajaxice.core import dajaxice_autodiscover
 from django.conf.urls.defaults import patterns, include, url
@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
 
     url(r'^$', start), 
+	url(r'^upload/makeMove', make_move()),
 	url(r'^upload/profile', upload_profile),
     url(r'^upload/theme', upload_theme),
     url(r'^admin/', include(admin.site.urls)),
