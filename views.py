@@ -10,6 +10,7 @@ from puzzlaef.main.models import UserProfile
 from django.contrib.auth.models import User
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
 from puzzlaef.puzzle.utils import fetch_user_puzzles
+from django.utils import simplejson
 
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
@@ -37,6 +38,7 @@ def get_profile_form(request):
 	form = UserProfileForm(data=request.POST)
 	return form
 
+@csrf_protect
 @login_required
 def make_move(request):
 	if request.method == 'POST':
@@ -47,10 +49,10 @@ def make_move(request):
 				puzzle_piece = PuzzlePiece()
 			if(puzzle_piece.puzzle.player1==request.user.id):
 				x = request.user
-				puzzle_piece.photo1 = request.FILES['photo1']
+				puzzle_piece.photo1 = request.FILES['puzzlaefFile']
 			else:
 				x = puzzle_piece.puzzle.player2
-				puzzle_piece.photo2 = request.FILES['photo2']
+				puzzle_piece.photo2 = request.FILES['puzzlaefFile']
 		puzzle_piece.save()
 		if(puzzle_piece.puzzle.turn == request.user.id):
 			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
@@ -68,17 +70,19 @@ def upload_profile(request):
 		form = UserProfileForm(request.POST, request.FILES)
 		if form.is_valid():
 			user_profile = UserProfile.objects.get(user=request.user.id)
-		user_profile.avatar = ImageFile(request.FILES['avatar'])
+		user_profile.avatar = ImageFile(request.FILES['puzzlaefFile'])
 		user_profile.save()
+		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		form = UserProfileForm()
-	pass
+		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
+	
 
 @csrf_protect
 @login_required
 def upload_theme(request):
 	if request.method == 'POST':
-		theme = ImageFile(request.FILES['new_theme'])
+		theme = ImageFile(request.FILES['puzzlaefFile'])
 		photo = Photo()
 		photo.image = theme
 		photo.user = User.objects.get(id=request.user.id)

@@ -73,8 +73,10 @@ def theme_picked(request, puzzle, theme):
 	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 'pieces': get_puzzle_pieces( puzzle), 'newTurn':True, 'userTurn':True, 'user': 'sinchan' }, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)
-	dajax.script('$(".fileUpload").fileUploader();')
+	dajax.script(render_to_string("puzzle/plusButton.html", {}));
 	return dajax.json()
+
+
 
 
 @dajaxice_register

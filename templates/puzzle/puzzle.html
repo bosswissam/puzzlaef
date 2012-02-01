@@ -5,19 +5,16 @@ and adding a picture that you or someone else in your country has taken. The rou
 the more honor and glory you will get in addition to the awesomeness that cultural understanding is.
 </div>
 <div id="puzzle-view">
+<form id="hidden_form" style="display:none">
+{% csrf_token %}
+</form>
 {% for piece in pieces %}
 	<div class="piece">
 	{% if forloop.first %}
 		
 		{% if newTurn and userTurn %}
 			<div class="piece-part left new">
-				<form  action="upload/profile" method="post" enctype="multipart/form-data">
-				{% csrf_token %}
-					<input type="file" name="photo1" style="display:inline-block" class="fileUpload"><br /> 
-
-					<button class="" id="px-submit" type="submit">Upload Response!</button>
-					<button class="" id="px-clear" type="reset">Cancel</button>
-				</form>
+				<div id="plus-button">+</div>
 				Its your turn! Add your Picture Response!
 			</div>
 			<div class="piece-part middle">æ</div>
