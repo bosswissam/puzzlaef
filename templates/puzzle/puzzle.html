@@ -1,23 +1,20 @@
-<div class="title blue">Puzzlaef: {{pieces.0.user1}} vs {{pieces.1.user2}} </div>
+<div class="title blue">Puzzlaef: {{puzzle.player1}} vs {{puzzle.player2}} </div>
 <div class="helper-text">
 Welcome to this epic Puzzleaf! You must match your opponents picture by pressing on the plus sign 
 and adding a picture that you or someone else in your country has taken. The rounds you play,
 the more honor and glory you will get in addition to the awesomeness that cultural understanding is.
 </div>
 <div id="puzzle-view">
+<form id="hidden_form" style="display:none">
+{% csrf_token %}
+</form>
 {% for piece in pieces %}
 	<div class="piece">
 	{% if forloop.first %}
 		
 		{% if newTurn and userTurn %}
 			<div class="piece-part left new">
-				<form  action="/puzzlaef/upload/profile" method="post" enctype="multipart/form-data">
-				{% csrf_token %}
-					<input type="file" name="photo1" style="display:inline-block" class="fileUpload"><br /> 
-
-					<button class="" id="px-submit" type="submit">Upload Response!</button>
-					<button class="" id="px-clear" type="reset">Cancel</button>
-				</form>
+				<div id="plus-button">+</div>
 				Its your turn! Add your Picture Response!
 			</div>
 			<div class="piece-part middle">æ</div>

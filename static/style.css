@@ -67,10 +67,9 @@ html, body {
 }
 
 #profilePictureUploadWrapper {
-	width: 400px;
-	margin: auto;
-	text-align: center;
-	padding: 20px;
+	width: 100px;
+	margin: 20px auto;
+	padding-bottom: 40px;
 }
 
 /******** Navigation ********/
@@ -196,7 +195,7 @@ div.puzzle {
 }
 
 div.puzzle > *{
-	padding: 20px;
+	padding: 10px;
 }
 
 div.left-user-info {

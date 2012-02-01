@@ -1,0 +1,13 @@
+var uploader = new qq.FileUploader({
+    element: document.getElementById('plus-button'),
+    action: 'upload/profile',
+	allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+	template: '<div class="qq-uploader">' + 
+            '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+            '<div class="qq-upload-button button blue" style="float:none; font-size:50px">+</div>' +
+            '<ul class="qq-upload-list"></ul>' + 
+         '</div>',
+    debug: true
+});
+
+

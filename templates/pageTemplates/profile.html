@@ -2,17 +2,17 @@
 <div class="title red"> Edit Profile </div>
 
 <div id="profilePictureUploadWrapper">
-<form  action="upload/profile" method="post" enctype="multipart/form-data">
-{% csrf_token %}
-	<input type="file" name="avatar" style="display:inline-block" class="fileUpload"><br /> 
- 
-	<button class="" id="px-submit" type="submit">Upload Profile Picture</button>
-	<button class="" id="px-clear" type="reset">Cancel</button>
-</form>
+<div id="file-uploader">	
+		       
+</div>
 </div>
 
+<form id="hidden_form" style="display:none">
+{% csrf_token %}
+</form>
+
 <form id="my_form" accept-charset="utf-8" class="form" enctype="multipart/form-data" method="post" action="">
-{{ form.as_p }}
+{{ form.as_p }} 
 <div id="map_canvas"></div>
 <p><input class="button red shift-right" style="float:none;" type="button" value="Save" onclick="send_form();"></p>
 </form>
