@@ -92,7 +92,7 @@ html, body {
 
 .nav-page-element {
 	margin: 20px 15px 0 !important;
-	font-family: "Snippet", Verdana, Arial, Helvetica, sans-serif;
+	font-family: "Snippet", Verdana, Arial, Helvetica, sans-serif !important;
 	font-size: 15px !important;
 	text-shadow: #CCC 1px 1px 2px;
 	text-align: center;
@@ -308,7 +308,7 @@ div.piece-part {
 div.piece-part.left.new {
 	width: 200px;
 	height:200px;
-	background-color: #fff; s
+	background-color: #fff;
 	box-shadow: 0px 0px 5px #777;
 	-moz-box-shadow: 0px 0px 5px #777;
 	-webkit-box-shadow: 0px 0px 5px #777;
@@ -444,6 +444,7 @@ textarea:focus {
 	-webkit-transition: background-color 0.2s ease-in-out;
 	cursor: pointer !important;
 	float: left;
+	font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
 }
 
 .button.red {
