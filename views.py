@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
 from puzzlaef.puzzle.utils import fetch_user_puzzles
 from django.utils import simplejson
+from string import split
 
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
@@ -88,9 +89,8 @@ def upload_theme(request):
 		photo = Photo()
 		photo.image = theme
 		photo.user = User.objects.get(id=request.user.id)
-		photo.title = theme.name
+		photo.title = split(theme.name, '.')[0]
 		photo.isTheme = True
-		print photo
 		photo.save()
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
