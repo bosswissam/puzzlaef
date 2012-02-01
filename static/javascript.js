@@ -88,7 +88,6 @@ var initialize = function(id) {
 
 	  infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
 	  infowindow.open(map, marker);
-	  Dajaxice.puzzlaef.puzzlaef.get_photos(Dajax.process);
 	});
 }
 
