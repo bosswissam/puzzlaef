@@ -63,7 +63,6 @@ def make_move(request):
 		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, x.email, fail_silently=False)
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
-		form = PuzzlePieceForm()
 		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
 		
 
@@ -95,6 +94,5 @@ def upload_theme(request):
 		photo.save()
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
-		form = UserProfileForm()
 		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
 	
