@@ -19,7 +19,7 @@
 		<script type="text/javascript" src="https://github.com/cowboy/jquery-misc/blob/master/jquery.ba-serializeobject.js"></script>
 		<script src="{{ STATIC_URL }}fileuploader.js" type="text/javascript"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}jquery.dajax.core.js"></script>
-		<script type="text/javascript" src="{{ STATIC_URL }}dajaxice.core.js"></script>
+		{% dajaxice_js_import %}
 		<script type="text/javascript" src="{{ STATIC_URL }}javascript.js"></script>
 		<link href="{{ STATIC_URL }}fileuploader.css" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}style.css" />

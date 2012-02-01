@@ -1,4 +1,1 @@
 *.pyc
-*~
-templates/athena-base.html
-athena-settings.py

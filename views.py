@@ -25,7 +25,7 @@ def start(request):
 		puzzles = fetch_user_puzzles(request.user)
 		return render_to_response('pageTemplates/page_layout.html', {'pages': PAGES, 'current_page': PAGES_FULL[0], 'current_page_template': PAGES_LOCATIONS[0], 'puzzles': fetch_user_puzzles(request.user), 'empty': len(puzzles)==0 },  context_instance=RequestContext(request))
 	else:
-	    return HttpResponseRedirect('/puzzlaef/accounts/login/')
+	    return HttpResponseRedirect('/accounts/login/')
 
 @login_required
 def show_profile(request):
@@ -76,8 +76,8 @@ def upload_profile(request):
 		form = UserProfileForm(request.POST, request.FILES)
 		if form.is_valid():
 			user_profile = UserProfile.objects.get(user=request.user.id)
-			user_profile.avatar = ImageFile(request.FILES['puzzlaefFile'])
-			user_profile.save()
+		user_profile.avatar = ImageFile(request.FILES['puzzlaefFile'])
+		user_profile.save()
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		form = UserProfileForm()
@@ -98,3 +98,4 @@ def upload_theme(request):
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
+	
