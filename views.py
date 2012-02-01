@@ -7,7 +7,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
 from django.views.decorators.csrf import csrf_protect
-from puzzlaef import EMAIL_HOST_USER
+from puzzlaef.settings import EMAIL_HOST_USER
 from puzzlaef.forms import UserProfileForm, UserProfileForm
 from puzzlaef.main.models import UserProfile
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
@@ -46,15 +46,14 @@ def get_profile_form(request):
 @login_required
 def make_move(request):
 	if request.method == 'POST':
+		user = User.objects.get(id=request.user.id)
 		puzzle_id = request.session["puzzle_id"]
 		list = PuzzlePiece.objects.filter(puzzle=puzzle_id)
-		print '>>>>>>>>>>>>>>>>', list, list[0].id
 		puzzle_piece = list[0]
 		if(puzzle_piece == None):
 			print '>>>>>>>>>>>>>>>> empty piece'
-		photo = Photo(image = ImageFile(request.FILES['puzzlaefFile']))
+		photo = Photo(user = user, image = ImageFile(request.FILES['puzzlaefFile']))
 		photo.save()
-		print 'here'
 		if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
 			puzzle_piece.photo1 = photo
 		else:
@@ -65,8 +64,7 @@ def make_move(request):
 			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
 		else:
 			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player1
-		x = User.objects.get(id=request.user.id)
-		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, x.email, fail_silently=False)
+		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, user.email, fail_silently=False)
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
