@@ -14,6 +14,11 @@ var Dajaxice = {
             },
     
             
+            open_puzzle: function(callback_function, argv, custom_settings){
+                Dajaxice.call('puzzlaef.main.open_puzzle', callback_function, argv, custom_settings);
+            },
+    
+            
             changePage: function(callback_function, argv, custom_settings){
                 Dajaxice.call('puzzlaef.main.changePage', callback_function, argv, custom_settings);
             },
@@ -34,13 +39,23 @@ var Dajaxice = {
         puzzle: {
     
             
-            fetch_user_puzzles: function(callback_function, argv, custom_settings){
-                Dajaxice.call('puzzlaef.puzzle.fetch_user_puzzles', callback_function, argv, custom_settings);
+            fetch_discover: function(callback_function, argv, custom_settings){
+                Dajaxice.call('puzzlaef.puzzle.fetch_discover', callback_function, argv, custom_settings);
             },
     
             
-            fetch_themes: function(callback_function, argv, custom_settings){
-                Dajaxice.call('puzzlaef.puzzle.fetch_themes', callback_function, argv, custom_settings);
+            start_puzzle: function(callback_function, argv, custom_settings){
+                Dajaxice.call('puzzlaef.puzzle.start_puzzle', callback_function, argv, custom_settings);
+            },
+    
+            
+            theme_picked: function(callback_function, argv, custom_settings){
+                Dajaxice.call('puzzlaef.puzzle.theme_picked', callback_function, argv, custom_settings);
+            },
+    
+            
+            needs_help: function(callback_function, argv, custom_settings){
+                Dajaxice.call('puzzlaef.puzzle.needs_help', callback_function, argv, custom_settings);
             }
     
             
