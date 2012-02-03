@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.utils import simplejson
 from django.views.decorators.csrf import csrf_protect
 from puzzlaef.settings import EMAIL_HOST_USER
@@ -49,7 +50,7 @@ def make_move(request):
 		user = User.objects.get(id=request.user.id)
 		puzzle_id = request.session["puzzle_id"]
 		list = PuzzlePiece.objects.filter(puzzle=puzzle_id)
-		puzzle_piece = list[0]
+		puzzle_piece = list[len(list)-1]
 		if(puzzle_piece == None):
 			print '>>>>>>>>>>>>>>>> empty piece'
 		photo = Photo(user = user, image = ImageFile(request.FILES['puzzlaefFile']))
@@ -60,13 +61,35 @@ def make_move(request):
 			puzzle_piece.photo2 = photo
 		puzzle_piece.save()
 		
-		if puzzle_piece.photo1 is not None and puzzle_piece.photo2 is not None:		
+		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, [user.email], fail_silently=False)
+		
+		if not puzzle_piece.photo1 or not puzzle_piece.photo2:	
 			if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
 				puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
 			else:
 				puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player1
-		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, user.email, fail_silently=False)
-		return HttpResponse(simplejson.dumps({"success":True}))	
+			puzzle_piece.puzzle.save()
+		else:
+			if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
+				new_piece = PuzzlePiece(puzzle=puzzle_piece.puzzle)
+			else:
+				new_piece = PuzzlePiece(puzzle=puzzle_piece.puzzle)
+			new_piece.save()
+		
+		userTurn = puzzle_piece.puzzle.turn == request.user
+		
+		if not puzzle_piece.photo1 and not puzzle_piece.photo2:
+			newTurn = True
+		else:
+			newTurn = False
+		
+		render = render_to_string("puzzle/puzzle.html", { 'puzzle': puzzle_piece.puzzle, 
+														'pieces': pieces,
+														'newTurn':newTurn, 
+														'userTurn':userTurn, 
+														'user': request.user}, context_instance=RequestContext(request))
+														
+		return HttpResponse(simplejson.dumps({"success":True, "newRender":render}))	
 	else:
 		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
 		
@@ -83,7 +106,7 @@ def upload_profile(request):
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		form = UserProfileForm()
-		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
+		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))
 	
 
 @csrf_protect

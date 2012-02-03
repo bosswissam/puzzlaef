@@ -1,4 +1,4 @@
-<div class="title blue">Puzzlaef: {{puzzle.player1}} vs {{puzzle.player2}} </div>
+<div class="title blue">Puzzlaef: {{ user }} vs {{puzzle.player2}} </div>
 <div class="helper-text">
 Welcome to this epic Puzzleaf! You must match your opponents picture by pressing on the plus sign 
 and adding a picture that you or someone else in your country has taken. The rounds you play,
@@ -8,7 +8,7 @@ the more honor and glory you will get in addition to the awesomeness that cultur
 <form id="hidden_form" style="display:none">
 {% csrf_token %}
 </form>
-{% for piece in pieces %}
+{% for piece in pieces reversed %}
 	<div class="piece">
 	{% if forloop.first %}
 		
@@ -19,33 +19,36 @@ the more honor and glory you will get in addition to the awesomeness that cultur
 			</div>
 			<div class="piece-part middle">æ</div>
 			<div class="piece-part right new">
+				<div id="question-mark">*</div>
+				<div class="thumbLabel puzzleThumb">{{puzzle.player2}} is waiting for your move!</div>
 			</div>
 		{% endif %}
 		
 		{% if newTurn and not userTurn %}
 			<div class="piece-part left new">
-				<div id="question-mark">?</div>
+				<div id="question-mark">*</div>
 				<div class="thumbLabel puzzleThumb">Its their turn to start the round!</div>
 			</div>
 			<div class="piece-part middle">æ</div>
 			<div class="piece-part right new">
 				<div id="question-mark">?</div>
+				<div class="thumbLabel puzzleThumb">{{puzzle.player2}} is working on a response!</div>
 			</div>
 		{% endif %}
 		
 		{% if not newTurn and not userTurn %}
 			<div class="piece-part left new">
 				<img class="thumb" src=
-				{% ifequal piece.user1 user%}
-					{{ piece.photo1 }}
+				{% ifequal piece.puzzle.player1 user%}
+					{{ piece.photo2.get_thumb_url }} alt="{{ piece.photo2.title }}" height="250" width="250" />
 				{% else %}
-					{{ piece.photo2 }}
+					{{ piece.photo1.get_thumb_url }} alt="{{ piece.photo1.title }}" height="250" width="250" />
 				{% endifequal %}
-				alt={{ picture.title }} height="250" width="250" />
 			</div>
 			<div class="piece-part middle">æ</div>
 			<div class="piece-part right new">
 				<div id="question-mark">?</div>
+				<div class="thumbLabel puzzleThumb">{{puzzle.player2}} is working on a response!</div>
 			</div>
 		{% endif %}
 		
@@ -57,31 +60,31 @@ the more honor and glory you will get in addition to the awesomeness that cultur
 			<div class="piece-part middle">æ</div>
 			<div class="piece-part right new">
 				<img class="thumb" src=
-				{% ifequal piece.user2 user%}
-					{{ piece.photo1 }}
+				{% ifequal piece.puzzle.player2 user%}
+					{{ piece.photo2.get_thumb_url }}
 				{% else %}
-					{{ piece.photo2 }}
+					{{ piece.photo1.get_thumb_url }}
 				{% endifequal %}
-				alt={{ picture.title }} height="250" width="250" />
+				alt="{{ picture.title }}" height="250" width="250" />
 			</div>
 		{% endif %}
 	{% else %}
 		<div class="piece-part left">
 			<img class="thumb" src=
-			{% ifequal piece.user1 user %}
-				{{ piece.photo1 }}
+			{% ifequal piece.puzzle.player1 user%}
+				{{ piece.photo2.get_thumb_url }}
 			{% else %}
-				{{ piece.photo2 }}
+				{{ piece.photo1.get_thumb_url }}
 			{% endifequal %}
 			alt={{ picture.title }} height="250" width="250" />
 		</div>
 		<div class="piece-part middle">æ</div>
 		<div class="piece-part right">
 			<img class="thumb" src=
-			{% ifequal piece.user2 user %}
-				{{ piece.photo1 }}
+			{% ifequal piece.puzzle.player2 user%}
+				{{ piece.photo2.get_thumb_url }}
 			{% else %}
-				{{ piece.photo2 }}
+				{{ piece.photo1.get_thumb_url }}
 			{% endifequal %}
 			alt={{ picture.title }} height="250" width="250" />
 		</div>

@@ -1,53 +1,5 @@
-var initialize_pick_theme = function( username ){
-	
-	$(".thumbWrapper").first().addClass("selected");
-	$(".thumbWrapper").first().children().addClass("selected");
-	
-	var onClickFunction = function (e){
-		$("div.thumbWrapper.selected").removeClass("selected");
-		$("img.thumb.selected").removeClass("selected");
-		$("div.thumbLabel.selected").removeClass("selected");
-		$(e.delegateTarget).addClass("selected");
-		$(e.delegateTarget).children().addClass("selected");
-	};
-	$(".thumbWrapper").on("click", "img", onClickFunction);
-	$(".thumbWrapper").on("click", "div", onClickFunction);
-	
-	$('#begin_button').click( function(e){
-		var theme = $("div.thumbWrapper.selected > div").html();
-		Dajaxice.puzzlaef.puzzle.theme_picked(Dajax.process, {'opponent':username, 'theme':theme});
-	});
-};
-
-var refreshPuzzle = function(id, filename, response){
-	$('#page-container').html(response['render'])
-}
-
-
-var start_puzzle = function(_with){
-	Dajaxice.puzzlaef.puzzle.start_puzzle( function(data){
-		Dajax.process(data);
-	}, {'username': _with});
-};
-
-var initialize = function(id) {        
-	var uploader = new qq.FileUploader({
-	    element: document.getElementById('file-uploader'),
-	    action: 'upload/profile',
-		allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
-		template: '<div class="qq-uploader">' + 
-                '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-                '<div class="qq-upload-button button red">Upload your Profile Picture</div>' +
-                '<ul class="qq-upload-list"></ul>' + 
-             '</div>',
-	    debug: true
-	});
-	
-	var avatar = document.getElementById('id_avatar');
-	avatar.setAttribute("hidden", "true");
-	$(avatar).prevAll().remove();
-	
-    var mapOptions = {
+function initialize(id) {
+        var mapOptions = {
 		  center: new google.maps.LatLng(-33.8688, 151.2195),
 		  zoom: 13,
 		  mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -92,6 +44,7 @@ var initialize = function(id) {
 
 	  infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
 	  infowindow.open(map, marker);
+	
 	});
 }
 
@@ -112,7 +65,7 @@ $.fn.serializeObject = function()
     return o;
 };
 
-var send_form = function(){
+function send_form(){
 	data = $('#my_form').serializeObject();
 	Dajaxice.puzzlaef.main.send_form(Dajax.process,{'form':data});
 }
@@ -160,7 +113,7 @@ var initiate_play_search = function(){
 		});
 		
 	    for (i = 0; i < locations.length; i++) {  
-			var infoWindowContent = '<div style="text-align:center"><strong>' + locations[i].username + '</strong><br>' + locations[i].location + '<div class="button blue" onclick="start_puzzle(\''+ locations[i].username +'\')" style="float:none">Start Puzzlaef</div></div>';
+			var infoWindowContent = '<div style="text-align:center"><strong>' + locations[i].username + '</strong><br>' + locations[i].location + '<div class="button blue" style="float:none">Start Puzzlaef</div></div>';
 			
 			var process_geocode = function(infoWindowContent) {
 				return function(results, status){
@@ -192,10 +145,9 @@ var initiate_play_search = function(){
 };
 	google.maps.event.addListener(autocomplete, 'place_changed', new_location_set);
 	$("#search-button").click(new_location_set);
-};
+}
 
-var change_page = function(event){
-	console.log("clicked!");
+function change_page(event){
 	var pageClickedTarget = $(event.target);
 	var pageClicked = pageClickedTarget.html();
 	var currentPage = $('.selected').html();
@@ -211,12 +163,11 @@ var change_page = function(event){
 			}
 		},{'newPage':pageClicked});
 	}
-};
-
+}
 
 $(document).ready(function() {
 	if($(".nav-page-element")){
-		$(".nav-page-element").mousedown(change_page);
+		$(".nav-page-element").click(change_page);
 	}
 	
 	if ($(".registrationForm #my_form")) {

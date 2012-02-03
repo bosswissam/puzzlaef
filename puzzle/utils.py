@@ -18,7 +18,7 @@ class PictureThumb:
         self.title = title
         
     def getAsString(self):
-        return render_to_string("puzzle/pictureThumb.html", {'picture':self})
+		return render_to_string("puzzle/pictureThumb.html", {'picture':self})
     
 class PictureGrid():
     
@@ -32,11 +32,10 @@ class PictureGrid():
         return render_to_string("puzzle/pictureGrid.html", {'pictureSet':pictureStrings})
     
 def make_new_puzzle(player1, player2):
-	#TODO: Wissam
     puzzle = Puzzle()
     puzzle.player1 = player1
     puzzle.player2 = User.objects.get(username=player2)
-    puzzle.turn = puzzle.player2
+    puzzle.turn = player1
     puzzle.save()
 	
     piece = PuzzlePiece(puzzle=puzzle)
@@ -44,7 +43,8 @@ def make_new_puzzle(player1, player2):
 
     return puzzle.id
 	
-def fetch_user_puzzles(user):
+def fetch_user_puzzles(user):	
+	
 	list1 = set(Puzzle.objects.filter(player1=user.id))
 	list2 = set(Puzzle.objects.filter(player2=user.id))
 	result = list(list1.union(list2))
@@ -60,7 +60,7 @@ def fetch_user_puzzles(user):
 		else:
 			photo1 = None
 			photo2 = None
-		print 'WLSKDJFLEEEEEJEEJEJJEJEJEJE->>>>>>>>>>>>>>>>', x.id
+
 		final.append(ResultPiece(x.id,
 								photo1, 
 								photo2,

@@ -63,20 +63,23 @@ def theme_picked(request, opponent, theme):
 	assertAccess = assert_access(request.user)
 	if(assertAccess):
 		return assertAccess
-	username = User.objects.get(id=request.user.id).username 
+	username = request.user.username
 	
 	puzzle_id = make_new_puzzle(request.user, opponent)
 	request.session["puzzle_id"] = puzzle_id
 	
 	pieces = get_puzzle_pieces( puzzle_id)
 	latest_puzzle_piece = pieces[0]
+	print "-----------------------------> size of pieces", len(pieces)
 	
-	userTurn = latest_puzzle_piece.puzzle.turn == request.user.id
+	userTurn = latest_puzzle_piece.puzzle.turn == request.user
 	
 	if not latest_puzzle_piece.photo1 and not latest_puzzle_piece.photo2:
 		newTurn = True
 	else:
 		newTurn = False
+	
+	print "-----------------------------> userTurn", userTurn, type(latest_puzzle_piece.puzzle.turn), type(request.user), latest_puzzle_piece.puzzle.turn == request.user
 		
 	set_puzzle_theme(request, puzzle_id, theme)
 	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle_id), 'pieces': pieces, 'newTurn':newTurn, 'userTurn':userTurn, 'user': username}, context_instance=RequestContext(request))
@@ -84,8 +87,6 @@ def theme_picked(request, opponent, theme):
 	dajax.assign('#page-container', 'innerHTML', render)
 	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; font-size:50px", "id":"plus-button", "label":"+", "action":"upload/makeMove"}));
 	return dajax.json()
-
-
 
 
 @dajaxice_register
