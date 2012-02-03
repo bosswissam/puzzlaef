@@ -1,6 +1,12 @@
-import urlparse
-
 from django.conf import settings
+from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, \
+    logout as auth_logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, \
+    SetPasswordForm, PasswordChangeForm
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.models import get_current_site
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, QueryDict, HttpResponse
 from django.shortcuts import render_to_response
@@ -9,15 +15,12 @@ from django.utils.http import base36_to_int
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
+from django.views.generic.simple import redirect_to
+from puzzlaef.settings import STATIC_URL
+import urlparse
+
 
 # Avoid shadowing the login() and logout() views below.
-from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, PasswordChangeForm
-from django.contrib.auth.models import User
-from django.contrib.auth.tokens import default_token_generator
-from django.contrib.sites.models import get_current_site
-from django.views.generic.simple import redirect_to
 
 
 @csrf_protect
@@ -62,6 +65,11 @@ def login(request, template_name='registration/login.html',
                 request.session.delete_test_cookie()
 #        else:
 #            redirect_to = settings.LOGIN_USER_NOT_ACTIVE_URL
+        else:
+            print form.errors
+            return render_to_response('registration/login.html',
+                                      {'error_message':'Please check your email for an activation link',
+                                       'STATIC_URL' : STATIC_URL}, context_instance=RequestContext(request))
         return HttpResponseRedirect(redirect_to)
     else:
         form = authentication_form(request)

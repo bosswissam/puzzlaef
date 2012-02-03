@@ -1,16 +1,18 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.files.images import ImageFile
+from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from puzzlaef.forms import UserProfileForm
-from django.core.files.images import ImageFile
+from django.utils import simplejson
 from django.views.decorators.csrf import csrf_protect
-from puzzlaef.forms import UserProfileForm
+from puzzlaef.settings import EMAIL_HOST_USER
+from puzzlaef.forms import UserProfileForm, UserProfileForm
 from puzzlaef.main.models import UserProfile
-from django.contrib.auth.models import User
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
 from puzzlaef.puzzle.utils import fetch_user_puzzles
-from django.utils import simplejson
+from puzzlaef.settings import STATIC_URL
 from string import split
 
 
@@ -25,7 +27,7 @@ def start(request):
 		puzzles = fetch_user_puzzles(request.user)
 		return render_to_response('pageTemplates/page_layout.html', {'pages': PAGES, 'current_page': PAGES_FULL[0], 'current_page_template': PAGES_LOCATIONS[0], 'puzzles': fetch_user_puzzles(request.user), 'empty': len(puzzles)==0 },  context_instance=RequestContext(request))
 	else:
-	    return HttpResponseRedirect('/puzzlaef/accounts/login/')
+	    return HttpResponseRedirect('/accounts/login/')
 
 @login_required
 def show_profile(request):
@@ -44,15 +46,14 @@ def get_profile_form(request):
 @login_required
 def make_move(request):
 	if request.method == 'POST':
+		user = User.objects.get(id=request.user.id)
 		puzzle_id = request.session["puzzle_id"]
 		list = PuzzlePiece.objects.filter(puzzle=puzzle_id)
-		print '>>>>>>>>>>>>>>>>', list, list[0].id
 		puzzle_piece = list[0]
 		if(puzzle_piece == None):
 			print '>>>>>>>>>>>>>>>> empty piece'
-		photo = Photo(image = ImageFile(request.FILES['puzzlaefFile']))
+		photo = Photo(user = user, image = ImageFile(request.FILES['puzzlaefFile']))
 		photo.save()
-		print 'here'
 		if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
 			puzzle_piece.photo1 = photo
 		else:
@@ -66,7 +67,7 @@ def make_move(request):
 			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
 		else:
 			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player1
-		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, x.email, fail_silently=False)
+		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, user.email, fail_silently=False)
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
@@ -79,8 +80,8 @@ def upload_profile(request):
 		form = UserProfileForm(request.POST, request.FILES)
 		if form.is_valid():
 			user_profile = UserProfile.objects.get(user=request.user.id)
-			user_profile.avatar = ImageFile(request.FILES['puzzlaefFile'])
-			user_profile.save()
+		user_profile.avatar = ImageFile(request.FILES['puzzlaefFile'])
+		user_profile.save()
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		form = UserProfileForm()
@@ -101,3 +102,4 @@ def upload_theme(request):
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
+	

@@ -64,17 +64,19 @@ class Photo(models.Model):
     user = models.ForeignKey(User, related_name = "user")
 
     def save(self, *args, **kwargs):
+        print 'er'
         super(Photo, self).save(*args, **kwargs)
         self.im_resize()
-        
+        print 'er'
         im = Image.open(self.image.path)
         im.thumbnail((250,250), Image.ANTIALIAS)
-
+        print 'er'
         path, fnext = os.path.split(self.image.name)
         fn, ext = os.path.splitext(fnext)
         thumb_path = join(MEDIA_ROOT, path, 'thumbnails/')
         if not os.path.exists(thumb_path):
             os.makedirs(thumb_path)
+        print 'er'
         im.save(thumb_path + fn + '-thumb' + ext, 'JPEG')
         self.thumbLoc = self.get_thumb_url()
         self.pictureLoc = self.get_url()
