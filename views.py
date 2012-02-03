@@ -60,13 +60,11 @@ def make_move(request):
 			puzzle_piece.photo2 = photo
 		puzzle_piece.save()
 		
-		if puzzle_piece.photo1 is not None and puzzle_piece.photo2 is not None:
-			
-		
-		if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
-			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
-		else:
-			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player1
+		if puzzle_piece.photo1 is not None and puzzle_piece.photo2 is not None:		
+			if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
+				puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
+			else:
+				puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player1
 		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, user.email, fail_silently=False)
 		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
