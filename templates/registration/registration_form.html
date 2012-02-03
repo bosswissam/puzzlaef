@@ -5,7 +5,7 @@ Registration
 {% endblock %}
 
 {% block form %}
-     <form class="form registrationForm" action="/puzzlaef/accounts/register/" method="POST">{% csrf_token %}
+     <form class="form registrationForm" action="/accounts/register/" method="POST">{% csrf_token %}
          <table>
          	{{ form.as_ul }}
          </table>

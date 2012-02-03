@@ -28,7 +28,7 @@ def assert_access(user):
 		return None
 	else:
 		dajax = Dajax()
-	 	dajax.redirect("/puzzlaef/accounts/login",delay=0) 
+	 	dajax.redirect("/accounts/login",delay=0) 
 		return dajax.json()
 
 
@@ -97,7 +97,7 @@ def changePage(request, newPage):
 		
 	elif (newPage == PAGES_FULL[4]):
 		logout(request)
-		dajax.redirect("/puzzlaef/accounts/login",delay=0) 
+		dajax.redirect("/accounts/login",delay=0) 
 		return dajax.json()
 	
 	dajax.assign('#page-container', 'innerHTML', render)

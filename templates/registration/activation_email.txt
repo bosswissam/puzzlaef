@@ -2,8 +2,8 @@ Your activation key: {{ activation_key }}
 
 Please use this link to activate your account:
 
-http://wjarjoui.scripts.mit.edu/puzzlaef/accounts/activate/{{ activation_key }}/
+http://localhost:8000/accounts/activate/{{ activation_key }}/
 
 After activation you can login to the site:
 
-http://wjarjoui.scripts.mit.edu/puzzlaef/accounts/login/
+http://localhost:8000/accounts/login/

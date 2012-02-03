@@ -57,8 +57,11 @@ def make_move(request):
 			puzzle_piece.photo1 = photo
 		else:
 			puzzle_piece.photo2 = photo
-		
 		puzzle_piece.save()
+		
+		if puzzle_piece.photo1 is not None and puzzle_piece.photo2 is not None:
+			
+		
 		if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
 			puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
 		else:
