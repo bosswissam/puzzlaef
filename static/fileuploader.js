@@ -1007,8 +1007,9 @@ qq.extend(qq.UploadHandlerForm.prototype, {
         var iframe = this._createIframe(id);
         var form = this._createForm(iframe, params);
         form.appendChild(input);
-		
-		form.appendChild(document.getElementById("hidden_form").childNodes[0]);//Sinchan Hack
+
+		//Sinchan Hack
+		form.appendChild(document.getElementById("hidden_form").childNodes[0]);
 
         var self = this;
         this._attachLoadEvent(iframe, function(){                                 

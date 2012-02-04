@@ -12,7 +12,7 @@ from puzzlaef.settings import EMAIL_HOST_USER
 from puzzlaef.forms import UserProfileForm, UserProfileForm
 from puzzlaef.main.models import UserProfile
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
-from puzzlaef.puzzle.utils import fetch_user_puzzles
+from puzzlaef.puzzle.utils import fetch_user_puzzles, PictureGrid, getThemes
 from puzzlaef.settings import STATIC_URL
 from string import split
 
@@ -122,9 +122,8 @@ def upload_theme(request):
 		photo.save()
 		
 		pictureGrid = PictureGrid(getThemes()).getGridAsString();
-		render = render_to_string("puzzle/pickTheme.html", {"startWith":username, 'pictureGrid': pictureGrid}, context_instance=RequestContext(request))
 		
-		return HttpResponse(simplejson.dumps({"success":True, "newRender":render}))	
+		return HttpResponse(simplejson.dumps({"success":True, "newRender":pictureGrid}))	
 	else:
 		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
 	
