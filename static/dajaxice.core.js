@@ -54,6 +54,16 @@ var Dajaxice = {
             },
     
             
+            get_latest_picture_grid: function(callback_function, argv, custom_settings){
+                Dajaxice.call('puzzlaef.puzzle.get_latest_picture_grid', callback_function, argv, custom_settings);
+            },
+    
+            
+            get_latest_puzzle: function(callback_function, argv, custom_settings){
+                Dajaxice.call('puzzlaef.puzzle.get_latest_puzzle', callback_function, argv, custom_settings);
+            },
+    
+            
             needs_help: function(callback_function, argv, custom_settings){
                 Dajaxice.call('puzzlaef.puzzle.needs_help', callback_function, argv, custom_settings);
             }
