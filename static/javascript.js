@@ -23,6 +23,10 @@ var refreshPuzzle = function(id, filename, response){
 	$('#page-container').html(response['render'])
 }
 
+var refreshThemes = function(id, filename, response){
+	$('#page-container').html(response['render'])
+}
+
 
 var start_puzzle = function(_with){
 	Dajaxice.puzzlaef.puzzle.start_puzzle( function(data){

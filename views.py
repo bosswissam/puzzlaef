@@ -120,7 +120,11 @@ def upload_theme(request):
 		photo.title = split(theme.name, '.')[0]
 		photo.isTheme = True
 		photo.save()
-		return HttpResponse(simplejson.dumps({"success":True}))	
+		
+		pictureGrid = PictureGrid(getThemes()).getGridAsString();
+		render = render_to_string("puzzle/pickTheme.html", {"startWith":username, 'pictureGrid': pictureGrid}, context_instance=RequestContext(request))
+		
+		return HttpResponse(simplejson.dumps({"success":True, "newRender":render}))	
 	else:
 		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
 	

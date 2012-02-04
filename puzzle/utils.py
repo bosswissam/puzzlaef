@@ -10,13 +10,7 @@ from puzzlaef.puzzle.models import Puzzle, PuzzlePiece, Photo
 from puzzlaef.main.utils import ResultUser, ResultPiece
 from puzzlaef.main.models import UserProfile
 
-class PictureThumb:
-    
-    def __init__(self, thumbLoc, pictureLoc, title):
-        self.thumbLoc = thumbLoc
-        self.pictureLoc = pictureLoc
-        self.title = title
-        
+class PictureThumb(Photo):
     def getAsString(self):
 		return render_to_string("puzzle/pictureThumb.html", {'picture':self})
     
@@ -72,8 +66,7 @@ def fetch_user_puzzles(user):
     
 def getThemes():
     list = Photo.objects.filter(isTheme=True)
-    result = [PictureThumb(x.get_thumb_url(), x.get_url(), x.title) for x in list]
-    return result
+    return list
 
 
 def set_puzzle_theme(reuest, puzzle, theme):
