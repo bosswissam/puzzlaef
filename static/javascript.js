@@ -13,18 +13,25 @@ var initialize_pick_theme = function( username ){
 	$(".thumbWrapper").on("click", "img", onClickFunction);
 	$(".thumbWrapper").on("click", "div", onClickFunction);
 	
-	$('#begin_button').click( function(e){
-		var theme = $("div.thumbWrapper.selected > div").html();
-		Dajaxice.puzzlaef.puzzle.theme_picked(Dajax.process, {'opponent':username, 'theme':theme});
-	});
+	if (username) {
+		$('#begin_button').click( function(e){
+			var theme = $("div.thumbWrapper.selected > div").html();
+			Dajaxice.puzzlaef.puzzle.theme_picked(Dajax.process, {'opponent':username, 'theme':theme});
+		});
+	}
 };
 
 var refreshPuzzle = function(id, filename, response){
-	$('#page-container').html(response['newRender']);
+	Dajaxice.puzzlaef.puzzle.get_latest_puzzle(function (data){
+		Dajax.process(data);
+	});
 }
 
 var refreshThemes = function(id, filename, response){
-	$('.pictureGrid').html(response['newRender']);
+	Dajaxice.puzzlaef.puzzle.get_latest_picture_grid(function (data){
+		$('.pictureGrid').replaceWith(data.newPictureGrid);
+		initialize_pick_theme(null);
+	});
 }
 
 

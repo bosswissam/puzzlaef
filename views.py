@@ -15,7 +15,7 @@ from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
 from puzzlaef.puzzle.utils import fetch_user_puzzles, PictureGrid, getThemes
 from puzzlaef.settings import STATIC_URL
 from string import split
-
+from django.core import serializers
 
 PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
 PAGES_FULL = PAGES + ['Settings', 'Logout']
@@ -75,21 +75,8 @@ def make_move(request):
 			else:
 				new_piece = PuzzlePiece(puzzle=puzzle_piece.puzzle)
 			new_piece.save()
-		
-		userTurn = puzzle_piece.puzzle.turn == request.user
-		
-		if not puzzle_piece.photo1 and not puzzle_piece.photo2:
-			newTurn = True
-		else:
-			newTurn = False
-		
-		render = render_to_string("puzzle/puzzle.html", { 'puzzle': puzzle_piece.puzzle, 
-														'pieces': list,
-														'newTurn':newTurn, 
-														'userTurn':userTurn, 
-														'user': request.user}, context_instance=RequestContext(request))
 														
-		return HttpResponse(simplejson.dumps({"success":True, "newRender":render}))	
+		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
 		
@@ -120,10 +107,8 @@ def upload_theme(request):
 		photo.title = split(theme.name, '.')[0]
 		photo.isTheme = True
 		photo.save()
-		
-		pictureGrid = PictureGrid(getThemes()).getGridAsString();
-		
-		return HttpResponse(simplejson.dumps({"success":True, "newRender":pictureGrid}))	
+
+		return HttpResponse(simplejson.dumps({"success":True}))	
 	else:
 		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
 	
