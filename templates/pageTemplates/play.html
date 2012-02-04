@@ -29,7 +29,7 @@
 				</div>
 				{% if puzzle.photo1 %}
 				<div class="left-photo">
-					<img class="thumb" src="{{ puzzle.photo1 }}" alt='' height="250" width="250" />
+					<img class="thumb" src="{{ puzzle.photo1.get_thumb_url }}" alt='' height="130" width="130" />
 				</div>
 				{% endif %}
 				<div class="vs-symbol">
@@ -37,7 +37,7 @@
 				</div>
 				{% if puzzle.photo2 %}
 				<div class="right-photo">
-					<img class="thumb" src="{{ puzzle.photo2 }}" alt='' height="250" width="250" />
+					<img class="thumb" src="{{ puzzle.photo2.get_thumb_url }}" alt='' height="130" width="130" />
 				</div>
 				{% endif %}
 				<div class="right-user-info">
