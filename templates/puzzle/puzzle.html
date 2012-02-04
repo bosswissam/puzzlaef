@@ -60,33 +60,30 @@ the more honor and glory you will get in addition to the awesomeness that cultur
 			<div class="piece-part middle">æ</div>
 			<div class="piece-part right new">
 				<img class="thumb" src=
-				{% ifequal piece.puzzle.player2 user%}
-					{{ piece.photo2.get_thumb_url }}
+				{% ifequal piece.puzzle.player1 user%}
+					{{ piece.photo1.get_thumb_url }} alt="{{ piece.photo2.title }}" height="250" width="250" />
 				{% else %}
-					{{ piece.photo1.get_thumb_url }}
+					{{ piece.photo2.get_thumb_url }} alt="{{ piece.photo1.title }}" height="250" width="250" />
 				{% endifequal %}
-				alt="{{ picture.title }}" height="250" width="250" />
 			</div>
 		{% endif %}
 	{% else %}
 		<div class="piece-part left">
 			<img class="thumb" src=
 			{% ifequal piece.puzzle.player1 user%}
-				{{ piece.photo1.get_thumb_url }}
+				{{ piece.photo1.get_thumb_url }} alt="{{ piece.photo2.title }}" height="250" width="250" />
 			{% else %}
-				{{ piece.photo2.get_thumb_url }}
+				{{ piece.photo2.get_thumb_url }} alt="{{ piece.photo1.title }}" height="250" width="250" />
 			{% endifequal %}
-			alt={{ picture.title }} height="250" width="250" />
 		</div>
 		<div class="piece-part middle">æ</div>
 		<div class="piece-part right">
 			<img class="thumb" src=
-			{% ifequal piece.puzzle.player2 user%}
-				{{ piece.photo2.get_thumb_url }}
+			{% ifequal piece.puzzle.player1 user%}
+				{{ piece.photo1.get_thumb_url }} alt="{{ piece.photo2.title }}" height="250" width="250" />
 			{% else %}
-				{{ piece.photo1.get_thumb_url }}
+				{{ piece.photo2.get_thumb_url }} alt="{{ piece.photo1.title }}" height="250" width="250" />
 			{% endifequal %}
-			alt={{ picture.title }} height="250" width="250" />
 		</div>
 	{% endif %}
 	</div>
