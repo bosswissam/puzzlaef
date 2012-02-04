@@ -61,9 +61,9 @@ the more honor and glory you will get in addition to the awesomeness that cultur
 			<div class="piece-part right new">
 				<img class="thumb" src=
 				{% ifequal piece.puzzle.player1 user%}
-					{{ piece.photo1.get_thumb_url }} alt="{{ piece.photo2.title }}" height="250" width="250" />
+					{{ piece.photo2.get_thumb_url }} alt="{{ piece.photo2.title }}" height="250" width="250" />
 				{% else %}
-					{{ piece.photo2.get_thumb_url }} alt="{{ piece.photo1.title }}" height="250" width="250" />
+					{{ piece.photo1.get_thumb_url }} alt="{{ piece.photo1.title }}" height="250" width="250" />
 				{% endifequal %}
 			</div>
 		{% endif %}
@@ -80,9 +80,9 @@ the more honor and glory you will get in addition to the awesomeness that cultur
 		<div class="piece-part right">
 			<img class="thumb" src=
 			{% ifequal piece.puzzle.player1 user%}
-				{{ piece.photo1.get_thumb_url }} alt="{{ piece.photo2.title }}" height="250" width="250" />
+				{{ piece.photo2.get_thumb_url }} alt="{{ piece.photo2.title }}" height="250" width="250" />
 			{% else %}
-				{{ piece.photo2.get_thumb_url }} alt="{{ piece.photo1.title }}" height="250" width="250" />
+				{{ piece.photo1.get_thumb_url }} alt="{{ piece.photo1.title }}" height="250" width="250" />
 			{% endifequal %}
 		</div>
 	{% endif %}
