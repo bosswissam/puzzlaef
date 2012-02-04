@@ -84,7 +84,7 @@ def make_move(request):
 			newTurn = False
 		
 		render = render_to_string("puzzle/puzzle.html", { 'puzzle': puzzle_piece.puzzle, 
-														'pieces': pieces,
+														'pieces': list,
 														'newTurn':newTurn, 
 														'userTurn':userTurn, 
 														'user': request.user}, context_instance=RequestContext(request))
