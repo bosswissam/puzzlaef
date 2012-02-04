@@ -20,11 +20,11 @@ var initialize_pick_theme = function( username ){
 };
 
 var refreshPuzzle = function(id, filename, response){
-	$('#page-container').html(response['newRender'])
+	$('#page-container').html(response['newRender']);
 }
 
 var refreshThemes = function(id, filename, response){
-	$('.pictureGrid').replaceWith(response['newRender'])
+	$('.pictureGrid').html(response['newRender']);
 }
 
 
