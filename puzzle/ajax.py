@@ -89,7 +89,7 @@ def get_latest_puzzle(request):
 	latest_puzzle_piece = pieces[0]
 	userTurn = latest_puzzle_piece.puzzle.turn == request.user
 	
-	if not latest_puzzle_piece.photo1 and not latest_puzzle_piece.photo2:
+	if latest_puzzle_piece.photo1 is None and latest_puzzle_piece.photo2 in None:
 		newTurn = True
 	else:
 		newTurn = False
