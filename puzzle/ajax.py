@@ -103,7 +103,7 @@ def get_latest_puzzle(request):
 	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle_id), 'pieces': pieces, 'newTurn':newTurn, 'userTurn':userTurn, 'user': username}, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)
-	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; font-size:50px", "id":"plus-button", "label":"+", "action":"upload/makeMove", "onCompleteCallback":"onComplete: refreshThemes,"}));
+	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; font-size:50px", "id":"plus-button", "label":"+", "action":"upload/makeMove", "onCompleteCallback":"onComplete: refreshPuzzle,"}));
 	return dajax.json()
 
 @dajaxice_register
