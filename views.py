@@ -55,7 +55,7 @@ def make_move(request):
 			print '>>>>>>>>>>>>>>>> empty piece'
 		photo = Photo(user = user, image = ImageFile(request.FILES['puzzlaefFile']))
 		photo.save()
-		if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
+		if puzzle_piece.puzzle.turn is puzzle_piece.puzzle.player1:
 			puzzle_piece.photo1 = photo
 		else:
 			puzzle_piece.photo2 = photo
@@ -63,17 +63,14 @@ def make_move(request):
 		
 		send_mail('Puzzlaef - it is now your turn!', "It's your turn to respond in the puzzle " + puzzle_piece.puzzle.title, EMAIL_HOST_USER, [user.email], fail_silently=False)
 		
-		if not puzzle_piece.photo1 or not puzzle_piece.photo2:	
+		if puzzle_piece.photo1 is None or puzzle_piece.photo2 is None:	
 			if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
 				puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
 			else:
 				puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player1
 			puzzle_piece.puzzle.save()
 		else:
-			if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
-				new_piece = PuzzlePiece(puzzle=puzzle_piece.puzzle)
-			else:
-				new_piece = PuzzlePiece(puzzle=puzzle_piece.puzzle)
+			new_piece = PuzzlePiece(puzzle=puzzle_piece.puzzle)
 			new_piece.save()
 														
 		return HttpResponse(simplejson.dumps({"success":True}))	
