@@ -76,7 +76,13 @@ def theme_picked(request, opponent, theme):
 def get_latest_picture_grid(request):
 	pictureGrid = PictureGrid(getThemes()).getGridAsString();
 	return simplejson.dumps({'newPictureGrid':pictureGrid})
-	
+
+
+@dajaxice_register
+def open_puzzle(request, puzzle):
+	request.session["puzzle_id"] = puzzle
+	return get_latest_puzzle(request)
+
 @dajaxice_register
 def get_latest_puzzle(request):
 	assertAccess = assert_access(request.user)
@@ -85,11 +91,11 @@ def get_latest_puzzle(request):
 	username = request.user.username
 	
 	puzzle_id = request.session["puzzle_id"]
-	pieces = get_puzzle_pieces( puzzle_id)
-	latest_puzzle_piece = pieces[0]
+	pieces = get_puzzle_pieces(puzzle_id)
+	latest_puzzle_piece = pieces[len(pieces)-1]
 	userTurn = latest_puzzle_piece.puzzle.turn == request.user
 	
-	if latest_puzzle_piece.photo1 is None and latest_puzzle_piece.photo2 in None:
+	if latest_puzzle_piece.photo1 is None and latest_puzzle_piece.photo2 is None:
 		newTurn = True
 	else:
 		newTurn = False

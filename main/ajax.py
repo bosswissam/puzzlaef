@@ -52,31 +52,6 @@ def send_form(request, form):
 			dajax.add_css_class('#id_%s' % error, 'error')
 	return dajax.json()
 
-
-@dajaxice_register
-def open_puzzle(request, puzzle):
-	request.session["puzzle_id"] = puzzle
-	
-	pieces = get_puzzle_pieces(puzzle)
-	latest_puzzle_piece = pieces[len(pieces)-1]
-	
-	userTurn = latest_puzzle_piece.puzzle.turn == request.user
-	
-	if not latest_puzzle_piece.photo1 and not latest_puzzle_piece.photo2:
-		newTurn = True
-	else:
-		newTurn = False
-
-	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle), 
-													'pieces': pieces,
-													'newTurn':newTurn, 
-													'userTurn':userTurn, 
-													'user': request.user}, context_instance=RequestContext(request))
-	dajax = Dajax()
-	dajax.assign('#page-container', 'innerHTML', render)
-	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; font-size:50px", "id":"plus-button", "label":"+", "action":"upload/makeMove", "onCompleteCallback":"onComplete: refreshPuzzle,"}));
-	return dajax.json()
-
 @dajaxice_register
 def changePage(request, newPage):
 	assertAccess = assert_access(request.user)

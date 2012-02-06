@@ -14,11 +14,6 @@ var Dajaxice = {
             },
     
             
-            open_puzzle: function(callback_function, argv, custom_settings){
-                Dajaxice.call('puzzlaef.main.open_puzzle', callback_function, argv, custom_settings);
-            },
-    
-            
             changePage: function(callback_function, argv, custom_settings){
                 Dajaxice.call('puzzlaef.main.changePage', callback_function, argv, custom_settings);
             },
@@ -57,7 +52,10 @@ var Dajaxice = {
             get_latest_picture_grid: function(callback_function, argv, custom_settings){
                 Dajaxice.call('puzzlaef.puzzle.get_latest_picture_grid', callback_function, argv, custom_settings);
             },
-    
+    		
+			open_puzzle: function(callback_function, argv, custom_settings){
+                Dajaxice.call('puzzlaef.puzzle.open_puzzle', callback_function, argv, custom_settings);
+            },
             
             get_latest_puzzle: function(callback_function, argv, custom_settings){
                 Dajaxice.call('puzzlaef.puzzle.get_latest_puzzle', callback_function, argv, custom_settings);
