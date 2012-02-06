@@ -114,7 +114,7 @@ class Photo(models.Model):
         return render_to_string("puzzle/pictureThumb.html", {'picture':self})
 class Puzzle(models.Model):
     title = models.CharField(max_length=200)
-    player1 = models.ForeignKey(User, related_name = "palyer 1")
+    player1 = models.ForeignKey(User, related_name = "player 1")
     player2 = models.ForeignKey(User, related_name = "player 2")
     turn = models.ForeignKey(User, related_name = "player turn")
     theme_picture = models.ForeignKey(Photo, related_name = "theme photo", null = True)

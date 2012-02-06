@@ -95,12 +95,17 @@ def get_latest_puzzle(request):
 	latest_puzzle_piece = pieces[len(pieces)-1]
 	userTurn = latest_puzzle_piece.puzzle.turn is request.user
 	
+	if latest_puzzle_piece.puzzle.turn is latest_puzzle_piece.puzzle.player1:
+		opponent = latest_puzzle_piece.puzzle.player2
+	else:
+		opponent = latest_puzzle_piece.puzzle.player1
+	
 	if latest_puzzle_piece.photo1 is None and latest_puzzle_piece.photo2 is None:
 		newTurn = True
 	else:
 		newTurn = False
 		
-	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle_id), 'pieces': pieces, 'newTurn':newTurn, 'userTurn':userTurn, 'user': request.user}, context_instance=RequestContext(request))
+	render = render_to_string("puzzle/puzzle.html", { 'puzzle': get_puzzle(puzzle_id), 'pieces': pieces, 'newTurn':newTurn, 'userTurn':userTurn, 'user': request.user, 'opponent': opponent}, context_instance=RequestContext(request))
 	dajax = Dajax()
 	dajax.assign('#page-container', 'innerHTML', render)
 	dajax.script(render_to_string("puzzle/uploadButton.html", {"style":"float:none; font-size:50px", "id":"plus-button", "label":"+", "action":"upload/makeMove", "onCompleteCallback":"onComplete: refreshPuzzle,"}));
