@@ -8,6 +8,10 @@
 <div id="file-uploader">	       
 </div>
 
+<form id="hidden_form" style="display:none">
+{% csrf_token %}
+</form>
+
 </div>
 <script>
 $('.fileUpload').fileUploader();
