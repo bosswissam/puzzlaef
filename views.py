@@ -47,7 +47,7 @@ def get_profile_form(request):
 @login_required
 def make_move(request):
 	if request.method == 'POST':
-		user = User.objects.get(id=request.user.id)
+		user = request.user
 		puzzle_id = request.session["puzzle_id"]
 		list = PuzzlePiece.objects.filter(puzzle=puzzle_id)
 		puzzle_piece = list[len(list)-1]
@@ -61,7 +61,7 @@ def make_move(request):
 			puzzle_piece.photo2 = photo
 		puzzle_piece.save()
 		
-		send_mail('Puzzlaef - it is now your turn!', puzzle_piece.puzzle.title, EMAIL_HOST_USER, [user.email], fail_silently=False)
+		send_mail('Puzzlaef - it is now your turn!', "It's your turn to respond in the puzzle " + puzzle_piece.puzzle.title, EMAIL_HOST_USER, [user.email], fail_silently=False)
 		
 		if not puzzle_piece.photo1 or not puzzle_piece.photo2:	
 			if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):

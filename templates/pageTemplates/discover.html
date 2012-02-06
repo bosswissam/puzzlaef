@@ -8,12 +8,12 @@
 	{% for puzzle in puzzles %}
 		<div class="puzzle">
 			<div class="left-user-info">
-				Sinchan Banerjee<br />
-				Egypt
+				{{puzzle.username1}}<br />
+				{{puzzle.location1}}
 			</div>
 			{% if puzzle.photo1 %}
 			<div class="left-photo">
-				<img class="thumb" src="" alt='' height="250" width="250" />
+				<img class="thumb" src="{{ puzzle.photo1.get_thumb_url }}" alt='' height="130" width="130" />
 			</div>
 			{% endif %}
 			<div class="vs-symbol">
@@ -21,12 +21,12 @@
 			</div>
 			{% if puzzle.photo2 %}
 			<div class="right-photo">
-				<img class="thumb" src="" alt='' height="250" width="250" />
+				<img class="thumb" src="{{ puzzle.photo2.get_thumb_url }}" alt='' height="130" width="130" />
 			</div>
 			{% endif %}
 			<div class="right-user-info">
-			Wissam Jarjoui<br />
-			Egypt
+			{{puzzle.username2}}<br />
+			{{puzzle.location2}}
 			</div>
 		</div>
 	{% endfor %}
