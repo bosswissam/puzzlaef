@@ -95,7 +95,7 @@ def get_latest_puzzle(request):
 	latest_puzzle_piece = pieces[len(pieces)-1]
 	userTurn = latest_puzzle_piece.puzzle.turn == request.user
 	
-	if latest_puzzle_piece.puzzle.turn is latest_puzzle_piece.puzzle.player1:
+	if request.user == latest_puzzle_piece.puzzle.player1:
 		opponent = latest_puzzle_piece.puzzle.player2
 	else:
 		opponent = latest_puzzle_piece.puzzle.player1
