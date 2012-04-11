@@ -26,7 +26,7 @@ class PuzzleRenderer:
 	def __init__(self, puzzle, request = None):
 		self.request = request
 		self.puzzle = puzzle
-		self.pieces = PuzzlePiece.objects.filter(puzzle=puzzle).order_by('time_modified')
+		self.pieces = PuzzlePiece.objects.filter(puzzle=puzzle).order_by('-time_modified')
 		self.left_pieces = []
 		self.right_pieces = []
 	
