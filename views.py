@@ -12,23 +12,37 @@ from puzzlaef.settings import EMAIL_HOST_USER
 from puzzlaef.forms import UserProfileForm, UserProfileForm
 from puzzlaef.main.models import UserProfile
 from puzzlaef.puzzle.models import Puzzle, Photo, PuzzlePiece
-from puzzlaef.puzzle.utils import fetch_user_puzzles, PictureGrid, getThemes
+from puzzlaef.puzzle.utils import *
 from puzzlaef.settings import STATIC_URL
 from string import split
 from django.core import serializers
 
-PAGES = ['Play', 'Discover', 'Help a Puzzlaef']
-PAGES_FULL = PAGES + ['Settings', 'Logout']
-PAGES_LOCATIONS = ['pageTemplates/play.html', 'pageTemplates/discover.html', 'pageTemplates/helpPuzzlaef.html', 'pageTemplates/profile.html', 'registration/logout.html']
-	
+PAGES = ['Play']
+PAGES_FULL = PAGES + ['Profile', 'Logout']
+PAGES_LOCATIONS = ['pageTemplates/play.html', 'pageTemplates/profile.html', 'registration/logout.html']
+		
+		
 def start(request):
-	if request.user.is_authenticated():
-	    # TODO: show profile
-		form = UserProfileForm(data=request.POST)
-		puzzles = fetch_user_puzzles(request.user)
-		return render_to_response('pageTemplates/page_layout.html', {'pages': PAGES, 'current_page': PAGES_FULL[0], 'current_page_template': PAGES_LOCATIONS[0], 'puzzles': fetch_user_puzzles(request.user), 'empty': len(puzzles)==0 },  context_instance=RequestContext(request))
+	return show_play(request)
+	
+@login_required
+def show_play(request):
+	# TODO: show profile
+	printer = PuzzlePrinter()
+	userPuzzles = fetch_latest_user_puzzles(request.user)
+	if len(userPuzzles) > 0:
+		userPuzzleAsStrings = [printer.get_user_puzzle_as_string(puzzle, request) for puzzle in userPuzzles]
 	else:
-	    return HttpResponseRedirect('/accounts/login/')
+		userPuzzleAsStrings = None
+	print "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO", userPuzzleAsStrings
+	nonUserPuzzles = fetch_latest_nonuser_puzzles(request.user)
+	nonUserPuzzlesAsStrings = [printer.get_foreign_puzzle_as_string(puzzle) for puzzle in nonUserPuzzles]
+	return render_to_response('pageTemplates/page_layout.html', {'pages': PAGES, 'current_page': PAGES_FULL[0], 
+																'current_page_template': PAGES_LOCATIONS[0], 
+																'latest_user_puzzles': userPuzzleAsStrings,
+																'latest_other_puzzles': nonUserPuzzlesAsStrings,
+																'user': request.user},  
+																context_instance=RequestContext(request))
 
 @login_required
 def show_profile(request):
@@ -36,7 +50,7 @@ def show_profile(request):
 #	for key, value in extra_context.items():
 #		context[key] = callable(value) and value() or value
 	form = UserProfileForm(data=request.POST)
-	return render_to_response('pageTemplates/page_layout.html', RequestContext(request, {'form': form, 'pages': PAGES, 'current_page': 'Settings', 'current_page_template': PAGES_LOCATIONS[4] }))
+	return render_to_response('pageTemplates/page_layout.html', RequestContext(request, {'form': form, 'pages': PAGES, 'current_page': PAGES_FULL[1], 'current_page_template': PAGES_LOCATIONS[1] }))
 	
 @login_required
 def get_profile_form(request):
@@ -45,35 +59,36 @@ def get_profile_form(request):
 
 @csrf_protect
 @login_required
+def new_puzzle(request):
+	if request.method == 'POST':
+		user = request.user
+		photo = Photo(user = user, image = ImageFile(request.FILES['puzzlaefFile']))
+		photo.save()
+		make_new_puzzle(user, photo)
+		return HttpResponse(simplejson.dumps({"success":True}), mimetype='application/javascript')	
+	else:
+		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))
+			
+@csrf_protect
+@login_required
 def make_move(request):
 	if request.method == 'POST':
 		user = request.user
-		puzzle_id = request.session["puzzle_id"]
-		list = PuzzlePiece.objects.filter(puzzle=puzzle_id)
-		puzzle_piece = list[len(list)-1]
-		if(puzzle_piece == None):
-			print '>>>>>>>>>>>>>>>> empty piece'
+		puzzle_id = long(request.GET['puzzle'])
+		puzzle = get_puzzle(puzzle_id)
 		photo = Photo(user = user, image = ImageFile(request.FILES['puzzlaefFile']))
 		photo.save()
-		if puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1:
-			puzzle_piece.photo1 = photo
-		else:
-			puzzle_piece.photo2 = photo
-		puzzle_piece.save()
 		
-		send_mail('Puzzlaef - it is now your turn!', "It's your turn to respond in the puzzle " + puzzle_piece.puzzle.title, EMAIL_HOST_USER, [user.email], fail_silently=False)
+		move_made = make_move_with_photo(user, puzzle_id, photo)
 		
-		if puzzle_piece.photo1 is None or puzzle_piece.photo2 is None:	
-			if(puzzle_piece.puzzle.turn == puzzle_piece.puzzle.player1):
-				puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player2
-			else:
-				puzzle_piece.puzzle.turn = puzzle_piece.puzzle.player1
-			puzzle_piece.puzzle.save()
+		if move_made:
+			send_mail('Puzzlaef - it is now your turn!', "It's your turn to respond in the puzzle " + str(puzzle), EMAIL_HOST_USER, [user.email], fail_silently=False)	
+			
+			printer = PuzzlePrinter()
+			puzzleAsString = printer.get_user_puzzle_as_string(get_puzzle(puzzle_id), request)											
+			return HttpResponse(simplejson.dumps({"success":True, "puzzleAsString":puzzleAsString, "puzzleID": request.GET['puzzle']}), mimetype='application/javascript')	
 		else:
-			new_piece = PuzzlePiece(puzzle=puzzle_piece.puzzle)
-			new_piece.save()
-														
-		return HttpResponse(simplejson.dumps({"success":True}))	
+			return HttpResponse(simplejson.dumps({"error":"It is not your turn or you do not have access to this puzzle"}))	
 	else:
 		return HttpResponse(simplejson.dumps({"error":"Method not POST"}))	
 		

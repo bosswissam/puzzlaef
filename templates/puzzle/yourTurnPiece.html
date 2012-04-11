@@ -1,0 +1,15 @@
+
+
+<form id="hidden_form" style="display:none">
+{% csrf_token %}
+</form>
+<div class="piece">
+	<div id="plus-button{{puzzle_id}}">+</div>
+	<div class="thumbLabel puzzleThumb">Its your turn! Add your Picture Response!</div>
+</div>
+
+{% if uploadButtonScript %}
+	<script>
+			{{ uploadButtonScript }}
+	</script>
+{% endif %}

@@ -1,9 +1,5 @@
-'''
-Created on Jan 29, 2012
-
-@author:  Wissam Jarjoui (wjarjoui@mit.edu)
-'''
 from puzzlaef.forms import UserProfileForm
+from django.contrib.auth.decorators import login_required
 from puzzlaef.main.models import UserProfile
 from puzzlaef.main.pictureGrid import PictureGrid
 from puzzlaef.main.pictureThumb import PictureThumb
@@ -23,15 +19,6 @@ from puzzlaef.views import *
 
 import string
 
-def assert_access(user):
-	if user.is_authenticated():
-		return None
-	else:
-		dajax = Dajax()
-	 	dajax.redirect("/accounts/login",delay=0) 
-		return dajax.json()
-
-
 @dajaxice_register
 def send_form(request, form):
 	dajax = Dajax()
@@ -41,7 +28,6 @@ def send_form(request, form):
 		user = User.objects.get(id = request.user.id)
 		user.first_name = form.cleaned_data['first_name']
 		user.last_name = form.cleaned_data['last_name']
-		user_profile.avatar = form.cleaned_data['avatar']
 		user_profile.location = form.cleaned_data['location']
 		user.save()
 		user_profile.save()
@@ -53,10 +39,8 @@ def send_form(request, form):
 	return dajax.json()
 
 @dajaxice_register
+@login_required
 def changePage(request, newPage):
-	assertAccess = assert_access(request.user)
-	if(assertAccess):
-		return assertAccess
 	
 	dajax = Dajax()
 	if (newPage == PAGES_FULL[0]):

@@ -620,6 +620,7 @@ qq.extend(qq.FileUploader.prototype, {
         if (result.success){
             qq.addClass(item, this._classes.success);    
         } else {
+	alert('fail');
             qq.addClass(item, this._classes.fail);
         }         
     },
@@ -1009,7 +1010,7 @@ qq.extend(qq.UploadHandlerForm.prototype, {
         form.appendChild(input);
 
 		//Sinchan Hack
-		form.appendChild(document.getElementById("hidden_form").childNodes[0]);
+		$(form).append($("#hidden_form").children().clone());
 
         var self = this;
         this._attachLoadEvent(iframe, function(){                                 
@@ -1064,10 +1065,11 @@ qq.extend(qq.UploadHandlerForm.prototype, {
             response;
         
         this.log("converting iframe's innerHTML to JSON");
-        this.log("innerHTML = " + doc.body.innerHTML);
+        this.log("innerHTML = " + doc.body.getElementsByTagName('pre')[0].innerHTML);
                         
         try {
-            response = eval("(" + doc.body.innerHTML + ")");
+            response = eval("(" + doc.body.getElementsByTagName('pre')[0].innerHTML + ")");
+			console.log(response);
         } catch(err){
 			console.log(err)
             response = {};

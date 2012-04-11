@@ -1,0 +1,45 @@
+<form id="hidden_form" style="display:none">
+{% csrf_token %}
+</form>
+<div class="well">
+	<div class="row-fluid">
+		<div class="span2">
+			<h3>Join a puzzle that someone else has started!</h3>
+		</div>
+		<div class="span10">
+			<ul class="thumbnails">
+			  {% for piece in openPuzzlePieces %}
+			  <li class="span2">
+			    <div class="thumbnail open-puzzle-thumbnail">
+			      <img class="thumbnail-image" src="{{ piece.photo.get_thumb_url }}" alt="">
+			      <h4 class="open-puzzle-location">{{ piece.location }}</h4>
+			      <div class="open-puzzle-user">{{ piece.owner }}</div>
+						<div class="open-puzzle-id">{{ piece.puzzle.id }}</div>
+						<div class="btn btn-primary play-button">
+							Join
+						</div>
+			    </div>
+			  </li>
+			  {% endfor %}
+			</ul>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="span2" style="text-align:center; padding-bottom:20px; color: #AAA">
+			<h1> or </h1>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		<div class="span2">
+			<h3> Start a new puzzle yourself!</h3>
+		</div>
+		<div class="span10">
+			<div id="start-puzzle-file-uploader" data-loading-text="starting new puzzle...">
+				Upload a new Photo
+			</div>
+		</div>
+	</div>
+
+</div>

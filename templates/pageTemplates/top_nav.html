@@ -1,24 +1,26 @@
-<div id="top-nav">
-
-	<div class="nav-element" id="logo"><span class="red-text">Puzzl<span class="blue-text">æ</span>f</span></div>
-	
-	{% for page in pages %}
-		{% ifequal current_page page  %}
-			<div class="nav-element nav-page-element button gray selected">{{ page }}</div>
-		{% else %}
-			<div class="nav-element nav-page-element button gray">{{ page }}</div>
-		{% endifequal %}
-	{% endfor %}
-	
-	{% ifequal current_page "Settings"  %}
-		<div class="nav-account nav-element nav-page-element button blend-in-gray selected">Settings</div>
-	{% else %}
-		<div class="nav-account nav-element nav-page-element button blend-in-gray">Settings</div>
-	{% endifequal %}
-	
-	{% ifequal current_page "Logout"  %}
-		<div class="nav-account nav-element nav-page-element button blend-in-gray selected">Logout</div>
-	{% else %}
-		<div class="nav-account nav-element nav-page-element button blend-in-gray">Logout</div>
-	{% endifequal %}
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="#">Puzzl<span class="blue-text">æ</span>f</a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li><a href="#" data-toggle="collapse" data-target="#start-puzzle-panel">+ Start a new Puzzle</a></li>
+        </ul>
+		<ul class="nav pull-right">         
+			<li class="dropdown">
+			  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.username }} <b class="caret"></b></a>
+	          <ul class="dropdown-menu">
+	            <li><a href="#" onclick="show_profile()">My Profile</a></li>
+	            <li><a href="accounts/logout/">Logout</a></li>
+	          </ul>
+	        </li>
+		</ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
 </div>

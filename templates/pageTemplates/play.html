@@ -1,54 +1,30 @@
 
-<div class="title red"> Start a new Puzzlaef </div>
-
-<div id="search-box-wrapper">
-	<input id="search-input" type="text" name="location" maxlength="30" placeholder="Enter a location to start...">
-	<div id="search-button" class="button red">Search</div>
+<div id="start-puzzle-panel" class='collapse'>
+	<div id="start-puzzle-panel-content">
+	</div>
 </div>
 
-<div id="current-puzzles-wrapper">
-	<div class="title blue"> Your Current Puzzlaefs </div>
-
-	{% if empty %}
-		<div class="helper-text"> 
-			You don't have any Puzzlaefs at the moment! <br />
-			Type in a location in the box above and play a Puzzlaef with someone in a culture that intreagues you!
-		</div>
-	
-	{% else %}
-		<div class="helper-text"> 
-			Continue playing your Puzzlaefs! <br />
-			The more pieces you complete the more points you get!
-		</div>
-		<div class="puzzles">
-		{% for puzzle in puzzles %}
-			<div class="puzzle">
-				<div class="left-user-info">
-					{{puzzle.username1}}<br />
-					{{puzzle.location1}}
-				</div>
-				{% if puzzle.photo1 %}
-				<div class="left-photo">
-					<img class="thumb" src="{{ puzzle.photo1.get_thumb_url }}" alt='' height="130" width="130" />
-				</div>
-				{% endif %}
-				<div class="vs-symbol">
-				vs.
-				</div>
-				{% if puzzle.photo2 %}
-				<div class="right-photo">
-					<img class="thumb" src="{{ puzzle.photo2.get_thumb_url }}" alt='' height="130" width="130" />
-				</div>
-				{% endif %}
-				<div class="right-user-info">
-				{{puzzle.username2}}<br />
-				{{puzzle.location2}}
-				</div>
-				<div class="button blue" onclick="Dajaxice.puzzlaef.puzzle.open_puzzle(Dajax.process,{'puzzle':{{ puzzle.id }}})" style="margin-top: 60px; padding: 10px">Play</div>
+<div class="row">
+	<div class="span10 offset1" id="alerts-panel">
+	</div>
+</div>
+<div id="puzzles">
+	<div id="user-puzzles">
+		{% if latest_user_puzzles %}
+			{% for puzzle in latest_user_puzzles %}
+				{{ puzzle }}
+			{% endfor %}
+		{% else %}
+			<div class="alert alert-block alert-info" style="width:300px"> 
+				<h4 class="alert-heading">You don't have any puzzles yet!</h4> 
+				Click the start new puzzle button above and either join an existing puzzle or start your own one by submitting a picture!
 			</div>
-		{% endfor %}
-		</div>
-	{% endif %}
+		{% endif %}
+	</div>
+	
+	{% for puzzle in latest_other_puzzles %}
+		{{ puzzle }}
+	{% endfor %}
 </div>
 
 

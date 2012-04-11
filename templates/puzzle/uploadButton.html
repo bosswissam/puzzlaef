@@ -1,14 +1,25 @@
 var uploader = new qq.FileUploader({
-    element: document.getElementById('{{ id }}'),
-    action: '{{ action }}',
-	{{ onCompleteCallback }}
-	allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
-	template: '<div class="qq-uploader">' + 
-            '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-            '<div class="qq-upload-button button blue" style="{{ style }}">{{ label }}</div>' +
-            '<ul class="qq-upload-list"></ul>' + 
-         '</div>',
-    debug: true
+element: document.getElementById('{{ id }}'),
+
+action: '{{ action }}',
+
+{{ onCompleteCallback }}
+
+allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+
+{% if params %}
+  {% autoescape off %}
+		params: {{ params }},
+	{% endautoescape %}
+{% endif %}
+
+template: '<div class="qq-uploader">' + 
+           '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+           '<div class="qq-upload-button btn btn-primary btn-large" data-loading-text="uploading..." style="{{ style }}">{{ label }}</div>' +
+           '<ul class="qq-upload-list"></ul>' + 
+        '</div>',
+
+debug: true
 });
 
 

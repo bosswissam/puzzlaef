@@ -5,12 +5,11 @@ from django.db.models.signals import post_save
 # Create your models here.
 
 class UserProfile(models.Model):
-    avatar = models.ImageField("avatar", upload_to="avatars/", blank=True, null=True)
-    user = models.ForeignKey(User, unique=True)
-    location = models.CharField(max_length=200)
+	user = models.OneToOneField(User)
+	location = models.CharField(max_length=200)
 
-    def __unicode__(self):
-        return unicode(self.user)
+	def __unicode__(self):
+		return unicode(self.user)
     
 def create_user_profile(sender, **kwargs):
     """When creating a new user, make a profile for him or her."""

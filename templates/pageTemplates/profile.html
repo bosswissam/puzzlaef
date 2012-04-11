@@ -1,20 +1,19 @@
-
-<div class="title red"> Edit Profile </div>
-
-<div id="profilePictureUploadWrapper">
-<div id="file-uploader" style="width:150px">	
-		       
+<div class="modal fade" id="profileModal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Your Profile</h3>
+  </div>
+	<form id="my_form" accept-charset="utf-8" class="form-vertical" style="margin:0" enctype="multipart/form-data" method="post" action="">
+  <div class="modal-body">
+    
+		{{ form.as_p }} 
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+		<input class="btn btn-primary" type="button" value="Save" onclick="send_form();">
+  </div>
+	</form>
 </div>
-</div>
 
-<form id="hidden_form" style="display:none">
-{% csrf_token %}
-</form>
-
-<form id="my_form" accept-charset="utf-8" class="form" enctype="multipart/form-data" method="post" action="">
-{{ form.as_p }} 
-<div id="map_canvas"></div>
-<p><input class="button red shift-right" style="float:none;" type="button" value="Save" onclick="send_form();"></p>
-</form>
 
 <!-- {{ pictureGrid }}  -->

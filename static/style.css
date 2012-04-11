@@ -1,6 +1,14 @@
 html, body {
-	font-family: "Ruluko", Verdana, Arial, Helvetica, sans-serif !important;
+	/*font-family: "Ruluko", Verdana, Arial, Helvetica, sans-serif !important;*/
 	background-color: #EEE;
+}
+
+body {
+	padding-top: 40px;
+}
+
+.black-text {
+	color: #000;
 }
 
 .red-text {
@@ -11,19 +19,9 @@ html, body {
 	color: #3ca1ff;
 }
 
-#logo {
-	margin: 10px auto;
-	padding: 0 30px;
-	font-family: "Snippet", Verdana, Arial, Helvetica, sans-serif;
-	font-size: 55px;
-	text-shadow: #AAA 1px 1px 3px;
-	text-align: center;
-	cursor: default;
-}
-
 #logo-big {
 	margin: 10px auto;
-	font-family: "Snippet", Verdana, Arial, Helvetica, sans-serif;
+	font-family: 'Snippet','Helvetica Neue',Helvetica,Arial,sans-serif;
 	font-size: 80px;
 	text-shadow: #AAA 1px 1px 3px;
 	text-align: center;
@@ -34,13 +32,13 @@ html, body {
 
 #page-container {
 	margin: 0 auto 20px;
-	width: 900px;
+	/*width: 900px;
 	box-shadow: 2px 2px 7px #AAA; 
 	-moz-box-shadow: 2px 2px 7px #AAA; 
 	-webkit-box-shadow: 2px 2px 7px #AAA; 
 	min-height: 200px;
 	background-color: #FFF;
-	padding-bottom: 20px;
+	padding-bottom: 20px;*/
 }
 
 .title {
@@ -74,6 +72,10 @@ html, body {
 
 /******** Navigation ********/
 
+.navbar {
+	font-family: 'Snippet','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+
 #top-nav {
 	margin: auto;
 	width: 900px;
@@ -82,25 +84,22 @@ html, body {
 	text-align: center;
 }
 
-.nav-account {
-}
-
-.nav-element {
-	float: left;
-	text-decoration: none;
-}
-
 .nav-page-element {
-	margin: 20px 15px 0 !important;
+	margin-top: -19px !important;
 	font-family: "Snippet", Verdana, Arial, Helvetica, sans-serif !important;
-	font-size: 15px !important;
+	font-size: 13px !important;
 	text-shadow: #CCC 1px 1px 2px;
 	text-align: center;
 	font-weight: bold;
+	text-decoration: none;
+	border-top-left-radius: 0px !important;
+	border-top-right-radius: 0px !important;
+	float: right !important;
+	color: #000 !important;
 }
 
 .nav-page-element:active {
-	margin: 22px 15px 0 !important;
+	margin-top: -19px !important;
 }
 
 div.nav-page-element.selected {
@@ -109,11 +108,11 @@ div.nav-page-element.selected {
     -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .2) inset, 0 -1px 0 rgba(0, 0, 0, .3) inset, 0 0 10px rgba(255, 255, 255, .2) inset, 0 2px 4px rgba(0, 0, 0, .2);
     -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .2) inset, 0 -1px 0 rgba(0, 0, 0, .3) inset, 0 0 10px rgba(255, 255, 255, .2) inset, 0 2px 4px rgba(0, 0, 0, .2);
     padding: 11px 15px 12px;
-	margin: 22px 15px 0 !important;
+	margin-top: -19px !important;
 	color: #fff !important;
 }
 
-div.button.blend-in-gray {
+div.button.nav-button {
 	background-color: #EEE;
 	box-shadow:none;
 	-moz-box-shadow: none;
@@ -121,10 +120,9 @@ div.button.blend-in-gray {
 	border: none;
 	color: #888;
 	padding: 8px 11px;
-	margin-top: 25px !important;
 }
 
-div.button.blend-in-gray:hover {
+div.button.nav-button:hover {
 	background-color: #ff7e7e;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, .4) inset, 0 -3px 0 rgba(0, 0, 0, .3) inset, 0 0 10px rgba(255, 255, 255, .4) inset, 0 2px 4px rgba(0, 0, 0, .3);
     -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .4) inset, 0 -3px 0 rgba(0, 0, 0, .3) inset, 0 0 10px rgba(255, 255, 255, .4) inset, 0 2px 4px rgba(0, 0, 0, .3);
@@ -132,8 +130,8 @@ div.button.blend-in-gray:hover {
 	color: #fff;
 }
 
-div.button.blend-in-gray:active,
-div.button.blend-in-gray.selected {
+div.button.nav-button:active,
+div.button.nav-button.selected {
     background-color: #d95959;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, .2) inset, 0 -1px 0 rgba(0, 0, 0, .3) inset, 0 0 10px rgba(255, 255, 255, .2) inset, 0 2px 4px rgba(0, 0, 0, .2);
     -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .2) inset, 0 -1px 0 rgba(0, 0, 0, .3) inset, 0 0 10px rgba(255, 255, 255, .2) inset, 0 2px 4px rgba(0, 0, 0, .2);
@@ -143,6 +141,27 @@ div.button.blend-in-gray.selected {
 }
 
 /******** Play Pages *******/
+
+#start-puzzle-panel-content{
+	height: 235px;
+}
+
+.open-puzzle-thumbnail {
+	text-align: center;
+	background-color: #fff;
+}
+
+.open-puzzle-id {
+	display: none;
+}
+
+.open-puzzle-location{
+	padding-top: 5px;
+}
+
+.open-puzzle-user {
+	padding-bottom: 10px;
+}
 
 #search-box-wrapper{
 	margin: 0px auto;
@@ -187,16 +206,6 @@ div.puzzles {
 	width: 820px;
 	padding-bottom: 20px;
 	text-align: center;
-}
-
-div.puzzle {
-	margin: 20px 0px;
-	background-color: #EEE;
-	display: inline-block;
-}
-
-div.puzzle > *{
-	padding: 10px;
 }
 
 div.left-user-info {
@@ -265,14 +274,13 @@ img.thumb.selected {
 
 div.thumbLabel {
 	color: #fff;
-	font-size: 12px;
+	font-size: 13px;
 	text-align: center;
 	background-color: rgba(255,109,109, 0.75);
 	padding: 5px;
-	margin: -24px -10px;
+	margin: -5px -10px;
 	border-radius: 4px;
 	position: relative;
-	font-weight: bold;
 }
 
 div.thumbLabel.selected {
@@ -281,56 +289,89 @@ div.thumbLabel.selected {
 
 /********* Puzzle - Puzzle Page ********/
 
-#puzzle-view {
-	margin: 20px auto;
-	width: 700px;
-	background-color: #EEE;
-	box-shadow: inset 1px 1px 6px #666;
-	-moz-box-shadow: inset 1px 1px 6px #666;
-	-webkit-box-shadow: inset 1px 1px 6px #666;
-	padding-bottom: 20px;
-	text-align: center;
+#user-puzzles {
+	display: block;
+	height: 100%;
+	float:left;
 }
 
-div.piece {
-	width: 620px;
+.names {
+	width: 300px;
+	text-shadow: 1px 1px 1px #888;
+	margin-bottom: 20px;
+}
+
+.user-name{
+	background-color: black !important;
+}
+
+.name1 {
+	background-color: #3ca1ff;
+	float: left;
+	color: #fff;
+	width: 130px;
+	padding: 10px;
+}
+
+.name2 {
+	background-color: #7c007c;
+	float: right;
+	width: 130px;
+	color: #fff;
+	padding: 10px;
+}
+
+.puzzle {
+	width: 300px;
+	float: left;
+	margin: 0px 20px;
+	background-color: #EEE;
 	display: inline-block;
 }
 
-div.piece-part {
+div.left-pieces-normal, 
+div.left-pieces-shifted {
 	float:left;
+}
+
+div.right-pieces-normal,
+div.right-pieces-shifted {
+	float:right;
+}
+
+.left-pieces-shifted > div.piece:first-child {
+	margin-top: 110px;
+}
+
+.right-pieces-shifted > div.piece:first-child {
+	margin-top: 110px;
+}
+
+div.user-piece-side > div.piece {
+	border-bottom: 5px solid black !important;
+}
+
+div.left-pieces-normal > div.piece,
+div.left-pieces-shifted > div.piece {
+	border-bottom: 5px solid #3ca1ff;
+}
+
+div.right-pieces-normal > div.piece,
+div.right-pieces-shifted > div.piece {
+	border-bottom: 5px solid #7c007c;
+}
+
+.piece {
+	width: 150px;
+	height: 112px;
+	background-color: #ddd;
+	margin-top: 37px;
 	text-align: center;
-	margin: 30px;
 }
 
-
-div.piece-part.left.new {
-	width: 200px;
-	height:200px;
-	background-color: #fff;
-	box-shadow: 0px 0px 5px #777;
-	-moz-box-shadow: 0px 0px 5px #777;
-	-webkit-box-shadow: 0px 0px 5px #777;
-}
-
-div.piece-part.right.new {
-	width: 200px;
-	height:200px;
-	background-color: #fff;
-	box-shadow: 0px 0px 5px #777;
-	-moz-box-shadow: 0px 0px 5px #777;
-	-webkit-box-shadow: 0px 0px 5px #777;
-}
-
-div.piece-part.middle {
-	font-family: "snippet", Verdana, Arial, Helvetica, sans-serif;
-	font-size: 100px;
-	color: #3ca1ff;
-	margin: 60px 0 0;
-}
-
-div.puzzleThumb{
-	margin: -4px -10px;
+.piece-picture{
+	width: 150px;
+	height: 112px;
 }
 
 #plus-button {
@@ -339,33 +380,15 @@ div.puzzleThumb{
 }
 
 #question-mark {
-	margin: 30px;
+	margin: 40px auto 0;
 	font-size: 70px;
+	display: inline-block;
 }
 
 /******** Login/Registration *******/
 
 #login-content {
 	margin: 50px auto 0;
-}
-
-.form {
-	margin: auto;
-	width: 240px;
-	padding: 20px 0;
-}
-
-.form > * {
-	margin: 15px 0;
-	display: block;
-}
-
-.form > * > label {
-	width: 170px;
-	display: block;
-	float: left;
-	color: #666;
-	font-size: 1.1em;
 }
 
 .login-buttons-row {
@@ -376,43 +399,7 @@ div.puzzleThumb{
 	margin-left: 120px !important;
 }
 
-input[type=text],
-input[type=password],
-.form > * > textarea {
-	display: inline-block; 
-	box-sizing: border-box; 
-	-moz-box-sizing: border-box; 
-	-ms-box-sizing: border-box; 
-	-webkit-box-sizing: border-box; 
-	padding: 6px 12px; 
-	font-size: 18px; 
-	font-weight: 300; 
-	line-height: 1.4;  
-	background: #fff; 
-	border: 1px solid #a4a2a2; 
-	border-radius: 6px; 
-	-moz-border-radius: 6px; 
-	-webkit-border-radius: 6px; 
-	box-shadow: inset 0 1px rgba(34,25,25,0.15), 0 1px rgba(255,255,255,0.8); 
-	-moz-box-shadow: inset 0 1px rgba(34,25,25,0.15), 0 1px rgba(255,255,255,0.8); 
-	-webkit-box-shadow: inset 0 1px rgba(34,25,25,0.15), 0 1px rgba(255,255,255,0.8); 
-	-moz-transition: all 0.08s ease-in-out; 
-	-webkit-transition: all 0.08s ease-in-out;
-	width: 300px;
-}
-textarea {min-height: 90px;}
-.form > * > div {display: inline-block;}
-.form > * > label {display: inline-block; line-height: 1.4em; font-size: 18px;}
 
-/* Input Focus */
-input[type=text]:focus,
-input[type=password]:focus,
-textarea:focus {
-	border-color: #3ca1ff; 
-	box-shadow: inset 0 1px rgba(34,25,25,0.15), 0 1px rgba(255,255,255,0.8), 0 0 14px rgba(60,161,255,0.35); 
-	-moz-box-shadow: inset 0 1px rgba(34,25,25,0.15), 0 1px rgba(255,255,255,0.8), 0 0 14px rgba(60,161,255,0.35); 
-	-webkit-box-shadow: inset 0 1px rgba(34,25,25,0.15), 0 1px rgba(255,255,255,0.8), 0 0 14px rgba(60,161,255,0.35); 
-}
 
 .errorlist > li{
 	display: inline-block;
@@ -460,7 +447,8 @@ textarea:focus {
 }
 
 .button.gray {
-	color: #3ca1ff;
+	color: #000;
+	background-color: #f9f9f9;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, .4) inset, 0 -3px 0 rgba(0, 0, 0, .3) inset, 0 0 10px rgba(255, 255, 255, .3) inset, 0 2px 4px rgba(0, 0, 0, .1);
     -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .4) inset, 0 -3px 0 rgba(0, 0, 0, .3) inset, 0 0 10px rgba(255, 255, 255, .3) inset, 0 2px 4px rgba(0, 0, 0, .1);
     -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .4) inset, 0 -3px 0 rgba(0, 0, 0, .3) inset, 0 0 10px rgba(255, 255, 255, .3) inset, 0 2px 4px rgba(0, 0, 0, .1);

@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.template.loader import render_to_string
 from puzzlaef.settings import *
+from puzzlaef.main.models import UserProfile
 from string import split
 
 import datetime
@@ -112,16 +113,28 @@ class Photo(models.Model):
     
     def getAsString(self):
         return render_to_string("puzzle/pictureThumb.html", {'picture':self})
+
 class Puzzle(models.Model):
-    title = models.CharField(max_length=200)
-    player1 = models.ForeignKey(User, related_name = "player 1")
-    player2 = models.ForeignKey(User, related_name = "player 2")
-    turn = models.ForeignKey(User, related_name = "player turn")
-    theme_picture = models.ForeignKey(Photo, related_name = "theme photo", null = True)
+	title = models.CharField(max_length=200)
+	player1 = models.ForeignKey(User, related_name = "player1")
+	player2 = models.ForeignKey(User, related_name = "player2", null = True)
+	turn = models.ForeignKey(User, related_name = "turn", null = True)
+	time_modified = models.DateTimeField(auto_now=True)
+	
+	def __str__(self):
+		return "{0}, {1} and {2}, {3}".format(self.player1, self.player1.get_profile().location, self.player2, self.player2.get_profile().location)
+    
+	def __unicode__(self):
+		return "{0}, {1} and {2}, {3}".format(self.player1, self.player1.get_profile().location, self.player2, self.player2.get_profile().location)
+		
 
 class PuzzlePiece(models.Model):
-    helper = models.ForeignKey(User, null=True)
-    puzzle = models.ForeignKey(Puzzle, related_name="puzzle")
-    photo1 = models.ForeignKey(Photo, related_name ="photo 1", null = True)
-    photo2 = models.ForeignKey(Photo, related_name ="photo 2", null = True)
-    needs_help = models.BooleanField()
+	helper = models.ForeignKey(User, related_name = "PieceHelper", null=True)
+	puzzle = models.ForeignKey(Puzzle)
+	owner = models.ForeignKey(User, related_name = "PieceOwner")
+	photo = models.ForeignKey(Photo)
+	time_modified = models.DateTimeField(auto_now=True)
+	needs_help = models.BooleanField()
+	
+	def location(self):
+		return UserProfile.objects.get(user=self.owner).location

@@ -1,91 +1,26 @@
-<div class="title blue">Puzzlaef: {{ user.username }} vs {{ opponent.username }} </div>
-<div class="helper-text">
-Welcome to this epic Puzzleaf! You must match your opponents picture by pressing on the plus sign 
-and adding a picture that you or someone else in your country has taken. The rounds you play,
-the more honor and glory you will get in addition to the awesomeness that cultural understanding is.
-</div>
-<div id="puzzle-view">
-<form id="hidden_form" style="display:none">
-{% csrf_token %}
-</form>
-{% for piece in pieces reversed %}
-	<div class="piece">
-	{% if forloop.first %}
-		
-		{% if newTurn and userTurn %}
-			<div class="piece-part left new">
-				<div id="plus-button">+</div>
-				<div class="thumbLabel puzzleThumb">Its your turn! Add your Picture Response!</div>
-			</div>
-			<div class="piece-part middle">æ</div>
-			<div class="piece-part right new">
-				<div id="question-mark">*</div>
-				<div class="thumbLabel puzzleThumb">{{ opponent.username }} is waiting for your move!</div>
-			</div>
-		{% endif %}
-		
-		{% if newTurn and not userTurn %}
-			<div class="piece-part left new">
-				<div id="question-mark">*</div>
-				<div class="thumbLabel puzzleThumb">Its their turn to start the round!</div>
-			</div>
-			<div class="piece-part middle">æ</div>
-			<div class="piece-part right new">
-				<div id="question-mark">?</div>
-				<div class="thumbLabel puzzleThumb">{{ opponent.username }} is working on a response!</div>
-			</div>
-		{% endif %}
-		
-		{% if not newTurn and not userTurn %}
-			<div class="piece-part left new">
-				<img class="thumb" src=
-				{% ifequal piece.puzzle.player1 user%}
-					{{ piece.photo1.get_thumb_url }} alt="{{ piece.photo1.title }}" height="200" width="200" />
-				{% else %}
-					{{ piece.photo2.get_thumb_url }} alt="{{ piece.photo2.title }}" height="200" width="200" />
-				{% endifequal %}
-			</div>
-			<div class="piece-part middle">æ</div>
-			<div class="piece-part right new">
-				<div id="question-mark">?</div>
-				<div class="thumbLabel puzzleThumb">{{ opponent.username }} is working on a response!</div>
-			</div>
-		{% endif %}
-		
-		{% if not newTurn and userTurn %}
-			<div class="piece-part left new">
-				<div id="plus-button">+</div>
-				<div class="thumbLabel puzzleThumb">Its your turn! Add your Picture Response!</div>
-			</div>
-			<div class="piece-part middle">æ</div>
-			<div class="piece-part right new">
-				<img class="thumb" src=
-				{% ifequal piece.puzzle.player1 user%}
-					{{ piece.photo2.get_thumb_url }} alt="{{ piece.photo2.title }}" height="200" width="200" />
-				{% else %}
-					{{ piece.photo1.get_thumb_url }} alt="{{ piece.photo1.title }}" height="200" width="200" />
-				{% endifequal %}
-			</div>
-		{% endif %}
-	{% else %}
-		<div class="piece-part left">
-			<img class="thumb" src=
-			{% ifequal piece.puzzle.player1 user%}
-				{{ piece.photo1.get_thumb_url }} alt="{{ piece.photo1.title }}" height="200" width="200" />
-			{% else %}
-				{{ piece.photo2.get_thumb_url }} alt="{{ piece.photo2.title }}" height="200" width="200" />
-			{% endifequal %}
+
+<div class='puzzle' id="puzzle{{ puzzle.id }}">
+	<div class="names">
+		<div class="name1 {% if request %} {% ifequal request.user puzzle.player1 %} user-name {% endifequal %}{% endif %}">
+			{{ puzzle.player1.username }} <br />
+			{{ puzzle.player1.get_profile.location }}
 		</div>
-		<div class="piece-part middle">æ</div>
-		<div class="piece-part right">
-			<img class="thumb" src=
-			{% ifequal piece.puzzle.player1 user%}
-				{{ piece.photo2.get_thumb_url }} alt="{{ piece.photo2.title }}" height="200" width="200" />
-			{% else %}
-				{{ piece.photo1.get_thumb_url }} alt="{{ piece.photo1.title }}" height="200" width="200" />
-			{% endifequal %}
+		<div class="name2 {% if request %} {% ifequal request.user puzzle.player2 %} user-name {% endifequal %}{% endif %}">
+			{{ puzzle.player2.username }} <br />
+			{{ puzzle.player2.get_profile.location }}
 		</div>
-	{% endif %}
 	</div>
-{% endfor %}
+	<div class="puzzle-pieces">
+		<div class="{{leftPiecesName}} {% if request %} {% ifequal request.user puzzle.player1 %} user-piece-side {% endifequal %}{% endif %}">
+			{% for leftPiece in leftPieces %}
+			    {{ leftPiece }}
+			{% endfor %}
+		</div>
+		<div class="{{rightPiecesName}} {% if request %} {% ifequal request.user puzzle.player2 %} user-piece-side {% endifequal %}{% endif %}">
+			{% for rightPiece in rightPieces %}
+			    {{ rightPiece }}
+			{% endfor %}
+		</div>
+	</div>
 </div>
+
