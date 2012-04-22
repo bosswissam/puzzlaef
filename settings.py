@@ -20,6 +20,7 @@ DATABASES = {
     }
 }
 
+
 #EMAIL SMTP
 
 EMAIL_USE_TLS = True

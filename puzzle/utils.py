@@ -139,7 +139,7 @@ def join_puzzle(player, puzzle_id):
 	
 def generate_constraint(player = None, puzzle_id = None):
 	index = random.randint(0, len(CONSTRAINT_CHOICES)-1)
-	return CONSTRAINT_CHOICES[index]
+	return CONSTRAINT_CHOICES[index][0]
 	
 def make_move_with_photo(player, puzzle_id, photo):
 	puzzle = get_puzzle(puzzle_id)
