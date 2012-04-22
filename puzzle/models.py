@@ -114,6 +114,11 @@ class Photo(models.Model):
     def getAsString(self):
         return render_to_string("puzzle/pictureThumb.html", {'picture':self})
 
+CONSTRAINT_CHOICES = (
+    ('C', 'Color'),
+    ('T', 'Theme'),
+)
+
 class Puzzle(models.Model):
 	title = models.CharField(max_length=200)
 	player1 = models.ForeignKey(User, related_name = "player1")
@@ -126,15 +131,25 @@ class Puzzle(models.Model):
     
 	def __unicode__(self):
 		return "{0}, {1} and {2}, {3}".format(self.player1, self.player1.get_profile().location, self.player2, self.player2.get_profile().location)
-		
 
 class PuzzlePiece(models.Model):
 	helper = models.ForeignKey(User, related_name = "PieceHelper", null=True)
 	puzzle = models.ForeignKey(Puzzle)
 	owner = models.ForeignKey(User, related_name = "PieceOwner")
+	constraint = models.CharField(max_length=1, choices=CONSTRAINT_CHOICES)
 	photo = models.ForeignKey(Photo)
 	time_modified = models.DateTimeField(auto_now=True)
 	needs_help = models.BooleanField()
 	
 	def location(self):
 		return UserProfile.objects.get(user=self.owner).location
+
+class Comment(models.Model):
+	piece = models.ForeignKey(PuzzlePiece, related_name ="commentPiece")
+	text = models.TextField()
+	time_made = models.DateTimeField(auto_now=True)
+	commenter = models.ForeignKey(User)
+	
+	
+	def __str__(self):
+		return self.text

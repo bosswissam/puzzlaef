@@ -13,12 +13,50 @@ from django.utils import simplejson
 from django.template.loader import render_to_string
 from django.template import RequestContext
 
+
+@dajaxice_register
+def post_comment(request, piece, comment):
+	add_new_comment(request.user, piece, comment)
+	
+	comments = get_piece_comments(piece)
+	render = render_to_string("puzzle/pieceComments.html", {"comments": comments}, 
+																context_instance=RequestContext(request))
+	return simplejson.dumps({'commentsView': render})
+
 @dajaxice_register
 def fetch_discover(request):
    list = Puzzle.objects.all()
    results = [x._dict_ for x in list]
    return simplejson.dumps(result)	
 
+@dajaxice_register
+def get_piece_view_with_modal(request, piece):
+	prevPuzzlePiece = get_prev_puzzle_piece(piece)
+	puzzlePiece = get_puzzle_piece(piece)
+	nextPuzzlePiece = get_next_puzzle_piece(piece)
+	if nextPuzzlePiece:
+		nextToNextPiece = get_next_puzzle_piece(nextPuzzlePiece.id)
+	else:
+		nextToNextPiece = None
+	comments = get_piece_comments(piece)
+	render = render_to_string("puzzle/pieceViewModal.html", {"piece":puzzlePiece, "prevPiece":prevPuzzlePiece, "nextPiece":nextPuzzlePiece, "nextToNextPiece":nextToNextPiece,"comments":comments}, 
+																context_instance=RequestContext(request))
+	return simplejson.dumps({'pieceViewModal': render})
+
+@dajaxice_register
+def get_piece_view(request, piece):
+	prevPuzzlePiece = get_prev_puzzle_piece(piece)
+	puzzlePiece = get_puzzle_piece(piece)
+	nextPuzzlePiece = get_next_puzzle_piece(piece)
+	if nextPuzzlePiece:
+		nextToNextPiece = get_next_puzzle_piece(nextPuzzlePiece.id)
+	else:
+		nextToNextPiece = None
+	comments = get_piece_comments(piece)
+	render = render_to_string("puzzle/pieceView.html", {"piece":puzzlePiece, "prevPiece":prevPuzzlePiece, "nextPiece":nextPuzzlePiece, "nextToNextPiece":nextToNextPiece,"comments":comments}, 
+																context_instance=RequestContext(request))
+	return simplejson.dumps({'pieceView': render})
+		
 @dajaxice_register
 def get_start_puzzle_content(request):
 	openPuzzlePieces = fetch_all_open_puzzle_pieces(request.user)

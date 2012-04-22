@@ -5,13 +5,11 @@ Registration
 {% endblock %}
 
 {% block form %}
-     <form class="form registrationForm" action="/accounts/register/" method="POST">{% csrf_token %}
-         <table>
-         	{{ form.as_ul }}
-         </table>
-     <p>
-         <input class="button red shift-right" type="submit" value="Register" />
-     </p>
+     <form class="registrationForm" action="/accounts/register/" method="POST">{% csrf_token %}
+      {{ form.as_p }}
+			<div class="form-actions">
+         <input class="btn btn-success btn-large" type="submit" value="Register" />
+			</div>
      </form>
 {% endblock %}
 

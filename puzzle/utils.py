@@ -4,8 +4,11 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from puzzlaef.puzzle.models import Puzzle, PuzzlePiece, Photo
+from puzzlaef.puzzle.models import Puzzle, PuzzlePiece, Photo, Comment, CONSTRAINT_CHOICES
 from puzzlaef.main.models import UserProfile
+from django.core.exceptions import ObjectDoesNotExist
+
+import random
 
 class PictureThumb(Photo):
     def getAsString(self):
@@ -42,7 +45,7 @@ class PuzzleRenderer:
 		upload_button_script = None
 		if self.request: #This is one of the puzzles of this user
 			upload_button_script = render_to_string("puzzle/uploadButton.html", 
-												{"style":"float:none; width: 70px; margin-left: auto; margin-right: auto; padding: 10px", 
+												{"style":"margin: 10px auto 0;", 
 												"id":"plus-button{0}".format(self.puzzle.id), "label":"Add Picture", 
 												"action":"upload/makeMove", 
 												"params": '{'+' "puzzle": "{0}" '.format(str(self.puzzle.id)) +'}',
@@ -83,12 +86,13 @@ class PuzzleRenderer:
 				print "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", "six", previous_is_left
 		
 		for piece in self.pieces:
-				new_piece = render_to_string("puzzle/normalPiece.html", {"piece":piece})
 				if previous_is_left:
+					new_piece = render_to_string("puzzle/normalPiece.html", {"piece":piece, 'constraintClass':'left-constraint'})
 					self.insert_left_piece(new_piece)
 					previous_is_left = False
 					print "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", "seven", previous_is_left
 				else:
+					new_piece = render_to_string("puzzle/normalPiece.html", {"piece":piece, 'constraintClass':'right-constraint'})
 					self.insert_right_piece(new_piece)
 					previous_is_left = True
 					print "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", "eight", previous_is_left
@@ -119,6 +123,12 @@ def make_new_puzzle(player, photo):
 	
 	return puzzle.id
 
+def add_new_comment (commenter, piece, comment):
+	piece = get_puzzle_piece(piece);
+	
+	new_comment = Comment(piece=piece, text=comment, commenter=commenter)
+	new_comment.save()
+
 def join_puzzle(player, puzzle_id):
 	puzzle = get_puzzle(puzzle_id)
 	puzzle.player2 = player
@@ -127,11 +137,15 @@ def join_puzzle(player, puzzle_id):
 	
 	return puzzle
 	
+def generate_constraint(player = None, puzzle_id = None):
+	index = random.randint(0, len(CONSTRAINT_CHOICES)-1)
+	return CONSTRAINT_CHOICES[index]
+	
 def make_move_with_photo(player, puzzle_id, photo):
 	puzzle = get_puzzle(puzzle_id)
 	
 	if(player == puzzle.turn):
-		piece = PuzzlePiece(puzzle=puzzle, owner=player, photo=photo)
+		piece = PuzzlePiece(puzzle=puzzle, owner=player, photo=photo, constraint=generate_constraint())
 		piece.save()
 	
 		if player == puzzle.player1:
@@ -160,7 +174,7 @@ def fetch_all_latest_user_puzzles(user):
 	return Puzzle.objects.filter(Q(player2__isnull = False), Q(player1 = user) | Q(player2 = user)).order_by('time_modified')
 	
 def fetch_user_puzzles(user):	
-	return user.Puzzle_set().filter(player2_isnull=False).order_by('time_modified')
+	return user.Puzzle_set().filter(player2__isnull=False).order_by('time_modified')
     
 def getThemes():
     list = Photo.objects.filter(isTheme=True)
@@ -174,6 +188,27 @@ def set_puzzle_theme(reuest, puzzle, theme):
     
 def get_puzzle(puzzle_id):
     return Puzzle.objects.get(id=puzzle_id)
+
+def get_puzzle_piece(piece_id):
+    return PuzzlePiece.objects.get(id=piece_id)
+
+def get_next_puzzle_piece(piece_id):
+	currentPiece = PuzzlePiece.objects.get(id=piece_id)
+	try:
+		return currentPiece.get_previous_by_time_modified()
+	except ObjectDoesNotExist:
+		return None
+
+def get_prev_puzzle_piece(piece_id):
+	currentPiece = PuzzlePiece.objects.get(id=piece_id)
+	try:
+		return currentPiece.get_next_by_time_modified()
+	except ObjectDoesNotExist:
+		return None
+
+def get_piece_comments(piece_id):
+	piece = PuzzlePiece.objects.get(id=piece_id)
+	return Comment.objects.filter(piece=piece).order_by('time_made')
 
 def get_user_profile(user):
 	return UserProfile.objects.get(user=user)

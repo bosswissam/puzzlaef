@@ -2,6 +2,44 @@ $.fn.exists = function () {
     return this.length !== 0;
 }
 
+var submitCurrentComment = function( piece, comment ) {
+	Dajaxice.puzzlaef.puzzle.post_comment( function(data){
+		$('#piece-comments').replaceWith(data.commentsView);
+		initialize_comment_input(piece);
+	}, {'piece':piece, 'comment':comment});
+}
+
+var initialize_comment_input = function ( piece ) {
+	$('#new-comment-textarea').bind('keypress', function(e) {
+	     var code = (e.keyCode ? e.keyCode : e.which);
+		 if(code == 13) { //Enter keycode
+			e.preventDefault();
+		    submitCurrentComment(piece, $('#new-comment-textarea').val());
+		 }
+	});
+	$("#new-comment-button").click( function(e) {
+		submitCurrentComment(piece, $('#new-comment-textarea').val());
+	});
+}
+var showPiece = function( piece ){
+	if($('#pieceViewModal').exists()){
+		Dajaxice.puzzlaef.puzzle.get_piece_view(function (data){
+			$('#pieceView').replaceWith(data.pieceView);
+			$('#pieceViewModal').modal('show');
+			
+			initialize_comment_input(piece);
+		}, {'piece':piece});
+	} else {
+		Dajaxice.puzzlaef.puzzle.get_piece_view_with_modal(function (data){
+			$('body').append(data.pieceViewModal);
+			$('#pieceViewModal').modal();
+			
+			initialize_comment_input(piece);
+		}, {'piece':piece});
+	}
+	
+}
+
 var show_profile = function(){
 	Dajaxice.puzzlaef.puzzle.get_profile(function (data){
 		$('body').append(data.profile);

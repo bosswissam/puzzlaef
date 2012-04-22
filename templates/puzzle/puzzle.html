@@ -2,12 +2,12 @@
 <div class='puzzle' id="puzzle{{ puzzle.id }}">
 	<div class="names">
 		<div class="name1 {% if request %} {% ifequal request.user puzzle.player1 %} user-name {% endifequal %}{% endif %}">
-			{{ puzzle.player1.username }} <br />
-			{{ puzzle.player1.get_profile.location }}
+			<h3>{{ puzzle.player1.username }} </h3>
+			<h6 style="color:black">{{ puzzle.player1.get_profile.location }}</h6>
 		</div>
 		<div class="name2 {% if request %} {% ifequal request.user puzzle.player2 %} user-name {% endifequal %}{% endif %}">
-			{{ puzzle.player2.username }} <br />
-			{{ puzzle.player2.get_profile.location }}
+			<h3>{{ puzzle.player2.username }} </h3>
+			<h6 style="color:black">{{ puzzle.player2.get_profile.location }}</h6>
 		</div>
 	</div>
 	<div class="puzzle-pieces">

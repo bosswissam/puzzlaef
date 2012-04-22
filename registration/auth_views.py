@@ -68,7 +68,7 @@ def login(request, template_name='registration/login.html',
         else:
             print form.errors
             return render_to_response('registration/login.html',
-                                      {'error_message':'Please check your email for an activation link',
+                                      {'form': form,
                                        'STATIC_URL' : STATIC_URL}, context_instance=RequestContext(request))
         return HttpResponseRedirect(redirect_to)
     else:

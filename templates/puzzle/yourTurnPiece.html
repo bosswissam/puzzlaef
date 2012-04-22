@@ -3,10 +3,10 @@
 <form id="hidden_form" style="display:none">
 {% csrf_token %}
 </form>
-<div class="piece">
+<a class="thumbnail piece">
 	<div id="plus-button{{puzzle_id}}">+</div>
-	<div class="thumbLabel puzzleThumb">Its your turn! Add your Picture Response!</div>
-</div>
+	<div class="thumbLabel puzzleThumb">Its your turn! Add your Picture!</div>
+</a>
 
 {% if uploadButtonScript %}
 	<script>

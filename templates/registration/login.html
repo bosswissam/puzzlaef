@@ -7,24 +7,33 @@
 {% block content %}
 
  <div id="login-content">
-	<div id="logo-big"><span class="red-text">Puzzl<span class="blue-text">æ</span>f</span></div>
+	<div id="logo-big"><span class="black-text">Puzzl<span class="blue-text">æ</span>f</span></div>
 
 	{% block form %}
 	 {% if error_message %}
      <p class="errornote" align="center">{{ error_message }}</p>
  	{% endif %}
-	 <form class="form" action="{{ app_path }}" method="post">{% csrf_token %}
-	     <div class="form-row">
-	         <input type="text" name="username" id="id_username" placeholder="Username..." />
-	     </div>
-	     <div class="form-row">
-	         <input type="password" name="password" id="id_password" placeholder="Password..."/>
-	         <input type="hidden" name="this_is_the_login_form" value="1" />
-	     </div>
-	     <div class="login-buttons-row">
-	         <a class="button red" href="/accounts/register/">Register</a>
-	  		 <input class="button blue" type="submit" value="Log In" />
-	     </div>
+	 <form class="form-horizontal" action="{{ app_path }}" method="post">{% csrf_token %}
+			<p class="errornote" align="center">{{ form.non_field_errors }}</p>
+			<div class="control-group {% if form.non_field_errors or form.username.errors %}error{% endif %}">
+			      <label class="control-label" for="id_username">Username</label>
+			      <div class="controls">
+			        <input type="text" name="username" id="id_username" class="input-xlarge">
+							<p class="help-block"> {{ form.username.errors }} </p>
+			      </div>
+			</div>
+			<div class="control-group {% if form.non_field_errors or form.password.errors %} error {% endif %}">
+			      <label class="control-label" for="id_password">Password</label>
+			      <div class="controls">
+			        <input type="password" name="password" id="id_password" class="input-xlarge">
+							<p class="help-block"> {{ form.password.errors }} </p>
+							<input type="hidden" name="this_is_the_login_form" value="1" />
+			      </div>
+			</div>
+			<div class="form-actions">
+									<input class="btn btn-primary btn-large" type="submit" value="Log In" />
+			            <a href="/accounts/register/" class="btn btn-success btn-large">Register</a>
+			 </div>
 	 </form>
 	{% endblock %}
  </div>

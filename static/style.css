@@ -20,7 +20,7 @@ body {
 }
 
 #logo-big {
-	margin: 10px auto;
+	margin: 50px auto;
 	font-family: 'Snippet','Helvetica Neue',Helvetica,Arial,sans-serif;
 	font-size: 80px;
 	text-shadow: #AAA 1px 1px 3px;
@@ -238,6 +238,28 @@ div.right-photo {
 	float:left;
 }
 
+#pieceViewModal {
+	top: 10%;
+	left: 5%;
+	right: 5%;
+	bottom: 10%;
+	margin: 0;
+	width: auto;
+}
+
+.nav-arrow {
+	font-size: 155px;
+	font-family: 'Snippet', Verdana, Arial, Helvetica, sans-serif;
+	margin-top: 40px;
+	display: block;
+	color: #DDD;
+	cursor: pointer;
+}
+
+.nav-arrow:hover {
+	text-decoration: none;
+}
+
 /******** Puzzle - Picture Grid ********/
 
 div.pictureGrid {
@@ -276,10 +298,9 @@ div.thumbLabel {
 	color: #fff;
 	font-size: 13px;
 	text-align: center;
-	background-color: rgba(255,109,109, 0.75);
+	background-color: #0074CC;
 	padding: 5px;
-	margin: -5px -10px;
-	border-radius: 4px;
+	margin: -5px 0px;
 	position: relative;
 }
 
@@ -296,82 +317,84 @@ div.thumbLabel.selected {
 }
 
 .names {
-	width: 300px;
-	text-shadow: 1px 1px 1px #888;
+	width: 320px;
+	text-shadow: 1px 1px 1px #AAA;
 	margin-bottom: 20px;
 }
 
+.names > * {
+	background-color: #fff;
+	color: #000;
+	padding: 5px 10px;
+}
+
 .user-name{
-	background-color: black !important;
+	background-color: #bbdeff !important;
+	border-bottom: solid 10px #000 !important;
 }
 
 .name1 {
-	background-color: #3ca1ff;
+	border-bottom: solid 10px #7c007c;
 	float: left;
-	color: #fff;
-	width: 130px;
-	padding: 10px;
+	width: 140px;
+	text-align: right;
 }
 
 .name2 {
-	background-color: #7c007c;
+	border-bottom: solid 10px #3ca1ff;
 	float: right;
-	width: 130px;
-	color: #fff;
-	padding: 10px;
+	width: 140px;
 }
 
 .puzzle {
-	width: 300px;
+	width: 320px;
 	float: left;
 	margin: 0px 20px;
 	background-color: #EEE;
 	display: inline-block;
 }
 
-div.left-pieces-normal, 
-div.left-pieces-shifted {
+.left-pieces-normal, 
+.left-pieces-shifted {
 	float:left;
 }
 
-div.right-pieces-normal,
-div.right-pieces-shifted {
+.right-pieces-normal,
+.right-pieces-shifted {
 	float:right;
 }
 
-.left-pieces-shifted > div.piece:first-child {
+.left-pieces-shifted > .piece:first-child,
+.right-pieces-shifted > .piece:first-child {
 	margin-top: 110px;
 }
 
-.right-pieces-shifted > div.piece:first-child {
-	margin-top: 110px;
-}
-
-div.user-piece-side > div.piece {
+/*
+div.user-piece-side > div.piece > img  {
 	border-bottom: 5px solid black !important;
 }
 
-div.left-pieces-normal > div.piece,
-div.left-pieces-shifted > div.piece {
-	border-bottom: 5px solid #3ca1ff;
-}
-
-div.right-pieces-normal > div.piece,
-div.right-pieces-shifted > div.piece {
+div.left-pieces-normal > div.piece > img ,
+div.left-pieces-shifted > div.piece > img  {
 	border-bottom: 5px solid #7c007c;
 }
 
+div.right-pieces-normal > div.piece > img ,
+div.right-pieces-shifted > div.piece > img {
+	border-bottom: 5px solid #3ca1ff;
+}*/
+
 .piece {
-	width: 150px;
-	height: 112px;
-	background-color: #ddd;
+	background-color: #fff;
 	margin-top: 37px;
 	text-align: center;
+	width: 150px;
+	height: 112px;
+	/*margin-right: -5px;*/
 }
 
 .piece-picture{
-	width: 150px;
-	height: 112px;
+
 }
 
 #plus-button {
@@ -380,7 +403,7 @@ div.right-pieces-shifted > div.piece {
 }
 
 #question-mark {
-	margin: 40px auto 0;
+	margin: 10px auto 0;
 	font-size: 70px;
 	display: inline-block;
 }
@@ -389,6 +412,12 @@ div.right-pieces-shifted > div.piece {
 
 #login-content {
 	margin: 50px auto 0;
+	width: 500px;
+}
+
+.registrationForm {
+	width: 220px;
+	margin: auto;
 }
 
 .login-buttons-row {

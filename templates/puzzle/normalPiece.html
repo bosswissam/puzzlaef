@@ -1,3 +1,4 @@
-<div class="piece">
+<a onclick="showPiece({{piece.id}})" href="#" class="thumbnail piece">
+	<div class={{ constraintClass }}>{{ leftPiece.get_constraint_display }}</div>
 	<img class="piece-picture" src={{ piece.photo.get_thumb_url }} />
-</div>
+</a>
