@@ -1,0 +1,14 @@
+<div id="piece-comments" class="span2">
+	{% for comment in comments %}
+  <div class="comment">
+		<blockquote>
+		  <p>{{ comment.text }}</p>
+		  <small> {{ comment.commenter }} </small>
+		</blockquote>
+	</div>
+	{% endfor %}
+	<textarea id="new-comment-textarea" placeholder="Comment about the photo or how well the piece fits into the puzzle..." id="textarea" rows="3"></textarea>
+	<button id="new-comment-button" class="btn">
+	  Comment
+	</button>
+</div>

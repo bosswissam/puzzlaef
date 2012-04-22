@@ -1,0 +1,32 @@
+<div class="container-fluid" id="pieceView">
+  <div class="row-fluid">
+		<div class="span10">
+	      <div class="row-fluid">
+					<div class="span12">
+						<ul class="thumbnails">
+							{% if prevPiece %} 
+							<li class="span2">
+								<a href='#' onClick='showPiece( {{ prevPiece.id }} )' class="thumbnail">
+								    <img class="piece-view-picture" src={{ prevPiece.photo.get_thumb_url }} />
+						    </a>
+							</li>
+							{% endif %}
+						  <li class="span7">
+								<div class="thumbnail">
+								    <img class="piece-view-picture" src={{ piece.photo.get_url }} />
+						    </div>
+							</li>
+							{% if nextPiece %} 
+							<li class="span2">
+								<a href='#' onClick='showPiece( {{ nextPiece.id }} )' class="thumbnail">
+								    <img class="piece-view-picture" src={{ nextPiece.photo.get_thumb_url }} />
+						    </a>
+							</li>
+							{% endif %}
+						</ul>
+					</div>
+		    </div>
+	  </div>
+    {% include 'puzzle/pieceComments.html' %}
+  </div>
+</div>

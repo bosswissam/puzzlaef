@@ -1,0 +1,12 @@
+
+<div class="modal" id="pieceViewModal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+				<h2 style="display:inline-block">{{ piece.puzzle.player1.username }} <h6 style="display:inline-block"> {{ piece.puzzle.player1.get_profile.location }}</h6></h2>
+					 <h1 style="display:inline-block">+</h1>
+					<h2 style="display:inline-block">{{ piece.puzzle.player2.username }} <h6 style="display:inline-block"> {{ piece.puzzle.player2.get_profile.location }}</h6></h2>
+  </div>
+  <div class="modal-body" style="max-height:none !important">
+    {% include 'puzzle/pieceView.html' %}
+  </div>
+</div>
